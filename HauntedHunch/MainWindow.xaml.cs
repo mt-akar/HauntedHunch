@@ -27,91 +27,53 @@ namespace HauntedHunch
                 for (int j = 1; j <= 5; j++)
                 {
                     if (i == 1 && j == 1)
-                    {
                         table[i, j] = new Square(i, j, new Guard(i, j, true));
-                    }
                     else if (i == 1 && j == 2)
-                    {
                         table[i, j] = new Square(i, j, new Runner(i, j, true));
-                    }
                     else if (i == 1 && j == 3)
-                    {
                         table[i, j] = new Square(i, j, new Ranger(i, j, true));
-                    }
                     else if (i == 1 && j == 4)
-                    {
                         table[i, j] = new Square(i, j, new Jumper(i, j, true));
-                    }
                     else if (i == 1 && j == 5)
-                    {
                         table[i, j] = new Square(i, j, new Freezer(i, j, true));
-                    }
                     else if (i == 2 && j == 1)
-                    {
                         table[i, j] = new Square(i, j, new Converter(i, j, true));
-                    }
                     else if (i == 2 && j == 2)
-                    {
                         table[i, j] = new Square(i, j, new Courier(i, j, true));
-                    }
                     else if (i == 2 && j == 3)
-                    {
                         table[i, j] = new Square(i, j, new Boomer(i, j, true));
-                    }
                     else if (i == 2 && j == 4)
                     {
                         table[i, j] = new Square(i, j, new InnKeeper(i, j, true));
                         table[i, j].PsuedoPiece = table[i, j].Piece;
                     }
                     else if (i == 2 && j == 5)
-                    {
                         table[i, j] = new Square(i, j, new Lotus(i, j, true));
-                    }
                     else if (i == 7 && j == 1)
-                    {
                         table[i, j] = new Square(i, j, new Guard(i, j, false));
-                    }
                     else if (i == 7 && j == 2)
-                    {
                         table[i, j] = new Square(i, j, new Runner(i, j, false));
-                    }
                     else if (i == 7 && j == 3)
-                    {
                         table[i, j] = new Square(i, j, new Ranger(i, j, false));
-                    }
                     else if (i == 7 && j == 4)
-                    {
                         table[i, j] = new Square(i, j, new Jumper(i, j, false));
-                    }
                     else if (i == 7 && j == 5)
-                    {
                         table[i, j] = new Square(i, j, new Freezer(i, j, false));
-                    }
                     else if (i == 6 && j == 1)
-                    {
                         table[i, j] = new Square(i, j, new Converter(i, j, false));
-                    }
                     else if (i == 6 && j == 2)
-                    {
                         table[i, j] = new Square(i, j, new Courier(i, j, false));
-                    }
                     else if (i == 6 && j == 3)
-                    {
                         table[i, j] = new Square(i, j, new Boomer(i, j, false));
-                    }
                     else if (i == 6 && j == 4)
                     {
                         table[i, j] = new Square(i, j, new InnKeeper(i, j, false));
                         table[i, j].PsuedoPiece = table[i, j].Piece;
                     }
                     else if (i == 6 && j == 5)
-                    {
                         table[i, j] = new Square(i, j, new Lotus(i, j, false));
-                    }
                     else
-                    {
                         table[i, j] = new Square(i, j, null);
-                    }
                 }
             }
             history = new Square[8, 6, 1000];
@@ -210,9 +172,9 @@ namespace HauntedHunch
             // Sender object (Square)
             Square sen = ((Square)((sender as DependencyObject).GetValue(FrameworkElement.DataContextProperty)));
 
-            tunnel1:
+        tunnel1:
 
-            // If no object is chosen yet
+            // If no piece is chosen yet
             if (cur == null)
             {
                 if (sen.Piece != null && ((sen.Piece.Player && (turn % 4 == 0 || turn % 4 == 3)) || (!sen.Piece.Player && (turn % 4 == 1 || turn % 4 == 2))))
