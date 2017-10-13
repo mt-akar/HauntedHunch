@@ -12,6 +12,8 @@
 
         override public int[,] PossibleMoves(Square[,] tableDup, int turnDup)
         {
+            // A Freezer can be frozen but doesn't get effected by it.
+
             int[,] pos = new int[4, 3];
             for (int i = 0; i < 4; i++)
             {

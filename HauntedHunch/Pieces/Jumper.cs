@@ -4,7 +4,7 @@ namespace HauntedHunch.Pieces
 {
     public class Jumper : Piece
     {
-        // Double capture jump
+        // TODO: Double capture jump
         public Jumper(int r, int c, bool p)
         {
             row = r;

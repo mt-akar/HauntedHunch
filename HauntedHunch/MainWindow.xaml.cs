@@ -9,7 +9,6 @@ namespace HauntedHunch
     public partial class MainWindow : Window
     {
         static BitmapImage emptyImage = new BitmapImage(new Uri(@"Images/Transparent.png", UriKind.RelativeOrAbsolute));
-        private static int[,] adjacentRange = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
         Square[,] table;
         Square[,,] history;
@@ -21,8 +20,8 @@ namespace HauntedHunch
         public MainWindow()
         {
             InitializeComponent();
-            table = new Square[8, 6];
-            for (int i = 1; i <= 7; i++)
+            table = new Square[8, 6]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
+            for (int i = 1; i <= 7; i++) // Set up the initial board position.
             {
                 for (int j = 1; j <= 5; j++)
                 {
@@ -80,6 +79,7 @@ namespace HauntedHunch
             cur = null;
             interacter = null;
             turn = 0;
+            gameEnded = false;
 
             Icon = BitmapFrame.Create(new Uri("pack://application:,,,/kl.ico", UriKind.RelativeOrAbsolute));
 
@@ -173,10 +173,10 @@ namespace HauntedHunch
             Square sen = ((Square)((sender as DependencyObject).GetValue(FrameworkElement.DataContextProperty)));
 
         tunnel1:
-
-            // If no piece is chosen yet
-            if (cur == null)
+            
+            if (cur == null) // If no piece is chosen yet
             {
+                // If a valid piece is chosen, paint the possible moves for preview.
                 if (sen.Piece != null && ((sen.Piece.Player && (turn % 4 == 0 || turn % 4 == 3)) || (!sen.Piece.Player && (turn % 4 == 1 || turn % 4 == 2))))
                 {
                     sen.BackgroundColor.Color = Color.FromArgb(255, 204, 255, 220);
@@ -204,9 +204,9 @@ namespace HauntedHunch
                     // Do nothing
                 }
             }
-            else
+            else // (cur != null)
             {
-                if (sen.BackgroundColor.Color == Color.FromArgb(255, 255, 0, 0))
+                if (sen.BackgroundColor.Color == Color.FromArgb(255, 255, 0, 0)) // AbilityUno indicator color
                 {
                     cur.Piece.AbilityUno(ref table, ref turn);
 
@@ -215,7 +215,7 @@ namespace HauntedHunch
                     cur = null;
                     Repaint();
                 }
-                else if (sen.BackgroundColor.Color == Color.FromArgb(255, 255, 100, 100))
+                else if (sen.BackgroundColor.Color == Color.FromArgb(255, 255, 100, 100)) // AbilityWithInteracter indicator color
                 {
                     Repaint();
                     int stage = cur.Piece.AbilityWithInteracter(ref table, ref interacter, ref sen, ref turn);
@@ -231,7 +231,7 @@ namespace HauntedHunch
                         interacter = null;
                     }
                 }
-                else if (sen.BackgroundColor.Color == Color.FromArgb(255, 204, 255, 220) && cur != sen)
+                else if (sen.BackgroundColor.Color == Color.FromArgb(255, 204, 255, 220) && cur != sen) // Other standart moves' color
                 {
                     cur.Piece.Move(ref table, sen.Row, sen.Column, ref turn);
 
@@ -240,13 +240,14 @@ namespace HauntedHunch
                     cur = null;
                     Repaint();
                 }
-                else if (cur != sen && sen.Piece != null && cur.Piece.Player == sen.Piece.Player)
+                else if (cur != sen && sen.Piece != null && cur.Piece.Player == sen.Piece.Player) // If another friendly piece is chosen
                 {
                     cur = null;
                     Repaint();
+                    // Behave as if the cur was null and go back to the top of the LMDown method
                     goto tunnel1;
                 }
-                else
+                else // Unvalid square chosen
                 {
                     cur = null;
                     Repaint();
@@ -261,6 +262,7 @@ namespace HauntedHunch
                 {
                     if (table[i, j].Piece != null && table[i, j].Piece.GetType() == typeof(Lotus))
                     {
+                        // If a lotus reaches the last row for either player, game ends.
                         if ((table[i, j].Piece.Player && i == 7) || (!table[i, j].Piece.Player && i == 1))
                         {
                             gameEnded = true;
@@ -269,6 +271,7 @@ namespace HauntedHunch
                     }
                 }
             }
+            // If any lotus is removed, game ends.
             if (lotusCount < 2)
             {
                 gameEnded = true;
@@ -277,6 +280,7 @@ namespace HauntedHunch
 
         #region Tool methods
 
+        // Take the pieces, that are on the pits and that have no adjacent friendly piece, out of the game.
         private void UpdatePits()
         {
             int[,] pits = { { 3, 2 }, { 3, 4 }, { 5, 2 }, { 5, 4 } };
@@ -291,18 +295,21 @@ namespace HauntedHunch
                     table[pits[i, 0], pits[i, 1]].Image = emptyImage;
                     table[pits[i, 0], pits[i, 1]].Piece = null;
                 }
+                // If the piece is Psuedo. (For PsuedoPiece concept, refer to Square.cs or the game manual)
                 if (table[pits[i, 0], pits[i, 1]].PsuedoPiece != null &&
                    (table[pits[i, 0] + 1, pits[i, 1]].Piece == null || table[pits[i, 0] + 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
                    (table[pits[i, 0], pits[i, 1] + 1].Piece == null || table[pits[i, 0], pits[i, 1] + 1].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
                    (table[pits[i, 0] - 1, pits[i, 1]].Piece == null || table[pits[i, 0] - 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
                    (table[pits[i, 0], pits[i, 1] - 1].Piece == null || table[pits[i, 0], pits[i, 1] - 1].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player))
                 {
+                    // There isn't another piece on the psuedo piece
                     if (table[pits[i, 0], pits[i, 1]].Piece == table[pits[i, 0], pits[i, 1]].PsuedoPiece)
                     {
                         table[pits[i, 0], pits[i, 1]].PsuedoPiece = null;
                         table[pits[i, 0], pits[i, 1]].Image = emptyImage;
                         table[pits[i, 0], pits[i, 1]].Piece = null;
                     }
+                    // There is another piece on the psuedo piece
                     else
                     {
                         table[pits[i, 0], pits[i, 1]].PsuedoPiece = null;
@@ -311,8 +318,11 @@ namespace HauntedHunch
             }
         }
 
+        // Freeze pieces that are near an enemy Freezer, unfreeze the rest.
         private void UpdateFrozenity()
         {
+            // freezerRange is a Freezer's range in which it can freeze things.
+            int[,] freezerRange = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
             for (int i = 1; i <= 7; i++)
             {
                 for (int j = 1; j <= 5; j++)
@@ -322,10 +332,10 @@ namespace HauntedHunch
                         table[i, j].Piece.Frozen = false;
                         for (int k = 0; k < 4; k++)
                         {
-                            if (i + adjacentRange[k, 0] <= 7 && i + adjacentRange[k, 0] >= 1 && j + adjacentRange[k, 1] <= 5 && j + adjacentRange[k, 1] >= 1 &&
-                                table[i + adjacentRange[k, 0], j + adjacentRange[k, 1]].Piece != null &&
-                                table[i + adjacentRange[k, 0], j + adjacentRange[k, 1]].Piece.GetType() == typeof(Freezer) &&
-                                table[i + adjacentRange[k, 0], j + adjacentRange[k, 1]].Piece.Player != table[i, j].Piece.Player)
+                            if (i + freezerRange[k, 0] <= 7 && i + freezerRange[k, 0] >= 1 && j + freezerRange[k, 1] <= 5 && j + freezerRange[k, 1] >= 1 &&
+                                table[i + freezerRange[k, 0], j + freezerRange[k, 1]].Piece != null &&
+                                table[i + freezerRange[k, 0], j + freezerRange[k, 1]].Piece.GetType() == typeof(Freezer) &&
+                                table[i + freezerRange[k, 0], j + freezerRange[k, 1]].Piece.Player != table[i, j].Piece.Player)
                             {
                                 table[i, j].Piece.Frozen = true;
                             }
@@ -335,6 +345,7 @@ namespace HauntedHunch
             }
         }
 
+        // Repaint the board to default
         private void Repaint()
         {
             for (int i = 1; i <= 7; i++)
@@ -355,6 +366,7 @@ namespace HauntedHunch
 
         #endregion
 
+        // Under construction
         private void UndoClicked(object sender, RoutedEventArgs e) { }
 
         private void CreditsClicked(object sender, RoutedEventArgs e) { }
