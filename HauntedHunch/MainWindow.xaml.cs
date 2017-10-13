@@ -212,6 +212,7 @@ namespace HauntedHunch
 
             tunnel1:
 
+            // If no object is chosen yet
             if (cur == null)
             {
                 if (sen.Piece != null && ((sen.Piece.Player && (turn % 4 == 0 || turn % 4 == 3)) || (!sen.Piece.Player && (turn % 4 == 1 || turn % 4 == 2))))
