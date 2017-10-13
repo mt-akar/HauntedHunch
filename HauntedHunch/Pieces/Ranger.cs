@@ -2,6 +2,8 @@
 {
     public class Ranger : Piece
     {
+        // The bishop in chess with reduced (2 square) range.
+
         public Ranger(int r, int c, bool p)
         {
             row = r;

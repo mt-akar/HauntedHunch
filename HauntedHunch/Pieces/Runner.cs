@@ -2,6 +2,8 @@
 {
     public class Runner : Piece
     {
+        // Exact same piece with the Kinght in the chess.
+
         public Runner(int r, int c, bool p)
         {
             row = r;

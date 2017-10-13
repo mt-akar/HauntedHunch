@@ -2,6 +2,8 @@
 {
     public class InnKeeper : Piece
     {
+        // Weird af.
+
         public InnKeeper(int r, int c, bool p)
         {
             row = r;

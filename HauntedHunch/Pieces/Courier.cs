@@ -5,6 +5,8 @@ namespace HauntedHunch.Pieces
 {
     public class Courier : Piece
     {
+        // Moves to adjacent squares. Can push and pull other opponent pieces.
+
         public Courier(int r, int c, bool p)
         {
             row = r;
@@ -29,10 +31,13 @@ namespace HauntedHunch.Pieces
                 }
             }
 
-            int[,] b = { { 1, 0, 1, -1 }, { 1, 0, 2, 0 }, { 1, 0, 1, 1 }, { 0, 1, 1, 1 }, { 0, 1, 0, 2 }, { 0, 1, -1, 1 },
+            // Pull or push range
+            int[,] b = {
+                { 1, 0, 1, -1 }, { 1, 0, 2, 0 }, { 1, 0, 1, 1 }, { 0, 1, 1, 1 }, { 0, 1, 0, 2 }, { 0, 1, -1, 1 },
                 { -1, 0, -1, 1 }, { -1, 0, -2, 0 }, { -1, 0, -1, -1 },  { 0, -1, -1, -1 }, { 0, -1, 0, -2 }, { 0, -1, 1, -1 },
                 { 1, 0, 0, 1 }, { 1, 0, -1, 0 }, { 1, 0, 0, -1 }, { 0, 1, -1, 0 }, { 0, 1, 0, -1 }, { 0, 1, 1, 0 },
-                { -1, 0, 0, -1 }, { -1, 0, 1, 0 }, { -1, 0, 0, 1 }, { 0, -1, 1, 0 }, { 0, -1, 0, 1 }, { 0, -1, -1, 0 } };
+                { -1, 0, 0, -1 }, { -1, 0, 1, 0 }, { -1, 0, 0, 1 }, { 0, -1, 1, 0 }, { 0, -1, 0, 1 }, { 0, -1, -1, 0 }
+            };
             for (int i = 0; i < 24; i++)
             {
                 if (row + b[i, 0] <= 7 && row + b[i, 0] >= 1 && column + b[i, 1] <= 5 && column + b[i, 1] >= 1 &&
@@ -62,8 +67,10 @@ namespace HauntedHunch.Pieces
             column = to_column;
         }
 
+        // Pull and push
         public override int AbilityWithInteracter(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
         {
+            // Intermediate step. Set the interacter, piece that will be pulled or pushed.
             if (interacter == null)
             {
                 for (int i = 0; i < 4; i++)
@@ -81,28 +88,27 @@ namespace HauntedHunch.Pieces
                 }
                 return 1;
             }
+            // Do the actual pulling or pushing.
             else
             {
                 turn++;
 
-                if (Math.Abs(sen.Row - row) + Math.Abs(sen.Column - column) == 2)
+                if (Math.Abs(sen.Row - row) + Math.Abs(sen.Column - column) == 2) // Push
                 {
-                    Console.WriteLine("Push");
                     sen.Image = interacter.Image;
                     sen.Piece = interacter.Piece;
                     interacter.Image = table[row, column].Image;
                     interacter.Piece = table[row, column].Piece;
                     table[row, column].Image = emptyImage;
                     table[row, column].Piece = null;
-                    
+
                     sen.Piece.Row = sen.Row;
                     sen.Piece.Column = sen.Column;
                     interacter.Piece.Row = interacter.Row;
                     interacter.Piece.Column = interacter.Column;
                 }
-                else
+                else // Pull
                 {
-                    Console.WriteLine("Pull");
                     sen.Image = table[row, column].Image;
                     sen.Piece = table[row, column].Piece;
                     table[row, column].Image = interacter.Image;

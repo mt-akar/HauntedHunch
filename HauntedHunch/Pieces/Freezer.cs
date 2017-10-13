@@ -2,6 +2,8 @@
 {
     public class Freezer : Piece
     {
+        // Moves to adjacent squares, freezes adjacent opponenet pieces. Doesn't get frozen.
+
         public Freezer(int r, int c, bool p)
         {
             row = r;
@@ -35,7 +37,7 @@
             table[to_row, to_column].Piece = table[row, column].Piece;
             table[row, column].Image = emptyImage;
             table[row, column].Piece = null;
-            
+
             row = to_row;
             column = to_column;
         }

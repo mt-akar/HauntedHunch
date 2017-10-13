@@ -2,6 +2,8 @@
 {
     public class Boomer : Piece
     {
+        // Moves to adjacent squares. Can suicide, removing all adjacent pieces.
+
         public Boomer(int r, int c, bool p)
         {
             row = r;
@@ -42,6 +44,7 @@
             column = to_column;
         }
 
+        // Suicide
         public override void AbilityUno(ref Square[,] table, ref int turn)
         {
             turn++;

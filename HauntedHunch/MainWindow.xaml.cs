@@ -173,7 +173,7 @@ namespace HauntedHunch
             Square sen = ((Square)((sender as DependencyObject).GetValue(FrameworkElement.DataContextProperty)));
 
         tunnel1:
-            
+
             if (cur == null) // If no piece is chosen yet
             {
                 // If a valid piece is chosen, paint the possible moves for preview.

@@ -4,6 +4,8 @@ namespace HauntedHunch.Pieces
 {
     public class Converter : Piece
     {
+        // Moves to adjacent squares. Can change the position of the pieces around it.
+
         public Converter(int r, int c, bool p)
         {
             row = r;
@@ -44,14 +46,16 @@ namespace HauntedHunch.Pieces
             column = to_column;
         }
 
+        // Convert ability
         public override void AbilityUno(ref Square[,] table, ref int turn)
         {
             turn++;
 
             int[,] rot = { { 1, 0 }, { 0, 1 }, { 1, 1 }, { -1, 1 } };
 
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
+                // Edge cases
                 if ((row + rot[i, 0] > 7 || row + rot[i, 0] < 1 || column + rot[i, 1] > 5 || column + rot[i, 1] < 1) &&
                     row - rot[i, 0] <= 7 && row - rot[i, 0] >= 1 && column - rot[i, 1] <= 5 && column - rot[i, 1] >= 1)
                 {
@@ -66,11 +70,13 @@ namespace HauntedHunch.Pieces
                     table[row + rot[i, 0], column + rot[i, 1]].Image = emptyImage;
                     table[row + rot[i, 0], column + rot[i, 1]].Piece = null;
                 }
+                // Corner case
                 else if ((row + rot[i, 0] > 7 || row + rot[i, 0] < 1 || column + rot[i, 1] > 5 || column + rot[i, 1] < 1) &&
                     (row - rot[i, 0] > 7 || row - rot[i, 0] < 1 || column - rot[i, 1] > 5 || column - rot[i, 1] < 1))
                 {
-                    
+                    // Do nothing   
                 }
+                // Full swap
                 else
                 {
                     Piece tempPsuedoPiece = table[row + rot[i, 0], column + rot[i, 1]].PsuedoPiece;

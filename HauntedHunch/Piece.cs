@@ -14,6 +14,7 @@ namespace HauntedHunch
         protected int column;
         public int Column { get { return column; } set { column = value; } }
 
+        // if (player == true) the piece is white's, if (player == false) the piece is black's
         protected bool player;
         public bool Player { get { return player; } set { player = value; } }
 
@@ -21,6 +22,7 @@ namespace HauntedHunch
         protected bool frozen;
         public bool Frozen { get { return frozen; } set { frozen = value; } }
 
+        // Primary range of the pieces.
         protected int[,] a;
         public int[,] A { get { return a; } set { a = value; } }
 
@@ -34,7 +36,7 @@ namespace HauntedHunch
         {
             Console.WriteLine("Error: Ability disfunction");
         }
-        
+
         public virtual int AbilityWithInteracter(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
         {
             Console.WriteLine("Error: Ability disfunction");

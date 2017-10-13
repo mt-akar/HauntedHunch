@@ -4,6 +4,8 @@ namespace HauntedHunch.Pieces
 {
     public class Jumper : Piece
     {
+        // The checkers piece which is able to move backwards and can't capture more than 1 piece at once.
+
         // TODO: Double capture jump
         public Jumper(int r, int c, bool p)
         {
@@ -22,8 +24,10 @@ namespace HauntedHunch.Pieces
             for (int i = 0; i < 8; i++)
             {
                 if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 &&
-                    (i <= 3 || (i >= 4 && tableDup[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece != null && tableDup[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece.Player != player)) &&
-                    (tableDup[row + a[i, 0], column + a[i, 1]].Piece == null))
+                    (i <= 3 || (i >= 4 && tableDup[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece != null && tableDup[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece.Player != player &&
+                    (tableDup[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece.GetType() == typeof(InnKeeper) || turnDup % 2 == 1))) &&
+                    (tableDup[row + a[i, 0], column + a[i, 1]].Piece == null || tableDup[row + a[i, 0], column + a[i, 1]].Piece != null &&
+                    tableDup[row + a[i, 0], column + a[i, 1]].Piece.Player == player && tableDup[row + a[i, 0], column + a[i, 1]].Piece.GetType() == typeof(InnKeeper)))
                 {
                     pos[i, 0] = row + a[i, 0];
                     pos[i, 1] = column + a[i, 1];
@@ -41,6 +45,7 @@ namespace HauntedHunch.Pieces
             table[row, column].Image = emptyImage;
             table[row, column].Piece = null;
 
+            // Jump capture
             if (Math.Abs(row + column - to_row - to_column) == 2)
             {
                 table[Math.Abs(row + to_row) / 2, Math.Abs(column + to_column) / 2].Image = emptyImage;

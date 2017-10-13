@@ -2,6 +2,8 @@
 {
     public class Guard : Piece
     {
+        // Basic piece. Moves to adjacent squares, captures adjacent opponent pieces.
+
         public Guard(int r, int c, bool p)
         {
             row = r;
@@ -13,7 +15,7 @@
 
         override public int[,] PossibleMoves(Square[,] tableDup, int turnDup)
         {
-            if (frozen) { return new int[0,0]; }
+            if (frozen) { return new int[0, 0]; }
 
             int[,] pos = new int[4, 3];
             for (int i = 0; i < 4; i++)
