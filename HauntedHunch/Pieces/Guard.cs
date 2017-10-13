@@ -2,7 +2,7 @@
 {
     public class Guard : Piece
     {
-        // Basic piece. Moves to adjacent squares, captures adjacent opponent pieces.
+        // No basic piece. Moves to adjacent squares, captures adjacent opponent pieces.
 
         public Guard(int r, int c, bool p)
         {
