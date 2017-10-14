@@ -14,7 +14,7 @@ namespace HauntedHunch
         Square[,,] history;
         Square cur;
         Square interacter;
-        int turn; // 0 and 1 module 4 are white's turns, 2 and 3 module 4 are black's turns
+        int turn; // 0 and 1 module 4 are white's turns, 2 and 3 module 4 are black's turns.
         bool gameEnded;
 
         public MainWindow()
