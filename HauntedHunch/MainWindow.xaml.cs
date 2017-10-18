@@ -158,7 +158,6 @@ namespace HauntedHunch
             im75.DataContext = table[7, 5];
 
             #endregion
-
         }
 
         // Most complicated methos of the project. Activated when clicked on a square.
