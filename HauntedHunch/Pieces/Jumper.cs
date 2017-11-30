@@ -5,8 +5,8 @@ namespace HauntedHunch.Pieces
     public class Jumper : Piece
     {
         // The checkers piece which is able to move backwards and can't capture more than 1 piece at once.
-
         // TODO: Double capture jump
+
         public Jumper(int r, int c, bool p)
         {
             row = r;
