@@ -38,10 +38,10 @@ namespace HauntedHunch.Pieces
         {
             turn++;
 
-            table[to_row, to_column].Piece = table[row, column].Piece;
             table[to_row, to_column].Image = table[row, column].Image;
-            table[row, column].Piece = null;
+            table[to_row, to_column].Piece = table[row, column].Piece;
             table[row, column].Image = emptyImage;
+            table[row, column].Piece = null;
             row = to_row;
             column = to_column;
         }

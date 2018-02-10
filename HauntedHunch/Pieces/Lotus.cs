@@ -54,7 +54,8 @@
                     (row + R[j, 0] <= 7 && row + R[j, 0] >= 1 && column + R[j, 1] <= 5 && column + R[j, 1] >= 1 &&
                     table[row + R[j, 0], column + R[j, 1]].Piece != null && table[row + R[j, 0], column + R[j, 1]].Piece.Player != player && table[row + R[j, 0], column + R[j, 1]].Piece.GetType() == typeof(Ranger)) ||
                     (row + R[j + 4, 0] <= 7 && row + R[j + 4, 0] >= 1 && column + R[j + 4, 1] <= 5 && column + R[j + 4, 1] >= 1 &&
-                    table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece != null && table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece.Player != player && table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece.GetType() == typeof(Ranger) && table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].Piece == null) ||
+                    table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece != null && table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece.Player != player && table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece.GetType() == typeof(Ranger) &&
+                    (table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].Piece == null || (table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].PsuedoPiece != null && table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].PsuedoPiece == table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].Piece))) ||
 
                     // Inn Keeper
                     (row + K[j, 0] <= 7 && row + K[j, 0] >= 1 && column + K[j, 1] <= 5 && column + K[j, 1] >= 1 &&

@@ -30,6 +30,10 @@ namespace HauntedHunch
         Square interacter; // Interacting piece in moves where there is more than one piece involved
         int turn;
         bool gameEnded;
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        bool turnConstraintsEnabled = true; 
 
         string statusMessage;
 
@@ -180,12 +184,15 @@ namespace HauntedHunch
                 return;
             }
 
-        tunnel1:
+        tunnel1: // Used when selecting a friendly piece to move while already had been selected a friendly piece to move
 
             if (cur == null) // If no piece is chosen yet
             {
                 // If a valid piece is chosen, paint the possible moves for preview.
-                if (sen.Piece != null && ((sen.Piece.Player && (turn % 4 == 0 || turn % 4 == 3)) || (!sen.Piece.Player && (turn % 4 == 1 || turn % 4 == 2))))
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if (sen.Piece != null && (!turnConstraintsEnabled || ((sen.Piece.Player && (turn % 4 == 0 || turn % 4 == 3)) || (!sen.Piece.Player && (turn % 4 == 1 || turn % 4 == 2)))))
                 {
                     sen.Piece.PossibleMoves(ref table, turn);
                     cur = sen;
@@ -236,24 +243,28 @@ namespace HauntedHunch
             }
 
             // Update gameEnded
-            int lotusCount = 0;
+            bool whiteLotus = false;
+            bool blackLotus = false;
             for (int i = 1; i <= 7; i++)
             {
                 for (int j = 1; j <= 5; j++)
                 {
                     if (table[i, j].Piece != null && table[i, j].Piece.GetType() == typeof(Lotus))
                     {
-                        lotusCount++;
+                        // If either lotus is removed, game ends
+                        if (table[i, j].Piece.Player)
+                            whiteLotus = true;
+                        else
+                            blackLotus = true;
+
                         // If a lotus reaches the last row for either player, game ends.
                         if ((table[i, j].Piece.Player && i == 7) || (!table[i, j].Piece.Player && i == 1))
-                        {
                             gameEnded = true;
-                        }
                     }
                 }
             }
             // If any lotus is removed, game ends.
-            if (lotusCount < 2)
+            if (!whiteLotus || !blackLotus)
             {
                 gameEnded = true;
             }
@@ -357,5 +368,13 @@ namespace HauntedHunch
 
         // Under construction
         private void UndoClicked(object sender, RoutedEventArgs e) { }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private void disableTurnConstraints(object sender, RoutedEventArgs e)
+        {
+            turnConstraintsEnabled = false;
+        }
     }
 }
