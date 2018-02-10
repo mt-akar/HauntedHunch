@@ -4,80 +4,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HauntedHunch.Pieces;
 
-// Always (row, column)
-// Always modify image before piece because changing piece can change image. Look: Square.cs(*675)
-
-// TODO: Disguise implementation
-// TODO: Disguise graphics
-// TODO: Freeze mechanic rework
-// TODO: Mindcontroller & Freezer interaction
-
-// TODO: No legal move / pass
-// TODO: Undo
-
 namespace HauntedHunch
 {
-    public partial class MainWindow : Window
+    public partial class WhitePlayer : Window
     {
         static BitmapImage emptyImage = new BitmapImage(new Uri(@"Images/Transparent.png", UriKind.RelativeOrAbsolute));
         public static Color AbilityUno_indicator_color = Color.FromArgb(255, 100, 100, 100);
         public static Color AbilityWithInteracter_indicator_color = Color.FromArgb(255, 255, 100, 100);
         public static Color possible_move_color = Color.FromArgb(255, 204, 255, 220);
 
-        public Square[,] table; // Game board
+        Square[,] table; // Game board
         Square[,,] history; // Game history, for undo
         Square cur; // Current moving piece
         Square interacter; // Interacting piece in moves where there is more than one piece involved
         int turn;
         bool gameEnded;
 
-        string statusMessage;
-
-        public MainWindow()
+        public WhitePlayer(ref Square[,] originalTable)
         {
             InitializeComponent(); // WPF
-            table = new Square[8, 6]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
-            for (int i = 1; i <= 7; i++)
-            {
-                for (int j = 1; j <= 5; j++)
-                {
-                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, true));
-                    else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, true));
-                    else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, true));
-                    else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, true));
-                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, true));
-                    else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, true));
-                    else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, true));
-                    else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, true));
-                    else if (i == 2 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, true)); table[i, j].PsuedoPiece = table[i, j].Piece; }
-                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, true));
-                    else if (i == 3 && j == 1) table[i, j] = new Square(i, j, new MindController(i, j, true));
-                    else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, false));
-                    else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, false));
-                    else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, false));
-                    else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, false));
-                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, false));
-                    else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, false));
-                    else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, false));
-                    else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, false));
-                    else if (i == 6 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, false)); table[i, j].PsuedoPiece = table[i, j].Piece; }
-                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, false));
-                    else if (i == 5 && j == 1) table[i, j] = new Square(i, j, new MindController(i, j, false));
-                    else table[i, j] = new Square(i, j, null);
-                }
-            } // Set up the initial board position.
+            table = originalTable;
             history = new Square[8, 6, 1000];
             cur = null;
             interacter = null;
             turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
-            statusMessage = "Welcome";
             gameEnded = false;
 
             Icon = BitmapFrame.Create(new Uri("pack://application:,,,/kl.ico", UriKind.RelativeOrAbsolute));
 
             #region DataContaxt Bindings
-
-            statusMessageBox.DataContext = statusMessage;
 
             sp11.DataContext = table[1, 1];
             sp12.DataContext = table[1, 2];
@@ -364,16 +319,5 @@ namespace HauntedHunch
         }
 
         #endregion
-
-        private void StartNewGame(object sender, RoutedEventArgs e)
-        {
-            WhitePlayer wh = new WhitePlayer(ref table);
-            wh.Show();
-            BlackPlayer bl = new BlackPlayer(ref table);
-            bl.Show();
-        }
-
-        // Under construction
-        private void UndoClicked(object sender, RoutedEventArgs e) { }
     }
 }

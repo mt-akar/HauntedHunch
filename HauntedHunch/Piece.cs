@@ -6,7 +6,6 @@ namespace HauntedHunch
     public abstract class Piece
     {
         protected static BitmapImage emptyImage = new BitmapImage(new Uri(@"Images/Transparent.png", UriKind.RelativeOrAbsolute));
-        private static int[,] adjacentRange = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
         protected int row;
         public int Row { get { return row; } set { row = value; } }
@@ -18,15 +17,18 @@ namespace HauntedHunch
         protected bool player;
         public bool Player { get { return player; } set { player = value; } }
 
+        // Disguise mechanic
+        protected bool revealed;
+        public bool Revealed { get { return revealed; } set { revealed = value; } }
+
         // see: Freezer
         protected bool frozen;
         public bool Frozen { get { return frozen; } set { frozen = value; } }
 
         // Primary range of the pieces.
-        protected int[,] a;
-        public int[,] A { get { return a; } set { a = value; } }
+        // protected static int[,] a;
 
-        public abstract int[,] PossibleMoves(Square[,] tableDup, int turnDup);
+        public abstract void PossibleMoves(ref Square[,] table, int turnDup);
 
         public abstract void Move(ref Square[,] table, int to_row, int to_column, ref int turn);
 
@@ -34,13 +36,18 @@ namespace HauntedHunch
 
         public virtual void AbilityUno(ref Square[,] table, ref int turn)
         {
-            Console.WriteLine("Error: Ability disfunction");
+            Console.WriteLine("Error: Ability 1 disfunction");
         }
 
-        public virtual int AbilityWithInteracter(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
+        public virtual Square AbilityWithInteracterStageOne(ref Square[,] table, ref Square sen)
         {
-            Console.WriteLine("Error: Ability disfunction");
-            return 0;
+            Console.WriteLine("Error: Ability 2 disfunction");
+            return null;
+        }
+
+        public virtual void AbilityWithInteracterStageTwo(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
+        {
+            Console.WriteLine("Error: Ability 2 disfunction");
         }
     }
 }

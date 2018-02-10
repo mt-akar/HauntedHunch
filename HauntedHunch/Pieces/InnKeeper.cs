@@ -4,32 +4,32 @@
     {
         // Weird af.
 
+        private static readonly int[,] a = new int[8, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
+        public static int[,] A { get { return a; } }
+
         public InnKeeper(int r, int c, bool p)
         {
             row = r;
             column = c;
             player = p;
             frozen = false;
-            a = new int[8, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
         }
 
-        override public int[,] PossibleMoves(Square[,] tableDup, int turnDup)
+        override public void PossibleMoves(ref Square[,] table, int turnDup)
         {
-            if (frozen) { return new int[0, 0]; }
+            table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
+            if (frozen) return;
 
-            int[,] pos = new int[8, 3];
             for (int i = 0; i < 8; i++)
             {
                 if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 &&
-                    (i <= 3 || (i >= 4 && tableDup[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece == null)) &&
-                    (tableDup[row + a[i, 0], column + a[i, 1]].Piece == null ||
-                    (tableDup[row + a[i, 0], column + a[i, 1]].Piece.GetType() == typeof(Lotus) && tableDup[row + a[i, 0], column + a[i, 1]].Piece.Player != player && turnDup % 2 == 1)))
+                    (i <= 3 || (i >= 4 && table[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece == null)) &&
+                    (table[row + a[i, 0], column + a[i, 1]].Piece == null ||
+                    (table[row + a[i, 0], column + a[i, 1]].Piece.GetType() == typeof(Lotus) && table[row + a[i, 0], column + a[i, 1]].Piece.Player != player && turnDup % 2 == 1)))
                 {
-                    pos[i, 0] = row + a[i, 0];
-                    pos[i, 1] = column + a[i, 1];
+                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = MainWindow.possible_move_color;
                 }
             }
-            return pos;
         }
 
         public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)

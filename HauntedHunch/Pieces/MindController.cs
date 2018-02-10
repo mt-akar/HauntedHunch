@@ -1,13 +1,13 @@
 ﻿namespace HauntedHunch.Pieces
 {
-    public class Runner : Piece
+    public class MindController : Piece
     {
-        // Exact same piece with the Kinght in the chess.
+        // Hard to explain
 
-        private static readonly int[,] a = new int[8, 2] { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 } };
+        private static readonly int[,] a = new int[4, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         public static int[,] A { get { return a; } }
 
-        public Runner(int r, int c, bool p)
+        public MindController(int r, int c, bool p)
         {
             row = r;
             column = c;
@@ -20,7 +20,7 @@
             table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
             if (frozen) return;
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | opponenet piece | psuedo piece)
                 if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 &&
@@ -34,29 +34,30 @@
 
         public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
         {
-            if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece)
+            if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece) // Move
             {
                 turn++;
+
+                table[to_row, to_column].Image = table[row, column].Image;
+                table[to_row, to_column].Piece = table[row, column].Piece;
+                table[row, column].Image = emptyImage;
+                table[row, column].Piece = null;
+
+                row = to_row;
+                column = to_column;
             }
-            else // Capture
+            else // Mind control
             {
                 turn += 2;
 
-                if (table[to_row, to_column].Piece.GetType() == typeof(MindController))
+                if (table[to_row, to_column].Piece.GetType() != typeof(MindController))
                 {
-                    turn += 2;
-
-                    player = !player;
-                    table[row, column].SetImageAccordingToPiece();
+                    table[to_row, to_column].Piece.Player = !table[to_row, to_column].Piece.Player;
+                    table[to_row, to_column].SetImageAccordingToPiece();
                 }
+                table[row, column].Image = emptyImage;
+                table[row, column].Piece = null;
             }
-
-            table[to_row, to_column].Image = table[row, column].Image;
-            table[to_row, to_column].Piece = table[row, column].Piece;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
-            row = to_row;
-            column = to_column;
-        }
+        } // Move
     }
 }
