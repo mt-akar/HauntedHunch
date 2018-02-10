@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="OP HauntedHunch Simulator SAGA Pre-Alpha 1.0.0.172" Height="660" Width="616" Background="#888" Icon="kl.ico">
+        Title="OP HauntedHunch Simulator SAGA Pre-Alpha 1.0.0.172" Height="660" Width="617" Background="#888" Icon="kl.ico">
     <Window.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="Background" Value="{Binding BackgroundColor}"/>
@@ -28,12 +28,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" Margin="5 5 5 5">
-            <TextBox x:Name="statusMessageBox" Text="{Binding statusMessage}" IsReadOnly="True" Padding="2" TextAlignment="Center" Margin="0 5 0 0"/>
-            <Button Grid.Row="1" Content="Undo" Margin="10 50 10 0" Click="UndoClicked"/>
-            <Button Grid.Row="1" Content="Begin" Margin="10 5 10 0" Click="StartNewGame"/>
-            <Button Grid.Row="1" Content="Disable Turn Constraints" Margin="10 5 10 0" Click="disableTurnConstraints"/>
-        </StackPanel>
+
         <Viewbox Stretch="Uniform">
             <Grid x:Name="Grid0" Height="440" Width="320" Background="White">
                 <Grid.RowDefinitions>
@@ -175,5 +170,107 @@
                 <Label Grid.Row="6" Grid.Column="0" Content="1"/>
             </Grid>
         </Viewbox>
+
+        <StackPanel Grid.Column="2" Margin="5 5 5 5">
+            <TextBox x:Name="statusMessageBox" Text="{Binding statusMessage}" IsReadOnly="True" Padding="2" TextAlignment="Center" Margin="0 5 0 0"/>
+            <Button Grid.Row="1" Content="Undo" Margin="10 50 10 0" Click="UndoClicked"/>
+            <Button Grid.Row="1" Content="Begin" Margin="10 5 10 0" Click="StartNewGame"/>
+            <Button Grid.Row="1" Content="Disable Turn Constraints" Margin="10 5 10 0" Click="disableTurnConstraints"/>
+
+            <Viewbox Margin="10 5 10 0" Stretch="Uniform" >
+                <Grid x:Name="Grid1" Height="500" Width="130">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="sp011" Grid.Row="0" Grid.Column="0">
+                        <Image x:Name="im011" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp012" Grid.Row="0" Grid.Column="1">
+                        <Image x:Name="im012" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp021" Grid.Row="1" Grid.Column="0">
+                        <Image x:Name="im021" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp022" Grid.Row="1" Grid.Column="1">
+                        <Image x:Name="im022" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp031" Grid.Row="2" Grid.Column="0">
+                        <Image x:Name="im031" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp032" Grid.Row="2" Grid.Column="1">
+                        <Image x:Name="im032" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp041" Grid.Row="3" Grid.Column="0">
+                        <Image x:Name="im041" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp042" Grid.Row="3" Grid.Column="1">
+                        <Image x:Name="im042" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp051" Grid.Row="4" Grid.Column="0">
+                        <Image x:Name="im051" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp052" Grid.Row="4" Grid.Column="1">
+                        <Image x:Name="im052" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp061" Grid.Row="5" Grid.Column="0">
+                        <Image x:Name="im061" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp062" Grid.Row="5" Grid.Column="1">
+                        <Image x:Name="im062" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp071" Grid.Row="6" Grid.Column="0">
+                        <Image x:Name="im071" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp072" Grid.Row="6" Grid.Column="1">
+                        <Image x:Name="im072" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp081" Grid.Row="7" Grid.Column="0">
+                        <Image x:Name="im081" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp082" Grid.Row="7" Grid.Column="1">
+                        <Image x:Name="im082" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp091" Grid.Row="8" Grid.Column="0">
+                        <Image x:Name="im091" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp092" Grid.Row="8" Grid.Column="1">
+                        <Image x:Name="im092" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp0101" Grid.Row="9" Grid.Column="0">
+                        <Image x:Name="im0101" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp102" Grid.Row="9" Grid.Column="1">
+                        <Image x:Name="im0102" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp0111" Grid.Row="10" Grid.Column="0">
+                        <Image x:Name="im0111" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp112" Grid.Row="10" Grid.Column="1">
+                        <Image x:Name="im0112" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp0121" Grid.Row="11" Grid.Column="0">
+                        <Image x:Name="im0121" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp122" Grid.Row="11" Grid.Column="1">
+                        <Image x:Name="im0122" MouseLeftButtonDown="LMDown"/>
+                    </StackPanel>
+                </Grid>
+            </Viewbox>
+        </StackPanel>
     </Grid>
 </Window>

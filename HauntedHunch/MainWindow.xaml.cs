@@ -29,6 +29,7 @@ namespace HauntedHunch
         Square cur; // Current moving piece
         Square interacter; // Interacting piece in moves where there is more than one piece involved
         int turn;
+        bool placementStage;
         bool gameEnded;
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
@@ -75,6 +76,7 @@ namespace HauntedHunch
             interacter = null;
             turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
             statusMessage = "Welcome";
+            placementStage = true;
             gameEnded = false;
 
             Icon = BitmapFrame.Create(new Uri("pack://application:,,,/kl.ico", UriKind.RelativeOrAbsolute));
