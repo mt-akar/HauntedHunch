@@ -187,31 +187,13 @@ namespace HauntedHunch
                 // If a valid piece is chosen, paint the possible moves for preview.
                 if (sen.Piece != null && ((sen.Piece.Player && (turn % 4 == 0 || turn % 4 == 3)) || (!sen.Piece.Player && (turn % 4 == 1 || turn % 4 == 2))))
                 {
-                    //sen.BackgroundColor.Color = possible_move_color;
-
                     sen.Piece.PossibleMoves(ref table, turn);
-                    /*
-                    for (int i = 0; i < poss.Length / 3; i++)
-                    {
-                        if (poss[i, 2] == 1)
-                        {
-                            sen.BackgroundColor.Color = AbilityUno_indicator_color;
-                        }
-                        else if (poss[i, 2] == 2)
-                        {
-                            table[poss[i, 0], poss[i, 1]].BackgroundColor.Color = AbilityWithInteracter_indicator_color;
-                        }
-                        else if (poss[i, 0] > 0) // Check this (temporary note)
-                        {
-                            table[poss[i, 0], poss[i, 1]].BackgroundColor.Color = possible_move_color;
-                        }
-                    }
-                    */
                     cur = sen;
                 }
                 else
                 {
                     // Do nothing
+                    // We explicitly kick other (curr == null) cases, don't merge 2 if statements.
                 }
             }
             else // (cur != null)
