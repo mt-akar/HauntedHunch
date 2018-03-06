@@ -34,6 +34,8 @@
 
         public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
         {
+            PaintToDefault(ref table, row, column, a, 8);
+
             turn += table[to_row, to_column].Piece == null ? 1 : 2;
 
             table[to_row, to_column].PsuedoPiece = table[row, column].PsuedoPiece;

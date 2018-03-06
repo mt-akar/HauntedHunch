@@ -50,23 +50,23 @@ namespace HauntedHunch
                     else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, true));
                     else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, true));
                     else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, true));
-                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, true));
+                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, true));
                     else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, true));
                     else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, true));
                     else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, true));
                     else if (i == 2 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, true)); table[i, j].PsuedoPiece = table[i, j].Piece; }
-                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, true));
+                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, true));
                     else if (i == 3 && j == 1) table[i, j] = new Square(i, j, new MindController(i, j, true));
                     else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, false));
                     else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, false));
                     else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, false));
                     else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, false));
-                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, false));
+                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, false));
                     else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, false));
                     else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, false));
                     else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, false));
                     else if (i == 6 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, false)); table[i, j].PsuedoPiece = table[i, j].Piece; }
-                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, false));
+                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, false));
                     else if (i == 5 && j == 1) table[i, j] = new Square(i, j, new MindController(i, j, false));
                     else table[i, j] = new Square(i, j, null);
                 }
@@ -182,7 +182,6 @@ namespace HauntedHunch
                 }
                 interacter = null;
                 cur = null;
-                Repaint();
                 return;
             }
 
@@ -214,11 +213,9 @@ namespace HauntedHunch
                     UpdatePits();
                     UpdateFrozenity();
                     cur = null;
-                    Repaint();
                 }
                 else if (sen.BackgroundColor.Color == AbilityWithInteracter_indicator_color)
                 {
-                    Repaint();
                     interacter = cur.Piece.AbilityWithInteracterStageOne(ref table, ref sen);
                 }
                 else if (sen.BackgroundColor.Color == possible_move_color && cur != sen)
@@ -228,7 +225,6 @@ namespace HauntedHunch
                     UpdatePits();
                     UpdateFrozenity();
                     cur = null;
-                    Repaint();
                 }
                 else if (cur != sen && sen.Piece != null && cur.Piece.Player == sen.Piece.Player) // If another friendly piece is chosen
                 {
@@ -346,14 +342,12 @@ namespace HauntedHunch
             {
                 for (int j = 1; j <= 5; j++)
                 {
+                    // Trap squares
                     if ((i == 3 || i == 5) && (j == 2 || j == 4))
-                    {
                         table[i, j].BackgroundColor.Color = Color.FromArgb(255, 255, 200, 200);
-                    }
+                    // All else
                     else
-                    {
                         table[i, j].BackgroundColor.Color = ((i + j) % 2 == 0) ? Color.FromArgb(255, 255, 255, 255) : Color.FromArgb(255, 244, 244, 244);
-                    }
                 }
             }
         }

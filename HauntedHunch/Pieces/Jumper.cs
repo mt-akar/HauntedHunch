@@ -38,11 +38,13 @@ namespace HauntedHunch.Pieces
 
         public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
         {
+            PaintToDefault(ref table, row, column, a, 4);
+
             if (Math.Abs(row + column - to_row - to_column) == 1)
             {
                 turn++;
             }
-            else
+            else // Jump
             {
                 turn += 2;
 

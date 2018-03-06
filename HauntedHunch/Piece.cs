@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace HauntedHunch
@@ -48,6 +49,29 @@ namespace HauntedHunch
         public virtual void AbilityWithInteracterStageTwo(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
         {
             Console.WriteLine("Error: Ability 2 disfunction");
+        }
+
+        // Repaint the board back to deafult
+        protected void PaintToDefault(ref Square[,] table, int row, int column, int[,] a, int rangeLength)
+        {
+            table[row, column].BackgroundColor.Color = DefaultColor(row, column);
+            for (int i = 0; i < rangeLength; i++)
+            {
+                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1)
+                {
+                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = DefaultColor(row + a[i, 0], column + a[i, 1]);
+                }
+            }
+        }
+
+        protected Color DefaultColor(int row, int column)
+        {
+            // Trap squares
+            if ((row == 3 || row == 5) && (column == 2 || column == 4))
+                return Color.FromArgb(255, 255, 200, 200);
+            // All else
+            else
+                return ((row + column) % 2 == 0) ? Color.FromArgb(255, 255, 255, 255) : Color.FromArgb(255, 244, 244, 244);
         }
     }
 }

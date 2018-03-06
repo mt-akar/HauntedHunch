@@ -57,6 +57,8 @@ namespace HauntedHunch.Pieces
 
         public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
         {
+            PaintToDefault(ref table, row, column, a, 4);
+
             turn++;
 
             table[to_row, to_column].Image = table[row, column].Image;
@@ -70,6 +72,9 @@ namespace HauntedHunch.Pieces
         // Intermediate step. Paint second step squares. Returns interacter's square.
         public override Square AbilityWithInteracterStageOne(ref Square[,] table, ref Square sen)
         {
+            table[row, column].BackgroundColor.Color = DefaultColor(row, column);
+            sen.BackgroundColor.Color = DefaultColor(sen.Row, sen.Column);
+
             for (int i = 0; i < 4; i++)
             {
                 // For pull, in bounds & (empty square | psuedo piece)
@@ -91,6 +96,9 @@ namespace HauntedHunch.Pieces
         // Do the actual pulling or pushing.
         public override void AbilityWithInteracterStageTwo(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
         {
+            PaintToDefault(ref table, row, column, a, 4);
+            PaintToDefault(ref table, interacter.Row, interacter.Column, a, 4);
+
             turn++;
 
             if (interacter.Piece.GetType() == typeof(MindController))
