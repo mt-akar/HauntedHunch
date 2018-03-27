@@ -1,46 +1,48 @@
 ﻿using System;
 
-namespace HauntedHunch.Pieces
+namespace HauntedHunch
 {
+    /// <summary>
+    /// The checkers piece which is able to move backwards and can't capture more than 1 piece at once.
+    /// TODO: Double capture jump
+    /// </summary>
     public class Jumper : Piece
     {
-        // The checkers piece which is able to move backwards and can't capture more than 1 piece at once.
-        // TODO: Double capture jump
+        public Jumper(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        private static readonly int[,] a = new int[8, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
-        public static int[,] A { get { return a; } }
-
-        public Jumper(int r, int c, bool p)
+        public override void PossibleMoves(Square[,] table, int turn)
         {
-            row = r;
-            column = c;
-            player = p;
-            frozen = false;
-        }
+            // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
+            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
 
-        public override void PossibleMoves(ref Square[,] table, int turnDup)
-        {
-            table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
-            if (frozen) return;
+            // Frozen check
+            if (IsFrozen(table, Row, Column)) return;
 
             for (int i = 0; i < 8; i++)
             {
-                // In bounds & if capture, in between is opponent piece && (empty square | psuedo piece)
-                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 &&
-                    (i <= 3 || (i >= 4 && table[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece != null && table[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece.Player != player &&
-                    (table[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece.GetType() == typeof(InnKeeper) || turnDup % 2 == 1))) &&
-                    (table[row + a[i, 0], column + a[i, 1]].Piece == null || table[row + a[i, 0], column + a[i, 1]].Piece.GetType() == typeof(InnKeeper)))
+                // In bounds & move | in between is non-psuedo opponent piece && (empty square | psuedo piece)
+                if (Row + l[i, 0] <= 7 && Row + l[i, 0] >= 1 && Column + l[i, 1] <= 5 && Column + l[i, 1] >= 1 &&
+
+                    // move | in between is non-psuedo opponent piece
+                    (i <= 3 ||(i >= 4 && table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece != null && table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece.Player != Player &&
+                    !(table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece is InnKeeper) && turn % 2 == 1)) &&
+
+                    // empty square
+                    (table[Row + l[i, 0], Column + l[i, 1]].Piece == null ||
+
+                    // psuedo piece
+                    table[Row + l[i, 0], Column + l[i, 1]].Piece is InnKeeper))
                 {
-                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = MainWindow.possible_move_color;
+                    table[Row + l[i, 0], Column + l[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
                 }
             }
         }
 
-        public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
         {
-            PaintToDefault(ref table, row, column, a, 4);
+            PaintToDefault(table, Row, Column, l);
 
-            if (Math.Abs(row + column - to_row - to_column) == 1)
+            if (Math.Abs(Row + Column - to_row - to_column) == 1)
             {
                 turn++;
             }
@@ -48,25 +50,21 @@ namespace HauntedHunch.Pieces
             {
                 turn += 2;
 
-                if (table[(row + to_row) / 2, (column + to_column) / 2].Piece.GetType() == typeof(MindController))
+                if (table[(Row + to_row) / 2, (Column + to_column) / 2].Piece is MindController)
                 {
                     turn += 2;
 
-                    player = !player;
-                    table[row, column].SetImageAccordingToPiece();
+                    Player = 1 - Player;
                 }
-
-                table[(row + to_row) / 2, (column + to_column) / 2].Image = emptyImage;
-                table[(row + to_row) / 2, (column + to_column) / 2].Piece = null;
+                
+                table[(Row + to_row) / 2, (Column + to_column) / 2].Piece = null;
             }
+            
+            table[to_row, to_column].Piece = table[Row, Column].Piece;
+            table[Row, Column].Piece = null;
 
-            table[to_row, to_column].Image = table[row, column].Image;
-            table[to_row, to_column].Piece = table[row, column].Piece;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
-
-            row = to_row;
-            column = to_column;
+            Row = to_row;
+            Column = to_column;
         }
     }
 }

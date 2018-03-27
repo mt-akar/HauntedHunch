@@ -1,52 +1,45 @@
-﻿namespace HauntedHunch.Pieces
+﻿namespace HauntedHunch
 {
+    /// <summary>
+    /// Is a psuedo piece. Refer to the manual.
+    /// </summary>
     public class InnKeeper : Piece
     {
-        // Weird af.
+        public InnKeeper(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        private static readonly int[,] a = new int[8, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
-        public static int[,] A { get { return a; } }
-
-        public InnKeeper(int r, int c, bool p)
+        override public void PossibleMoves(Square[,] table, int turn)
         {
-            row = r;
-            column = c;
-            player = p;
-            frozen = false;
-        }
+            // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
+            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
 
-        override public void PossibleMoves(ref Square[,] table, int turnDup)
-        {
-            table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
-            if (frozen) return;
+            // Frozen check
+            if (IsFrozen(table, Row, Column)) return;
 
             for (int i = 0; i < 8; i++)
             {
-                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 &&
-                    (i <= 3 || (i >= 4 && table[row + a[i, 0] / 2, column + a[i, 1] / 2].Piece == null)) &&
-                    (table[row + a[i, 0], column + a[i, 1]].Piece == null ||
-                    (table[row + a[i, 0], column + a[i, 1]].Piece.GetType() == typeof(Lotus) && table[row + a[i, 0], column + a[i, 1]].Piece.Player != player && turnDup % 2 == 1)))
+                // In bounds & (short range | in between is empty) && (empty square | opponenet Lotus)
+                if (Row + l[i, 0] <= 7 && Row + l[i, 0] >= 1 && Column + l[i, 1] <= 5 && Column + l[i, 1] >= 1 &&
+                    (i <= 3 || (i >= 4 && table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece == null)) &&
+                    (table[Row + l[i, 0], Column + l[i, 1]].Piece == null ||
+                    (table[Row + l[i, 0], Column + l[i, 1]].Piece is Lotus && table[Row + l[i, 0], Column + l[i, 1]].Piece.Player != Player && turn % 2 == 1)))
                 {
-                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = MainWindow.possible_move_color;
+                    table[Row + l[i, 0], Column + l[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
                 }
             }
         }
 
-        public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
         {
-            PaintToDefault(ref table, row, column, a, 8);
+            PaintToDefault(table, Row, Column, l);
 
             turn += table[to_row, to_column].Piece == null ? 1 : 2;
-
-            table[to_row, to_column].PsuedoPiece = table[row, column].PsuedoPiece;
-            table[to_row, to_column].Image = table[row, column].Image;
-            table[to_row, to_column].Piece = table[row, column].Piece;
-            table[row, column].PsuedoPiece = null;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
-
-            row = to_row;
-            column = to_column;
+            
+            table[to_row, to_column].PsuedoPiece = table[Row, Column].PsuedoPiece;
+            table[to_row, to_column].Piece = table[Row, Column].Piece;
+            table[Row, Column].PsuedoPiece = null;
+            table[Row, Column].Piece = null;
+            Row = to_row;
+            Column = to_column;
         }
     }
 }

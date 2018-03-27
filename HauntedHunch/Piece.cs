@@ -1,77 +1,110 @@
 ﻿using System;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace HauntedHunch
 {
     public abstract class Piece
     {
-        protected static BitmapImage emptyImage = new BitmapImage(new Uri(@"Images/Transparent.png", UriKind.RelativeOrAbsolute));
+        #region Piece Ranges
 
-        protected int row;
-        public int Row { get { return row; } set { row = value; } }
+        /// <summary>
+        /// Edge adjacency range
+        /// </summary>
+        public static int[,] e { get; } = new int[4, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
-        protected int column;
-        public int Column { get { return column; } set { column = value; } }
+        /// <summary>
+        /// 2-square Rook range
+        /// </summary>
+        public static int[,] l { get; } = new int[8, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
 
-        // if (player == true) the piece is white's, if (player == false) the piece is black's
-        protected bool player;
-        public bool Player { get { return player; } set { player = value; } }
+        /// <summary>
+        /// 2-square Bishop range
+        /// </summary>
+        public static int[,] c { get; } = new int[8, 2] { { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 }, { 2, 2 }, { -2, 2 }, { -2, -2 }, { 2, -2 } };
 
-        // Disguise mechanic
-        protected bool revealed;
-        public bool Revealed { get { return revealed; } set { revealed = value; } }
+        /// <summary>
+        /// Knight range
+        /// </summary>
+        public static int[,] j { get; } = new int[8, 2] { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 } };
 
-        // see: Freezer
-        protected bool frozen;
-        public bool Frozen { get { return frozen; } set { frozen = value; } }
+        #endregion
 
-        // Primary range of the pieces.
-        // protected static int[,] a;
+        #region Public Properties
 
-        public abstract void PossibleMoves(ref Square[,] table, int turnDup);
+        public int Row { get; set; }
+        public int Column { get; set; }
+        public PlayerType Player { get; set; }
+        public bool Revealed { get; set; } // Disguise mechanic
 
-        public abstract void Move(ref Square[,] table, int to_row, int to_column, ref int turn);
+        #endregion
 
-        // Abilities should be overridden by the class which wants to utilize them
+        #region Constructor
 
-        public virtual void AbilityUno(ref Square[,] table, ref int turn)
+        protected Piece(int r, int c, PlayerType p)
         {
-            Console.WriteLine("Error: Ability 1 disfunction");
+            Row = r;
+            Column = c;
+            Player = p;
         }
 
-        public virtual Square AbilityWithInteracterStageOne(ref Square[,] table, ref Square sen)
+        #endregion
+
+        #region Abstract Move Methods
+
+        public abstract void PossibleMoves(Square[,] table, int turn);
+
+        public abstract void Move(Square[,] table, int to_row, int to_column, ref int turn);
+
+        #endregion
+
+        #region Virtual Abilities
+
+        // Abilities should be overridden by the class which wants to utilize them.
+        public virtual void AbilityUno(Square[,] table, ref int turn)
         {
-            Console.WriteLine("Error: Ability 2 disfunction");
-            return null;
+            throw new Exception("Error: Ability 1 disfunction");
         }
 
-        public virtual void AbilityWithInteracterStageTwo(ref Square[,] table, ref Square interacter, ref Square sen, ref int turn)
+        public virtual Square AbilityWithInteracterStageOne(Square[,] table, ref Square sen)
         {
-            Console.WriteLine("Error: Ability 2 disfunction");
+            throw new Exception("Error: Ability 2 disfunction");
         }
 
-        // Repaint the board back to deafult
-        protected void PaintToDefault(ref Square[,] table, int row, int column, int[,] a, int rangeLength)
+        public virtual void AbilityWithInteracterStageTwo(Square[,] table, ref Square interacter, ref Square sen, ref int turn)
         {
-            table[row, column].BackgroundColor.Color = DefaultColor(row, column);
-            for (int i = 0; i < rangeLength; i++)
+            throw new Exception("Error: Ability 2 disfunction");
+        }
+
+        #endregion
+
+        #region Protected Helpers
+
+        // Paint necessary squares to default color
+        protected static void PaintToDefault(Square[,] table, int row, int column, int[,] range)
+        {
+            table[row, column].BackgroundColor.Color = BoardHelper.DefaultColor(row, column);
+            for (int i = 0; i < range.Length / 2; i++)
             {
-                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1)
-                {
-                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = DefaultColor(row + a[i, 0], column + a[i, 1]);
-                }
+                if (row + range[i, 0] <= 7 && row + range[i, 0] >= 1 && column + range[i, 1] <= 5 && column + range[i, 1] >= 1)
+                    table[row + range[i, 0], column + range[i, 1]].BackgroundColor.Color = BoardHelper.DefaultColor(row + range[i, 0], column + range[i, 1]);
             }
         }
 
-        protected Color DefaultColor(int row, int column)
+        // Chack if a piece is frozen
+        protected static bool IsFrozen(Square[,] table, int row, int column)
         {
-            // Trap squares
-            if ((row == 3 || row == 5) && (column == 2 || column == 4))
-                return Color.FromArgb(255, 255, 200, 200);
-            // All else
-            else
-                return ((row + column) % 2 == 0) ? Color.FromArgb(255, 255, 255, 255) : Color.FromArgb(255, 244, 244, 244);
+            for (int i = 0; i < 4; i++)
+            {
+                if (row + e[i, 0] <= 7 && row + e[i, 0] >= 1 && column + e[i, 1] <= 5 && column + e[i, 1] >= 1 &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece != null &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece is Freezer &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece.Player != table[row, column].Piece.Player)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
+
+        #endregion
     }
 }

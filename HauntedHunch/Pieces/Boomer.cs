@@ -1,71 +1,63 @@
-﻿namespace HauntedHunch.Pieces
+﻿namespace HauntedHunch
 {
+    /// <summary>
+    /// Moves to adjacent squares. Can suicide, removing all adjacent pieces.
+    /// </summary>
     public class Boomer : Piece
     {
-        // Moves to adjacent squares. Can suicide, removing all adjacent pieces.
+        public Boomer(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        private static readonly int[,] a = new int[4, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-        public static int[,] A { get { return a; } }
-
-        public Boomer(int r, int c, bool p)
+        override public void PossibleMoves(Square[,] table, int turn)
         {
-            row = r;
-            column = c;
-            player = p;
-            frozen = false;
-        }
+            // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
+            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
 
-        override public void PossibleMoves(ref Square[,] table, int turnDup)
-        {
-            table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
-            if (frozen) return;
-            table[row, column].BackgroundColor.Color = MainWindow.AbilityUno_indicator_color; // Suicide
+            // Frozen check
+            if (IsFrozen(table, Row, Column)) return;
+
+            table[Row, Column].BackgroundColor.Color = BoardHelper.abilityUnoColor; // Suicide
 
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | psuedo piece)
-                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 && (table[row + a[i, 0], column + a[i, 1]].Piece == null ||
-                    table[row + a[i, 0], column + a[i, 1]].Piece == table[row + a[i, 0], column + a[i, 1]].PsuedoPiece))
+                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = MainWindow.possible_move_color;
+                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
                 }
             }
         }
 
-        public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
         {
-            PaintToDefault(ref table, row, column, a, 4);
+            PaintToDefault(table, Row, Column, e);
 
             turn++;
-
-            table[to_row, to_column].Image = table[row, column].Image;
-            table[to_row, to_column].Piece = table[row, column].Piece;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
-            row = to_row;
-            column = to_column;
+            
+            table[to_row, to_column].Piece = table[Row, Column].Piece;
+            table[Row, Column].Piece = null;
+            Row = to_row;
+            Column = to_column;
         }
 
         // Suicide
-        public override void AbilityUno(ref Square[,] table, ref int turn)
+        public override void AbilityUno(Square[,] table, ref int turn)
         {
-            PaintToDefault(ref table, row, column, a, 4);
+            PaintToDefault(table, Row, Column, e);
 
             turn++;
 
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & not null
-                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 && table[row + a[i, 0], column + a[i, 1]].Piece != null)
+                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && table[Row + e[i, 0], Column + e[i, 1]].Piece != null)
                 {
-                    table[row + a[i, 0], column + a[i, 1]].PsuedoPiece = null;
-                    table[row + a[i, 0], column + a[i, 1]].Image = emptyImage;
-                    table[row + a[i, 0], column + a[i, 1]].Piece = null;
+                    table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece = null;
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece = null;
                 }
             }
-            table[row, column].PsuedoPiece = null;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
+            table[Row, Column].PsuedoPiece = null;
+            table[Row, Column].Piece = null;
         }
     }
 }

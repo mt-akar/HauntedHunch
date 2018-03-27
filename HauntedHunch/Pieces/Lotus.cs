@@ -1,99 +1,85 @@
-﻿namespace HauntedHunch.Pieces
+﻿namespace HauntedHunch
 {
+    /// <summary>
+    /// Moves to adjacent squares. Cannot move if it is in the range of any opponent piece.
+    /// </summary>
     public class Lotus : Piece
     {
-        // Moves to adjacent squares. Cannot move if it is in the range of any opponent piece.
         // Ranges of pieces are defined with their member varable a. Any piece can interfere long ranges of Ranger and InnKeeper.
         // A Jumper doesn't freeze a lotus from 2 squares away even though it has long range.
 
         // TODO: Triple move
 
-        private static readonly int[,] a = new int[4, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-        public static int[,] A { get { return a; } }
+        public Lotus(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        public Lotus(int r, int c, bool p)
+        override public void PossibleMoves(Square[,] table, int turn)
         {
-            row = r;
-            column = c;
-            player = p;
-            frozen = false;
-        }
-
-        override public void PossibleMoves(ref Square[,] table, int turnDup)
-        {
-            table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
+            // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
+            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
 
             // Frozen lotus check.
 
-            int[,] r = Runner.A; // Range of Runner
-            int[,] R = Ranger.A; // Range of Ranger
-            int[,] K = InnKeeper.A; // Range of InnKeeper
+            bool ableToMove = true;
 
-            bool able = true;
-
-            for (int j = 0; j < 4; j++)
+            for (int i = 0; i < 4; i++)
             {
                 // Never seen more booleans in a single if statement. No way to simplify.
-                if ((row + a[j, 0] <= 7 && row + a[j, 0] >= 1 && column + a[j, 1] <= 5 && column + a[j, 1] >= 1 &&
-                    table[row + a[j, 0], column + a[j, 1]].Piece != null && table[row + a[j, 0], column + a[j, 1]].Piece.Player != player &&
-                    (table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(Guard) ||
-                    table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(Jumper) ||
-                    table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(Freezer) ||
-                    table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(Converter) ||
-                    table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(Courier) ||
-                    table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(Boomer) ||
-                    table[row + a[j, 0], column + a[j, 1]].Piece.GetType() == typeof(MindController))) ||
+                if ((Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 &&
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece != null && table[Row + e[i, 0], Column + e[i, 1]].Piece.Player != Player &&
+                    (table[Row + e[i, 0], Column + e[i, 1]].Piece is Guard ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is Jumper ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is Freezer ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is Converter ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is Courier ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is Boomer ||
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is MindController)) ||
 
                     // Runner
-                    (row + r[j, 0] <= 7 && row + r[j, 0] >= 1 && column + r[j, 1] <= 5 && column + r[j, 1] >= 1 &&
-                    table[row + r[j, 0], column + r[j, 1]].Piece != null && table[row + r[j, 0], column + r[j, 1]].Piece.Player != player && table[row + r[j, 0], column + r[j, 1]].Piece.GetType() == typeof(Runner)) ||
-                    (row + r[j + 4, 0] <= 7 && row + r[j + 4, 0] >= 1 && column + r[j + 4, 1] <= 5 && column + r[j + 4, 1] >= 1 &&
-                    table[row + r[j + 4, 0], column + r[j + 4, 1]].Piece != null && table[row + r[j + 4, 0], column + r[j + 4, 1]].Piece.Player != player && table[row + r[j + 4, 0], column + r[j + 4, 1]].Piece.GetType() == typeof(Runner)) ||
+                    (Row + j[i, 0] <= 7 && Row + j[i, 0] >= 1 && Column + j[i, 1] <= 5 && Column + j[i, 1] >= 1 &&
+                    table[Row + j[i, 0], Column + j[i, 1]].Piece != null && table[Row + j[i, 0], Column + j[i, 1]].Piece.Player != Player && table[Row + j[i, 0], Column + j[i, 1]].Piece is Runner) ||
+                    (Row + j[i + 4, 0] <= 7 && Row + j[i + 4, 0] >= 1 && Column + j[i + 4, 1] <= 5 && Column + j[i + 4, 1] >= 1 &&
+                    table[Row + j[i + 4, 0], Column + j[i + 4, 1]].Piece != null && table[Row + j[i + 4, 0], Column + j[i + 4, 1]].Piece.Player != Player && table[Row + j[i + 4, 0], Column + j[i + 4, 1]].Piece is Runner) ||
 
                     // Ranger
-                    (row + R[j, 0] <= 7 && row + R[j, 0] >= 1 && column + R[j, 1] <= 5 && column + R[j, 1] >= 1 &&
-                    table[row + R[j, 0], column + R[j, 1]].Piece != null && table[row + R[j, 0], column + R[j, 1]].Piece.Player != player && table[row + R[j, 0], column + R[j, 1]].Piece.GetType() == typeof(Ranger)) ||
-                    (row + R[j + 4, 0] <= 7 && row + R[j + 4, 0] >= 1 && column + R[j + 4, 1] <= 5 && column + R[j + 4, 1] >= 1 &&
-                    table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece != null && table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece.Player != player && table[row + R[j + 4, 0], column + R[j + 4, 1]].Piece.GetType() == typeof(Ranger) &&
-                    (table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].Piece == null || (table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].PsuedoPiece != null && table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].PsuedoPiece == table[row + R[j + 4, 0] / 2, column + R[j + 4, 1] / 2].Piece))) ||
+                    (Row + c[i, 0] <= 7 && Row + c[i, 0] >= 1 && Column + c[i, 1] <= 5 && Column + c[i, 1] >= 1 &&
+                    table[Row + c[i, 0], Column + c[i, 1]].Piece != null && table[Row + c[i, 0], Column + c[i, 1]].Piece.Player != Player && table[Row + c[i, 0], Column + c[i, 1]].Piece is Ranger) ||
+                    (Row + c[i + 4, 0] <= 7 && Row + c[i + 4, 0] >= 1 && Column + c[i + 4, 1] <= 5 && Column + c[i + 4, 1] >= 1 &&
+                    table[Row + c[i + 4, 0], Column + c[i + 4, 1]].Piece != null && table[Row + c[i + 4, 0], Column + c[i + 4, 1]].Piece.Player != Player && table[Row + c[i + 4, 0], Column + c[i + 4, 1]].Piece is Ranger &&
+                    (table[Row + c[i + 4, 0] / 2, Column + c[i + 4, 1] / 2].Piece == null || (table[Row + c[i + 4, 0] / 2, Column + c[i + 4, 1] / 2].PsuedoPiece != null && table[Row + c[i + 4, 0] / 2, Column + c[i + 4, 1] / 2].PsuedoPiece == table[Row + c[i + 4, 0] / 2, Column + c[i + 4, 1] / 2].Piece))) ||
 
                     // Inn Keeper
-                    (row + K[j, 0] <= 7 && row + K[j, 0] >= 1 && column + K[j, 1] <= 5 && column + K[j, 1] >= 1 &&
-                    table[row + K[j, 0], column + K[j, 1]].Piece != null && table[row + K[j, 0], column + K[j, 1]].Piece.Player != player && table[row + K[j, 0], column + K[j, 1]].Piece.GetType() == typeof(InnKeeper)) ||
-                    (row + K[j + 4, 0] <= 7 && row + K[j + 4, 0] >= 1 && column + K[j + 4, 1] <= 5 && column + K[j + 4, 1] >= 1 &&
-                    table[row + K[j + 4, 0], column + K[j + 4, 1]].Piece != null && table[row + K[j + 4, 0], column + K[j + 4, 1]].Piece.Player != player && table[row + K[j + 4, 0], column + K[j + 4, 1]].Piece.GetType() == typeof(InnKeeper) && table[row + K[j + 4, 0] / 2, column + K[j + 4, 1] / 2].Piece == null))
+                    (Row + l[i, 0] <= 7 && Row + l[i, 0] >= 1 && Column + l[i, 1] <= 5 && Column + l[i, 1] >= 1 &&
+                    table[Row + l[i, 0], Column + l[i, 1]].Piece != null && table[Row + l[i, 0], Column + l[i, 1]].Piece.Player != Player && table[Row + l[i, 0], Column + l[i, 1]].Piece is InnKeeper) ||
+                    (Row + l[i + 4, 0] <= 7 && Row + l[i + 4, 0] >= 1 && Column + l[i + 4, 1] <= 5 && Column + l[i + 4, 1] >= 1 &&
+                    table[Row + l[i + 4, 0], Column + l[i + 4, 1]].Piece != null && table[Row + l[i + 4, 0], Column + l[i + 4, 1]].Piece.Player != Player && table[Row + l[i + 4, 0], Column + l[i + 4, 1]].Piece is InnKeeper && table[Row + l[i + 4, 0] / 2, Column + l[i + 4, 1] / 2].Piece == null))
                 {
-                    able = false;
+                    ableToMove = false;
                     break;
                 }
             }
 
             // If able to move
-            if (able)
+            if (ableToMove)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 && table[row + a[i, 0], column + a[i, 1]].Piece == null)
-                    {
-                        table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = MainWindow.possible_move_color;
-                    }
+                    if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && table[Row + e[i, 0], Column + e[i, 1]].Piece == null)
+                        table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
                 }
             }
         }
 
-        public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
         {
-            PaintToDefault(ref table, row, column, a, 4);
+            PaintToDefault(table, Row, Column, e);
 
             turn++;
+            
+            table[to_row, to_column].Piece = table[Row, Column].Piece;
+            table[Row, Column].Piece = null;
 
-            table[to_row, to_column].Image = table[row, column].Image;
-            table[to_row, to_column].Piece = table[row, column].Piece;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
-
-            row = to_row;
-            column = to_column;
+            Row = to_row;
+            Column = to_column;
         }
     }
 }

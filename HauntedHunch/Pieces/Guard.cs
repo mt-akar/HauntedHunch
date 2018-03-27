@@ -1,40 +1,42 @@
-﻿namespace HauntedHunch.Pieces
+﻿namespace HauntedHunch
 {
+    /// <summary>
+    /// Basic piece. Moves to adjacent squares, captures adjacent opponent pieces.
+    /// </summary>
     public class Guard : Piece
     {
-        // Basic piece. Moves to adjacent squares, captures adjacent opponent pieces.
+        public Guard(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        private static readonly int[,] a = new int[4, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
-        public static int[,] A { get { return a; } }
-
-        public Guard(int r, int c, bool p)
+        override public void PossibleMoves(Square[,] table, int turn)
         {
-            row = r;
-            column = c;
-            player = p;
-            frozen = false;
-        }
+            // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
+            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
 
-        override public void PossibleMoves(ref Square[,] table, int turnDup)
-        {
-            table[row, column].BackgroundColor.Color = MainWindow.possible_move_color;
-            if (frozen) return;
+            // Frozen check
+            if (IsFrozen(table, Row, Column)) return;
 
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | opponenet piece | psuedo piece)
-                if (row + a[i, 0] <= 7 && row + a[i, 0] >= 1 && column + a[i, 1] <= 5 && column + a[i, 1] >= 1 &&
-                    (table[row + a[i, 0], column + a[i, 1]].Piece == null || (table[row + a[i, 0], column + a[i, 1]].Piece.Player != player && turnDup % 2 == 1) ||
-                    table[row + a[i, 0], column + a[i, 1]].Piece == table[row + a[i, 0], column + a[i, 1]].PsuedoPiece))
+                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 &&
+
+                    // empty square
+                    (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
+
+                    // opponenet piece
+                    (table[Row + e[i, 0], Column + e[i, 1]].Piece.Player != Player && turn % 2 == 1) ||
+
+                    // psuedo piece
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[row + a[i, 0], column + a[i, 1]].BackgroundColor.Color = MainWindow.possible_move_color;
+                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
                 }
             }
         }
 
-        public override void Move(ref Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
         {
-            PaintToDefault(ref table, row, column, a, 4);
+            PaintToDefault(table, Row, Column, e);
 
             if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece)
             {
@@ -44,22 +46,18 @@
             {
                 turn += 2;
 
-                if (table[to_row, to_column].Piece.GetType() == typeof(MindController))
+                if (table[to_row, to_column].Piece is MindController)
                 {
                     turn += 2;
 
-                    player = !player;
-                    table[row, column].SetImageAccordingToPiece();
+                    Player = 1 - Player;
                 }
             }
-
-            // Move
-            table[to_row, to_column].Image = table[row, column].Image;
-            table[to_row, to_column].Piece = table[row, column].Piece;
-            table[row, column].Image = emptyImage;
-            table[row, column].Piece = null;
-            row = to_row;
-            column = to_column;
+            
+            table[to_row, to_column].Piece = table[Row, Column].Piece;
+            table[Row, Column].Piece = null;
+            Row = to_row;
+            Column = to_column;
         }
     }
 }
