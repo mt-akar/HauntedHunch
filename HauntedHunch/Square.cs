@@ -12,6 +12,8 @@ namespace HauntedHunch
         public int Row { get; }
         public int Column { get; }
         public SolidColorBrush BackgroundColor { get; }
+        public Piece PsuedoPiece { get; set; }
+        public ImageSource Image { get; private set; }
 
         private Piece piece;
         public Piece Piece
@@ -29,8 +31,6 @@ namespace HauntedHunch
             }
         }
 
-        public Piece PsuedoPiece { get; set; }
-        public ImageSource Image { get; private set; }
 
         #endregion
 

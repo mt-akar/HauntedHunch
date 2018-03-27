@@ -15,7 +15,7 @@ namespace HauntedHunch
         public static Color DefaultColor(int row, int column)
         {
             // 4 trap squares are pink.
-            if ((row == 3 || row == 5) && (column == 2 || column == 4))
+            if ((row == 3 || row == 5) && (column == 2 || column == 5))
                 return trapSquareColor;
 
             // Rest of the board is white/black

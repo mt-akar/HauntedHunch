@@ -26,33 +26,35 @@ namespace HauntedHunch
 
         public MainWindowViewModel()
         {
-            table = new Square[8, 6]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
+            table = new Square[8, 7]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
             for (int i = 1; i <= 7; i++)
             {
-                for (int j = 1; j <= 5; j++)
+                for (int j = 1; j <= 6; j++)
                 {
-                    if (i == 4 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
+                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
                     else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White));
                     else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.White));
                     else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.White));
                     else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.White));
+                    else if (i == 1 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
                     else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.White));
                     else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.White));
                     else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.White));
                     else if (i == 2 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.White)); table[i, j].PsuedoPiece = table[i, j].Piece; }
                     else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.White));
-                    else if (i == 3 && j == 1) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White));
+                    else if (i == 2 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White));
                     else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
                     else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.Black));
                     else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.Black));
                     else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.Black));
                     else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
                     else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.Black));
                     else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.Black));
                     else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.Black));
                     else if (i == 6 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.Black)); table[i, j].PsuedoPiece = table[i, j].Piece; }
                     else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.Black));
-                    else if (i == 5 && j == 1) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black));
                     else table[i, j] = new Square(i, j, null);
                 }
             } // Set up the initial board position.
