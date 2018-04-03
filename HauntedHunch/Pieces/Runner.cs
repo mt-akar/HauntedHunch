@@ -18,7 +18,7 @@
             for (int i = 0; i < 8; i++)
             {
                 // In bounds & (empty square | opponenet piece | psuedo piece)
-                if (Row + j[i, 0] <= 7 && Row + j[i, 0] >= 1 && Column + j[i, 1] <= 5 && Column + j[i, 1] >= 1 &&
+                if (Row + j[i, 0] <= nr && Row + j[i, 0] >= 1 && Column + j[i, 1] <= nc && Column + j[i, 1] >= 1 &&
 
                     // empty square
                     (table[Row + j[i, 0], Column + j[i, 1]].Piece == null ||
@@ -37,6 +37,8 @@
         public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
         {
             PaintToDefault(table, Row, Column, j);
+
+            Revealed = true;
 
             if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece) // Move
             {
@@ -59,5 +61,11 @@
             Row = to_row;
             Column = to_column;
         }
+
+        #region IClonable
+
+        public override object Clone() => new Runner(Row, Column, Player);
+
+        #endregion
     }
 }

@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace HauntedHunch
 {
-    public class Square : INotifyPropertyChanged
+    public class Square : INotifyPropertyChanged, ICloneable
     {
         #region Public Properties
 
@@ -31,7 +31,6 @@ namespace HauntedHunch
             }
         }
 
-
         #endregion
 
         #region Constructor
@@ -50,7 +49,8 @@ namespace HauntedHunch
 
         public void SetImageAccordingToPiece()
         {
-            Image = new BitmapImage(new Uri(@"Images/" + (piece == null ? "Transparent.png" : Piece.GetType().Name + Piece.Player.ToString() + ".png"), UriKind.Relative));
+            Image = new BitmapImage(new Uri(@"Images/" + (piece == null ? "Transparent.png" :
+                (piece != null && piece.Revealed ? "" : "Hidden") + Piece.GetType().Name + Piece.Player.ToString() + ".png"), UriKind.Relative));
             OnPropertyChanged(nameof(Image));
         }
 
@@ -67,5 +67,12 @@ namespace HauntedHunch
         }
 
         #endregion
+
+        #region IClonable
+
+        public object Clone() => new Square(Row, Column, Piece == null ? null : (Piece)Piece.Clone());
+
+        #endregion
+
     }
 }

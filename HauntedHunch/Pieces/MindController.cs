@@ -12,23 +12,15 @@
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
 
-            // Frozen check
             for (int i = 0; i < 4; i++)
             {
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 &&
-                    table[Row + e[i, 0], Column + e[i, 1]].Piece != null &&
-                    table[Row + e[i, 0], Column + e[i, 1]].Piece.GetType() == typeof(Freezer) &&
-                    table[Row + e[i, 0], Column + e[i, 1]].Piece.Player != table[Row, Column].Piece.Player)
-                {
-                    return;
-                }
-            }
+                // In bounds & (empty square | psuedo piece)
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 &&
 
-            for (int i = 0; i < 4; i++)
-            {
-                // In bounds & (empty square | opponenet piece | psuedo piece)
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 &&
-                    (table[Row + e[i, 0], Column + e[i, 1]].Piece == null || (table[Row + e[i, 0], Column + e[i, 1]].Piece.Player != Player && turn % 2 == 1) ||
+                    // empty square
+                    (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
+
+                    // psuedo piece
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
@@ -40,7 +32,8 @@
         {
             PaintToDefault(table, Row, Column, e);
 
-            if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece) // Move
+            // Move
+            if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece)
             {
                 turn++;
 
@@ -50,22 +43,33 @@
                 Row = to_row;
                 Column = to_column;
             }
-            else // Mind control
-            {
-                turn += 2;
 
-                if (table[to_row, to_column].Piece is MindController)
+            // Control the freezer
+            bool controlFreezer = false;
+            int i = 0;
+            for (; i < 4; i++)
+            {
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 &&
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece != null &&
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece is Freezer &&
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece.Player != table[Row, Column].Piece.Player)
                 {
-                    table[to_row, to_column].Piece = null;
-                    table[Row, Column].Piece = null;
+                    controlFreezer = true;
+                    break;
                 }
-                else
-                {
-                    table[to_row, to_column].Piece.Player = 1 - table[to_row, to_column].Piece.Player;
-                    table[to_row, to_column].SetImageAccordingToPiece();
-                }
+            }
+            if (controlFreezer)
+            {
+                table[Row + e[i, 0], Column + e[i, 1]].Piece.Player = table[Row + e[i, 0], Column + e[i, 1]].Piece.Player == PlayerType.White ? PlayerType.Black : PlayerType.White;
+                table[Row + e[i, 0], Column + e[i, 1]].SetImageAccordingToPiece();
                 table[Row, Column].Piece = null;
             }
         }
+
+        #region IClonable
+
+        public override object Clone() => new MindController(Row, Column, Player);
+
+        #endregion
     }
 }

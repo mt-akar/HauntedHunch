@@ -124,37 +124,37 @@
     <Resource Include="Images\Transparent.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Converter.png" />
+    <Resource Include="Images\HiddenConverterBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Runner.png" />
+    <Resource Include="Images\HiddenRunnerBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Jumper.png" />
+    <Resource Include="Images\HiddenJumperBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Lotus.png" />
+    <Resource Include="Images\HiddenLotusBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Guard.png" />
+    <Resource Include="Images\HiddenGuardBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Freezer.png" />
+    <Resource Include="Images\HiddenFreezerBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Boomer.png" />
+    <Resource Include="Images\HiddenBoomerBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\InnKeeper.png" />
+    <Resource Include="Images\HiddenInnKeeperBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Ranger.png" />
+    <Resource Include="Images\HiddenRangerBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Courier.png" />
+    <Resource Include="Images\HiddenCourierBlack.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\MindController.png" />
+    <Resource Include="Images\HiddenMindControllerBlack.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BoomerBlack.png" />
@@ -179,6 +179,23 @@
     <Resource Include="Images\RangerWhite.png" />
     <Resource Include="Images\RunnerBlack.png" />
     <Resource Include="Images\RunnerWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UnrevealedBlack.png" />
+    <Resource Include="Images\UnrevealedWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HiddenBoomerWhite.png" />
+    <Resource Include="Images\HiddenConverterWhite.png" />
+    <Resource Include="Images\HiddenCourierWhite.png" />
+    <Resource Include="Images\HiddenFreezerWhite.png" />
+    <Resource Include="Images\HiddenGuardWhite.png" />
+    <Resource Include="Images\HiddenInnKeeperWhite.png" />
+    <Resource Include="Images\HiddenJumperWhite.png" />
+    <Resource Include="Images\HiddenLotusWhite.png" />
+    <Resource Include="Images\HiddenMindControllerWhite.png" />
+    <Resource Include="Images\HiddenRangerWhite.png" />
+    <Resource Include="Images\HiddenRunnerWhite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

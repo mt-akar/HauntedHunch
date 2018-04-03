@@ -18,7 +18,7 @@
             for (int i = 0; i < 8; i++)
             {
                 // In bounds & (short range | in between is (empty | psuedo)) && (empty square | opponenet piece | psuedo piece)
-                if (Row + c[i, 0] <= 7 && Row + c[i, 0] >= 1 && Column + c[i, 1] <= 5 && Column + c[i, 1] >= 1 &&
+                if (Row + c[i, 0] <= nr && Row + c[i, 0] >= 1 && Column + c[i, 1] <= nc && Column + c[i, 1] >= 1 &&
 
                     // short range | in between is (empty | psuedo)
                     (i <= 3 || (i >= 4 && table[Row + c[i, 0] / 2, Column + c[i, 1] / 2].Piece == null || table[Row + c[i, 0] / 2, Column + c[i, 1] / 2].Piece == table[Row + c[i, 0] / 2, Column + c[i, 1] / 2].PsuedoPiece)) &&
@@ -41,6 +41,8 @@
         {
             PaintToDefault(table, Row, Column, c);
 
+            Revealed = true;
+
             if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece)
             {
                 turn++;
@@ -62,5 +64,11 @@
             Row = to_row;
             Column = to_column;
         }
+
+        #region IClonable
+
+        public override object Clone() => new Ranger(Row, Column, Player);
+
+        #endregion
     }
 }

@@ -20,7 +20,7 @@
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | psuedo piece)
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
@@ -53,7 +53,7 @@
             // MindController check, loops 8 times
             for (int i = 0; i < 8; i++)
             {
-                if (!(Row + rot[i, 0] > 7 || Row + rot[i, 0] < 1 || Column + rot[i, 1] > 5 || Column + rot[i, 1] < 1) &&
+                if (!(Row + rot[i, 0] > nr || Row + rot[i, 0] < 1 || Column + rot[i, 1] > nc || Column + rot[i, 1] < 1) &&
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece != null && table[Row + rot[i, 0], Column + rot[i, 1]].Piece.Player != Player &&
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece is MindController)
                 {
@@ -72,8 +72,8 @@
             for (int i = 0; i < 4; i++)
             {
                 // Check if places to be converted are on bounds
-                bool b1 = Row + rot[i, 0] > 7 || Row + rot[i, 0] < 1 || Column + rot[i, 1] > 5 || Column + rot[i, 1] < 1;
-                bool b2 = Row - rot[i, 0] > 7 || Row - rot[i, 0] < 1 || Column - rot[i, 1] > 5 || Column - rot[i, 1] < 1;
+                bool b1 = Row + rot[i, 0] > nr || Row + rot[i, 0] < 1 || Column + rot[i, 1] > nc || Column + rot[i, 1] < 1;
+                bool b2 = Row - rot[i, 0] > nr || Row - rot[i, 0] < 1 || Column - rot[i, 1] > nc || Column - rot[i, 1] < 1;
 
                 if(b1 && b2) { }
                 else if (b1)
@@ -107,5 +107,11 @@
                 }
             }
         }
+
+        #region IClonable
+
+        public override object Clone() => new Converter(Row, Column, Player);
+
+        #endregion
     }
 }

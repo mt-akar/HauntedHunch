@@ -21,7 +21,7 @@ namespace HauntedHunch
             for (int i = 0; i < 8; i++)
             {
                 // In bounds & move | in between is non-psuedo opponent piece && (empty square | psuedo piece)
-                if (Row + l[i, 0] <= 7 && Row + l[i, 0] >= 1 && Column + l[i, 1] <= 5 && Column + l[i, 1] >= 1 &&
+                if (Row + l[i, 0] <= nr && Row + l[i, 0] >= 1 && Column + l[i, 1] <= nc && Column + l[i, 1] >= 1 &&
 
                     // move | in between is non-psuedo opponent piece
                     (i <= 3 ||(i >= 4 && table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece != null && table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece.Player != Player &&
@@ -66,5 +66,11 @@ namespace HauntedHunch
             Row = to_row;
             Column = to_column;
         }
+
+        #region IClonable
+
+        public override object Clone() => new Jumper(Row, Column, Player);
+
+        #endregion
     }
 }

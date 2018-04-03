@@ -7,6 +7,9 @@ namespace HauntedHunch
     {
         #region Variables and Properties
 
+        private static int nc = 6; // Number of columns
+        private static int nr = 7; // Number of rows
+
         public Square[,] table; // Game board
         public Square[,,] history; // Game history, for undo
         public Square cur; // Current moving piece
@@ -26,10 +29,10 @@ namespace HauntedHunch
 
         public MainWindowViewModel()
         {
-            table = new Square[8, 7]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
-            for (int i = 1; i <= 7; i++)
+            table = new Square[nr + 1, nc + 1]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
+            for (int i = 1; i <= nr; i++)
             {
-                for (int j = 1; j <= 6; j++)
+                for (int j = 1; j <= nc; j++)
                 {
                     if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
                     else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White));
@@ -59,7 +62,9 @@ namespace HauntedHunch
                 }
             } // Set up the initial board position.
 
-            history = new Square[8, 6, 1000];
+            history = new Square[1000, nr + 1, nc + 1];
+            UpdateHistory();
+
             cur = null;
             interacter = null;
             turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
@@ -73,11 +78,12 @@ namespace HauntedHunch
         #endregion
 
         #region LMDown
+
         /// <summary>
         /// Most complicated methos of the project. Activated when clicked on a square.
         /// Does different things depending on the input and the state of the variables table, turn, cur and interacter.
         /// </summary>
-        /// <param name="sen"></param>
+        /// <param name="sen"> Sqaure that is just clicked </param>
         public void LMDown(Square sen)
         {
             // If we are at an in-between move of an ability with interacter
@@ -86,6 +92,7 @@ namespace HauntedHunch
                 if (sen.BackgroundColor.Color == BoardHelper.abilityWithInteracterColor)
                 {
                     cur.Piece.AbilityWithInteracterStageTwo(table, ref interacter, ref sen, ref turn);
+                    UpdateHistory();
                     UpdatePits();
                 }
                 interacter = null;
@@ -116,6 +123,7 @@ namespace HauntedHunch
                 if (sen.BackgroundColor.Color == BoardHelper.abilityUnoColor)
                 {
                     cur.Piece.AbilityUno(table, ref turn);
+                    UpdateHistory();
 
                     UpdatePits();
                     cur = null;
@@ -131,6 +139,7 @@ namespace HauntedHunch
                 else if (sen.BackgroundColor.Color == BoardHelper.standartMoveColor && cur != sen)
                 {
                     cur.Piece.Move(table, sen.Row, sen.Column, ref turn);
+                    UpdateHistory();
 
                     UpdatePits();
                     cur = null;
@@ -155,9 +164,9 @@ namespace HauntedHunch
             // Update gameEnded
             bool whiteLotusIsOnBoard = false;
             bool blackLotusIsOnBoard = false;
-            for (int i = 1; i <= 7; i++)
+            for (int i = 1; i <= nr; i++)
             {
-                for (int j = 1; j <= 5; j++)
+                for (int j = 1; j <= nc; j++)
                 {
                     if (table[i, j].Piece != null && table[i, j].Piece is Lotus)
                     {
@@ -168,7 +177,7 @@ namespace HauntedHunch
                             blackLotusIsOnBoard = true;
 
                         // If a lotus reaches the last row for either player, game ends.
-                        if ((table[i, j].Piece.Player == PlayerType.White && i == 7) || (table[i, j].Piece.Player == PlayerType.Black && i == 1))
+                        if ((table[i, j].Piece.Player == PlayerType.White && i == nr) || (table[i, j].Piece.Player == PlayerType.Black && i == 1))
                             gameEnded = true;
                     }
                 }
@@ -187,7 +196,7 @@ namespace HauntedHunch
         /// </summary>
         public void UpdatePits()
         {
-            int[,] pits = { { 3, 2 }, { 3, 4 }, { 5, 2 }, { 5, 4 } };
+            int[,] pits = { { 3, 2 }, { 3, 5 }, { 5, 2 }, { 5, 5 } };
             for (int i = 0; i < 4; i++)
             {
                 if (table[pits[i, 0], pits[i, 1]].Piece != null &&
@@ -229,13 +238,41 @@ namespace HauntedHunch
         }
 
         /// <summary>
+        /// Record the game to have an undo button
+        /// </summary>
+        public void UpdateHistory()
+        {
+            for (int i = 1; i <= nr; i++)
+            {
+                for (int j = 1; j <= nc; j++) { }
+                    //history[turn, i, j] = (Square)table[i, j].Clone();
+            }
+        }
+
+        /// <summary>
+        /// Gets executed when undo command is given
+        /// </summary>
+        public void UndoClicked()
+        {
+            do turn--;
+            while (history[turn, 1, 1] == null);
+
+
+            for (int i = 1; i <= nr; i++)
+            {
+                for (int j = 1; j <= nc; j++)
+                    table[i, j] = (Square)history[turn, i, j].Clone();
+            }
+        }
+
+        /// <summary>
         /// Repaint the board to default colors
         /// </summary>
         public void Repaint()
         {
-            for (int i = 1; i <= 7; i++)
+            for (int i = 1; i <= nr; i++)
             {
-                for (int j = 1; j <= 5; j++)
+                for (int j = 1; j <= nc; j++)
                 {
                     table[i, j].BackgroundColor.Color = BoardHelper.DefaultColor(i, j);
                 }
