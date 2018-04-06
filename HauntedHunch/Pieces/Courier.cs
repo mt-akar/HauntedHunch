@@ -20,7 +20,7 @@ namespace HauntedHunch
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | psuedo piece)
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
@@ -38,8 +38,8 @@ namespace HauntedHunch
             for (int i = 0; i < 24; i++)
             {
                 // In bounds & interacter is opponenet piece, not psuedo & to is null or psuedo
-                if (Row + b[i, 0] <= 7 && Row + b[i, 0] >= 1 && Column + b[i, 1] <= 5 && Column + b[i, 1] >= 1 &&
-                    Row + b[i, 2] <= 7 && Row + b[i, 2] >= 1 && Column + b[i, 3] <= 5 && Column + b[i, 3] >= 1 &&
+                if (Row + b[i, 0] <= nr && Row + b[i, 0] >= 1 && Column + b[i, 1] <= nc && Column + b[i, 1] >= 1 &&
+                    Row + b[i, 2] <= nr && Row + b[i, 2] >= 1 && Column + b[i, 3] <= nc && Column + b[i, 3] >= 1 &&
                     table[Row + b[i, 0], Column + b[i, 1]].Piece != null && table[Row + b[i, 0], Column + b[i, 1]].Piece.Player != Player &&
                     table[Row + b[i, 0], Column + b[i, 1]].Piece != table[Row + b[i, 0], Column + b[i, 1]].PsuedoPiece &&
                     (table[Row + b[i, 2], Column + b[i, 3]].Piece == null || table[Row + b[i, 2], Column + b[i, 3]].Piece == table[Row + b[i, 2], Column + b[i, 3]].PsuedoPiece))
@@ -70,13 +70,13 @@ namespace HauntedHunch
             for (int i = 0; i < 4; i++)
             {
                 // For pull, in bounds & (empty square | psuedo piece)
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 &&
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 &&
                     (table[Row + e[i, 0], Column + e[i, 1]].Piece == null || table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.abilityWithInteracterColor;
                 }
                 // For push, in bounds & (empty square | psuedo piece)
-                if (sen.Row + e[i, 0] <= 7 && sen.Row + e[i, 0] >= 1 && sen.Column + e[i, 1] <= 5 && sen.Column + e[i, 1] >= 1 &&
+                if (sen.Row + e[i, 0] <= nr && sen.Row + e[i, 0] >= 1 && sen.Column + e[i, 1] <= nc && sen.Column + e[i, 1] >= 1 &&
                     (table[sen.Row + e[i, 0], sen.Column + e[i, 1]].Piece == null || table[sen.Row + e[i, 0], sen.Column + e[i, 1]].Piece == table[sen.Row + e[i, 0], sen.Column + e[i, 1]].PsuedoPiece))
                 {
                     table[sen.Row + e[i, 0], sen.Column + e[i, 1]].BackgroundColor.Color = BoardHelper.abilityWithInteracterColor;
@@ -145,5 +145,11 @@ namespace HauntedHunch
                 }
             }
         }
+
+        #region IClonable
+
+        public override object Clone() => new Courier(Row, Column, Player);
+
+        #endregion
     }
 }

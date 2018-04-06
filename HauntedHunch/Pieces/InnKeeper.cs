@@ -18,7 +18,7 @@
             for (int i = 0; i < 8; i++)
             {
                 // In bounds & (short range | in between is empty) && (empty square | opponenet Lotus)
-                if (Row + l[i, 0] <= 7 && Row + l[i, 0] >= 1 && Column + l[i, 1] <= 5 && Column + l[i, 1] >= 1 &&
+                if (Row + l[i, 0] <= nr && Row + l[i, 0] >= 1 && Column + l[i, 1] <= nc && Column + l[i, 1] >= 1 &&
                     (i <= 3 || (i >= 4 && table[Row + l[i, 0] / 2, Column + l[i, 1] / 2].Piece == null)) &&
                     (table[Row + l[i, 0], Column + l[i, 1]].Piece == null ||
                     (table[Row + l[i, 0], Column + l[i, 1]].Piece is Lotus && table[Row + l[i, 0], Column + l[i, 1]].Piece.Player != Player && turn % 2 == 1)))
@@ -41,5 +41,11 @@
             Row = to_row;
             Column = to_column;
         }
+
+        #region IClonable
+
+        public override object Clone() => new InnKeeper(Row, Column, Player);
+
+        #endregion
     }
 }

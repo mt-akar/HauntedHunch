@@ -18,7 +18,7 @@
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | opponenet piece | psuedo piece)
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 &&
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 &&
 
                     // empty square
                     (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
@@ -59,5 +59,11 @@
             Row = to_row;
             Column = to_column;
         }
+
+        #region IClonable
+
+        public override object Clone() => new Guard(Row, Column, Player);
+
+        #endregion
     }
 }

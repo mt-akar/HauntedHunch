@@ -20,7 +20,7 @@
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & (empty square | psuedo piece)
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
@@ -50,7 +50,7 @@
             for (int i = 0; i < 4; i++)
             {
                 // In bounds & not null
-                if (Row + e[i, 0] <= 7 && Row + e[i, 0] >= 1 && Column + e[i, 1] <= 5 && Column + e[i, 1] >= 1 && table[Row + e[i, 0], Column + e[i, 1]].Piece != null)
+                if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && table[Row + e[i, 0], Column + e[i, 1]].Piece != null)
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece = null;
                     table[Row + e[i, 0], Column + e[i, 1]].Piece = null;
@@ -59,5 +59,11 @@
             table[Row, Column].PsuedoPiece = null;
             table[Row, Column].Piece = null;
         }
+
+        #region IClonable
+
+        public override object Clone() => new Boomer(Row, Column, Player);
+
+        #endregion
     }
 }
