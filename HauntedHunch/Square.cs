@@ -51,6 +51,7 @@ namespace HauntedHunch
         {
             Image = new BitmapImage(new Uri(@"Images/" + (piece == null ? "Transparent.png" :
                 (piece != null && piece.Revealed ? "" : "Hidden") + Piece.GetType().Name + Piece.Player.ToString() + ".png"), UriKind.Relative));
+
             OnPropertyChanged(nameof(Image));
         }
 
@@ -60,11 +61,7 @@ namespace HauntedHunch
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-        }
+        public void OnPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         #endregion
 

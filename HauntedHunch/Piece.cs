@@ -92,8 +92,28 @@ namespace HauntedHunch
                 if (row + e[i, 0] <= nr && row + e[i, 0] >= 1 && column + e[i, 1] <= nc && column + e[i, 1] >= 1 &&
                     table[row + e[i, 0], column + e[i, 1]].Piece != null &&
                     table[row + e[i, 0], column + e[i, 1]].Piece is Freezer &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece.Player != table[row, column].Piece.Player)
+                    table[row + e[i, 0], column + e[i, 1]].Piece.Player != table[row, column].Piece.Player &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece.Revealed)
                 {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Chack if a piece is frozen
+        protected static bool IsHiddenlyFrozen(Square[,] table, int row, int column)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (row + e[i, 0] <= nr && row + e[i, 0] >= 1 && column + e[i, 1] <= nc && column + e[i, 1] >= 1 &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece != null &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece is Freezer &&
+                    table[row + e[i, 0], column + e[i, 1]].Piece.Player != table[row, column].Piece.Player &&
+                    !table[row + e[i, 0], column + e[i, 1]].Piece.Revealed)
+                {
+                    table[row + e[i, 0], column + e[i, 1]].Piece.Revealed = true;
+                    table[row + e[i, 0], column + e[i, 1]].SetImageAccordingToPiece();
                     return true;
                 }
             }

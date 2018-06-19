@@ -38,6 +38,8 @@
         {
             PaintToDefault(table, Row, Column, e);
 
+            if (IsHiddenlyFrozen(table, Row, Column)) return;
+
             if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece)
             {
                 turn++;
