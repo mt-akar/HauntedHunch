@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+
         Title="OP HauntedHunch Simulator SAGA Pre-Alpha 1.0.0.172"
         Height="900"
         Width="910"
@@ -45,6 +46,7 @@
                     <Style TargetType="Image">
                         <Setter Property="Source" Value="{Binding Image}"/>
                     </Style>
+
                     <Style TargetType="Label">
                         <Setter Property="Background" Value="White"/>
                         <Setter Property="FontSize" Value="14"/>

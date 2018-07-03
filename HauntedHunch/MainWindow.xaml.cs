@@ -78,7 +78,7 @@ namespace HauntedHunch
             if (d.gameEnded) return;
 
             // Sender object (Square)
-            Square sen = ((Square)((sender as DependencyObject).GetValue(DataContextProperty)));
+            Square sen = (Square)(sender as DependencyObject).GetValue(DataContextProperty);
 
             d.LMDown(sen);
         }
