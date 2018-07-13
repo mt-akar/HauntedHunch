@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <Viewbox Stretch="Uniform">
-            <Grid x:Name="GameBoard" Height="440" Width="380" Background="White">
+            <Grid x:Name="GameBoardGrid" Height="440" Width="380" Background="White">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -40,7 +40,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.Resources>
-                    <Style TargetType="StackPanel">
+                    <Style TargetType="Border">
                         <Setter Property="Background" Value="{Binding BackgroundColor}"/>
                     </Style>
                     <Style TargetType="Image">
@@ -57,133 +57,6 @@
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
                     </Style>
                 </Grid.Resources>
-
-                <StackPanel x:Name="sp11" Grid.Row="6" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp12" Grid.Row="6" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp13" Grid.Row="6" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp14" Grid.Row="6" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp15" Grid.Row="6" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp16" Grid.Row="6" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp21" Grid.Row="5" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp22" Grid.Row="5" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp23" Grid.Row="5" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp24" Grid.Row="5" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp25" Grid.Row="5" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp26" Grid.Row="5" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp31" Grid.Row="4" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp32" Grid.Row="4" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp33" Grid.Row="4" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp34" Grid.Row="4" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp35" Grid.Row="4" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp36" Grid.Row="4" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp41" Grid.Row="3" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp42" Grid.Row="3" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp43" Grid.Row="3" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp44" Grid.Row="3" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp45" Grid.Row="3" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp46" Grid.Row="3" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp51" Grid.Row="2" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp52" Grid.Row="2" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp53" Grid.Row="2" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp54" Grid.Row="2" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp55" Grid.Row="2" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp56" Grid.Row="2" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp61" Grid.Row="1" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp62" Grid.Row="1" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp63" Grid.Row="1" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp64" Grid.Row="1" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp65" Grid.Row="1" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp66" Grid.Row="1" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp71" Grid.Row="0" Grid.Column="1">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp72" Grid.Row="0" Grid.Column="2">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp73" Grid.Row="0" Grid.Column="3">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp74" Grid.Row="0" Grid.Column="4">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp75" Grid.Row="0" Grid.Column="5">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
-                <StackPanel x:Name="sp76" Grid.Row="0" Grid.Column="6">
-                    <Image MouseLeftButtonDown="LMDown"/>
-                </StackPanel>
 
                 <Label Grid.Row="7" Grid.Column="1" Content="Q"/>
                 <Label Grid.Row="7" Grid.Column="2" Content="W"/>
@@ -204,8 +77,8 @@
 
         <StackPanel Grid.Column="1" Margin="5 5 5 5">
             <TextBox x:Name="statusMessageBox" Text="Welcome" IsReadOnly="True" Padding="2" TextAlignment="Center" Margin="0 5 0 0"/>
-            <Button Content="Undo" Margin="10 50 10 0" Click="UndoClicked"/>
-            <Button Content="Disable Turn Const." Margin="10 5 10 0" Click="disableTurnConstraints"/>
+            <Button Content="Undo" Margin="10 50 10 0" Command="{Binding UndoCommand}"/>
+            <Button Content="Disable Turn Const." Margin="10 5 10 0" Command="{Binding DisableTurnConstraintsCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

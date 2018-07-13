@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace HauntedHunch
 {
@@ -7,8 +6,8 @@ namespace HauntedHunch
     {
         #region Variables and Properties
 
-        const int nc = 6; // Number of columns
         const int nr = 7; // Number of rows
+        const int nc = 6; // Number of columns
 
         public Square[,] table = new Square[nr + 1, nc + 1]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
         Square[,,] history = new Square[1000, nr + 1, nc + 1]; // Game history, for undo
@@ -17,14 +16,25 @@ namespace HauntedHunch
         int turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
         bool placementStage = true;
         public bool gameEnded;
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool turnConstraintsEnabled = true;
-        ICommand DisableTurnConstraintsCommand => new RelayCommand(() => 
+        public ICommand DisableTurnConstraintsCommand => new RelayCommand(() => turnConstraintsEnabled = false);
+        public ICommand UndoCommand => new RelayCommand(() =>
         {
-            turnConstraintsEnabled = false;
-            Console.WriteLine("Command");
+            /*
+            do turn--;
+            while (history[turn, 1, 1] == null);
+
+
+            for (int i = 1; i <= nr; i++)
+            {
+                for (int j = 1; j <= nc; j++)
+                    table[i, j] = (Square)history[turn, i, j].Clone();
+            }
+            */
         });
 
         #endregion
@@ -79,6 +89,8 @@ namespace HauntedHunch
         /// <param name="sen"> Sqaure that is just clicked </param>
         public void LMDown(Square sen)
         {
+            if (gameEnded) return;
+
             // If we are at an in-between move of an ability with interacter
             if (interacter != null)
             {
@@ -107,7 +119,7 @@ namespace HauntedHunch
                 // If a non-valid square is chosen, do nothing
                 else
                 {
-                    // We explicitly kick other (curr == null) cases, don't merge 2 if statements.
+                    // Explicitly kick other (curr == null) cases, don't merge 2 if statements.
                 }
             }
             else // (cur != null)
@@ -158,9 +170,7 @@ namespace HauntedHunch
             bool whiteLotusIsOnBoard = false;
             bool blackLotusIsOnBoard = false;
             for (int i = 1; i <= nr; i++)
-            {
                 for (int j = 1; j <= nc; j++)
-                {
                     if (table[i, j].Piece != null && table[i, j].Piece is Lotus)
                     {
                         // If either lotus is removed, game ends
@@ -173,8 +183,6 @@ namespace HauntedHunch
                         if ((table[i, j].Piece.Player == PlayerType.White && i == nr) || (table[i, j].Piece.Player == PlayerType.Black && i == 1))
                             gameEnded = true;
                     }
-                }
-            }
             // If any lotus is removed, game ends.
             if (!whiteLotusIsOnBoard || !blackLotusIsOnBoard)
                 gameEnded = true;
@@ -239,22 +247,6 @@ namespace HauntedHunch
             {
                 for (int j = 1; j <= nc; j++) { }
                 //history[turn, i, j] = (Square)table[i, j].Clone();
-            }
-        }
-
-        /// <summary>
-        /// Gets executed when undo command is given
-        /// </summary>
-        public void UndoClicked()
-        {
-            do turn--;
-            while (history[turn, 1, 1] == null);
-
-
-            for (int i = 1; i <= nr; i++)
-            {
-                for (int j = 1; j <= nc; j++)
-                    table[i, j] = (Square)history[turn, i, j].Clone();
             }
         }
 

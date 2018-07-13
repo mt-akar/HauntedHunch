@@ -50,7 +50,7 @@ namespace HauntedHunch
         public void SetImageAccordingToPiece()
         {
             Image = new BitmapImage(new Uri(@"Images/" + (piece == null ? "Transparent.png" :
-                (piece != null && piece.Revealed ? "" : "Hidden") + Piece.GetType().Name + Piece.Player.ToString() + ".png"), UriKind.Relative));
+                (piece.Revealed ? "" : "Hidden") + Piece.GetType().Name + Piece.Player + ".png"), UriKind.Relative));
 
             OnPropertyChanged(nameof(Image));
         }
