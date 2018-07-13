@@ -94,7 +94,7 @@ namespace HauntedHunch
             // If we are at an in-between move of an ability with interacter
             if (interacter != null)
             {
-                if (sen.BackgroundColor.Color == BoardHelper.abilityWithInteracterColor)
+                if (sen.BackgroundColor == BoardHelper.abilityWithInteracterColor)
                 {
                     cur.Piece.AbilityWithInteracterStageTwo(table, ref interacter, ref sen, ref turn);
                     UpdateHistory();
@@ -125,7 +125,7 @@ namespace HauntedHunch
             else // (cur != null)
             {
                 // Ability Uno
-                if (sen.BackgroundColor.Color == BoardHelper.abilityUnoColor)
+                if (sen.BackgroundColor == BoardHelper.abilityUnoColor)
                 {
                     cur.Piece.AbilityUno(table, ref turn);
                     UpdateHistory();
@@ -135,13 +135,13 @@ namespace HauntedHunch
                 }
 
                 // Ability With Interacter
-                else if (sen.BackgroundColor.Color == BoardHelper.abilityWithInteracterColor)
+                else if (sen.BackgroundColor == BoardHelper.abilityWithInteracterColor)
                 {
                     interacter = cur.Piece.AbilityWithInteracterStageOne(table, ref sen);
                 }
 
                 // Standart Move
-                else if (sen.BackgroundColor.Color == BoardHelper.standartMoveColor && cur != sen)
+                else if (sen.BackgroundColor == BoardHelper.standartMoveColor && cur != sen)
                 {
                     cur.Piece.Move(table, sen.Row, sen.Column, ref turn);
                     UpdateHistory();
@@ -259,7 +259,7 @@ namespace HauntedHunch
             {
                 for (int j = 1; j <= nc; j++)
                 {
-                    table[i, j].BackgroundColor.Color = BoardHelper.DefaultColor(i, j);
+                    table[i, j].BackgroundColor = BoardHelper.DefaultColor(i, j);
                 }
             }
         }

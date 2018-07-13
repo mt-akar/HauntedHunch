@@ -10,7 +10,7 @@
         override public void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
-            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
+            table[Row, Column].BackgroundColor = BoardHelper.standartMoveColor;
 
             // A Freezer can be frozen(as a state) but doesn't get effected by it.
 
@@ -20,7 +20,7 @@
                 if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
+                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor = BoardHelper.standartMoveColor;
                 }
             }
         }

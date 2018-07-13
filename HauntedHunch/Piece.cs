@@ -125,11 +125,11 @@ namespace HauntedHunch
         // Paint necessary squares to default color
         protected static void PaintToDefault(Square[,] table, int row, int column, int[,] range)
         {
-            table[row, column].BackgroundColor.Color = BoardHelper.DefaultColor(row, column);
+            table[row, column].BackgroundColor = BoardHelper.DefaultColor(row, column);
             for (int i = 0; i < range.Length / 2; i++)
             {
                 if (row + range[i, 0] <= nr && row + range[i, 0] >= 1 && column + range[i, 1] <= nc && column + range[i, 1] >= 1)
-                    table[row + range[i, 0], column + range[i, 1]].BackgroundColor.Color = BoardHelper.DefaultColor(row + range[i, 0], column + range[i, 1]);
+                    table[row + range[i, 0], column + range[i, 1]].BackgroundColor = BoardHelper.DefaultColor(row + range[i, 0], column + range[i, 1]);
             }
         }
 

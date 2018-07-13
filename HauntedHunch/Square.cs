@@ -10,10 +10,19 @@ namespace HauntedHunch
         #region Public Properties
 
         public int Row { get; }
+
         public int Column { get; }
-        public SolidColorBrush BackgroundColor { get; }
-        public Piece PsuedoPiece { get; set; }
-        public ImageSource Image { get; private set; }
+
+        Color backgroundColor;
+        public Color BackgroundColor
+        {
+            get => backgroundColor;
+            set
+            {
+                backgroundColor = value;
+                OnPropertyChanged(nameof(BackgroundColor));
+            }
+        }
 
         Piece piece;
         public Piece Piece
@@ -31,6 +40,19 @@ namespace HauntedHunch
             }
         }
 
+        public Piece PsuedoPiece { get; set; }
+
+        ImageSource image;
+        public ImageSource Image
+        {
+            get => image;
+            private set
+            {
+                image = value;
+                OnPropertyChanged(nameof(Image));
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -40,7 +62,7 @@ namespace HauntedHunch
             Row = r;
             Column = c;
             Piece = p;
-            BackgroundColor = new SolidColorBrush(/*BackgroundColor.Color = */ BoardHelper.DefaultColor(Row, Column));
+            backgroundColor = BoardHelper.DefaultColor(Row, Column);
         }
 
         #endregion
@@ -51,8 +73,6 @@ namespace HauntedHunch
         {
             Image = new BitmapImage(new Uri(@"Images/" + (piece == null ? "Transparent.png" :
                 (piece.Revealed ? "" : "Hidden") + Piece.GetType().Name + Piece.Player + ".png"), UriKind.Relative));
-
-            OnPropertyChanged(nameof(Image));
         }
 
         #endregion

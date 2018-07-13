@@ -13,7 +13,7 @@ namespace HauntedHunch
         public override void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
-            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
+            table[Row, Column].BackgroundColor = BoardHelper.standartMoveColor;
 
             // Frozen check
             if (IsFrozen(table, Row, Column)) return;
@@ -33,7 +33,7 @@ namespace HauntedHunch
                     // psuedo piece
                     table[Row + l[i, 0], Column + l[i, 1]].Piece is InnKeeper))
                 {
-                    table[Row + l[i, 0], Column + l[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
+                    table[Row + l[i, 0], Column + l[i, 1]].BackgroundColor = BoardHelper.standartMoveColor;
                 }
             }
         }

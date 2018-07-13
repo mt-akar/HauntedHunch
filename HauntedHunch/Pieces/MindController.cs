@@ -10,7 +10,7 @@
         override public void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
-            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
+            table[Row, Column].BackgroundColor = BoardHelper.standartMoveColor;
 
             for (int i = 0; i < 4; i++)
             {
@@ -23,7 +23,7 @@
                     // psuedo piece
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
+                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor = BoardHelper.standartMoveColor;
                 }
             }
         }

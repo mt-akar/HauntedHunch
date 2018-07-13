@@ -12,7 +12,7 @@ namespace HauntedHunch
         public override void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
-            table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
+            table[Row, Column].BackgroundColor = BoardHelper.standartMoveColor;
 
             // Frozen check
             if (IsFrozen(table, Row, Column)) return;
@@ -23,7 +23,7 @@ namespace HauntedHunch
                 if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.standartMoveColor;
+                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor = BoardHelper.standartMoveColor;
                 }
             }
 
@@ -44,7 +44,7 @@ namespace HauntedHunch
                     table[Row + b[i, 0], Column + b[i, 1]].Piece != table[Row + b[i, 0], Column + b[i, 1]].PsuedoPiece &&
                     (table[Row + b[i, 2], Column + b[i, 3]].Piece == null || table[Row + b[i, 2], Column + b[i, 3]].Piece == table[Row + b[i, 2], Column + b[i, 3]].PsuedoPiece))
                 {
-                    table[Row + b[i, 0], Column + b[i, 1]].BackgroundColor.Color = BoardHelper.abilityWithInteracterColor;
+                    table[Row + b[i, 0], Column + b[i, 1]].BackgroundColor = BoardHelper.abilityWithInteracterColor;
                 }
             }
         }
@@ -64,8 +64,8 @@ namespace HauntedHunch
         // Intermediate step. Paint second step squares. Returns interacter's square.
         public override Square AbilityWithInteracterStageOne(Square[,] table, ref Square sen)
         {
-            table[Row, Column].BackgroundColor.Color = BoardHelper.DefaultColor(Row, Column);
-            sen.BackgroundColor.Color = BoardHelper.DefaultColor(sen.Row, sen.Column);
+            table[Row, Column].BackgroundColor = BoardHelper.DefaultColor(Row, Column);
+            sen.BackgroundColor = BoardHelper.DefaultColor(sen.Row, sen.Column);
 
             for (int i = 0; i < 4; i++)
             {
@@ -73,13 +73,13 @@ namespace HauntedHunch
                 if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 &&
                     (table[Row + e[i, 0], Column + e[i, 1]].Piece == null || table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor.Color = BoardHelper.abilityWithInteracterColor;
+                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor = BoardHelper.abilityWithInteracterColor;
                 }
                 // For push, in bounds & (empty square | psuedo piece)
                 if (sen.Row + e[i, 0] <= nr && sen.Row + e[i, 0] >= 1 && sen.Column + e[i, 1] <= nc && sen.Column + e[i, 1] >= 1 &&
                     (table[sen.Row + e[i, 0], sen.Column + e[i, 1]].Piece == null || table[sen.Row + e[i, 0], sen.Column + e[i, 1]].Piece == table[sen.Row + e[i, 0], sen.Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[sen.Row + e[i, 0], sen.Column + e[i, 1]].BackgroundColor.Color = BoardHelper.abilityWithInteracterColor;
+                    table[sen.Row + e[i, 0], sen.Column + e[i, 1]].BackgroundColor = BoardHelper.abilityWithInteracterColor;
                 }
             }
             return sen;
