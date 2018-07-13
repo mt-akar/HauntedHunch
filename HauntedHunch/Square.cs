@@ -57,11 +57,12 @@ namespace HauntedHunch
 
         #region Constructor
 
-        public Square(int r, int c, Piece p)
+        public Square(int r, int c, Piece p, Piece ps)
         {
             Row = r;
             Column = c;
             Piece = p;
+            PsuedoPiece = ps;
             backgroundColor = BoardHelper.DefaultColor(Row, Column);
         }
 
@@ -87,7 +88,7 @@ namespace HauntedHunch
 
         #region IClonable
 
-        public object Clone() => new Square(Row, Column, (Piece)Piece?.Clone());
+        public object Clone() => new Square(Row, Column, (Piece)Piece?.Clone(), (Piece)PsuedoPiece?.Clone());
 
         #endregion
     }

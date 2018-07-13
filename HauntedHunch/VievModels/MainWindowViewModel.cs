@@ -47,31 +47,31 @@ namespace HauntedHunch
             {
                 for (int j = 1; j <= nc; j++)
                 {
-                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
-                    else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White));
-                    else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.White));
-                    else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.White));
-                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.White));
-                    else if (i == 1 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
-                    else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.White));
-                    else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.White));
-                    else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.White));
-                    else if (i == 2 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.White)); table[i, j].PsuedoPiece = table[i, j].Piece; }
-                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.White));
-                    else if (i == 2 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White));
-                    else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 4) { table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.Black)); table[i, j].PsuedoPiece = table[i, j].Piece; }
-                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black));
-                    else table[i, j] = new Square(i, j, null);
+                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White), null);
+                    else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White), null);
+                    else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.White), null);
+                    else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.White), null);
+                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.White), null);
+                    else if (i == 1 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White), null);
+                    else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.White), null);
+                    else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.White), null);
+                    else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.White), null);
+                    else if (i == 2 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.White), new InnKeeper(i, j, PlayerType.White));
+                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.White), null);
+                    else if (i == 2 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White), null);
+                    else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black), null);
+                    else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.Black), null);
+                    else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.Black), null);
+                    else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.Black), null);
+                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.Black), null);
+                    else if (i == 7 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black), null);
+                    else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.Black), null);
+                    else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.Black), null);
+                    else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.Black), null);
+                    else if (i == 6 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.Black), new InnKeeper(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.Black), null);
+                    else if (i == 6 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black), null);
+                    else table[i, j] = new Square(i, j, null, null);
                 }
             } // Set up the initial board position.
 
@@ -171,18 +171,19 @@ namespace HauntedHunch
             bool blackLotusIsOnBoard = false;
             for (int i = 1; i <= nr; i++)
                 for (int j = 1; j <= nc; j++)
-                    if (table[i, j].Piece != null && table[i, j].Piece is Lotus)
-                    {
-                        // If either lotus is removed, game ends
-                        if (table[i, j].Piece.Player == PlayerType.White)
-                            whiteLotusIsOnBoard = true;
-                        else
-                            blackLotusIsOnBoard = true;
+                {
+                    if (table[i, j].Piece == null || !(table[i, j].Piece is Lotus)) continue;
 
-                        // If a lotus reaches the last row for either player, game ends.
-                        if ((table[i, j].Piece.Player == PlayerType.White && i == nr) || (table[i, j].Piece.Player == PlayerType.Black && i == 1))
-                            gameEnded = true;
-                    }
+                    // If either lotus is on the board
+                    if (table[i, j].Piece.Player == PlayerType.White)
+                        whiteLotusIsOnBoard = true;
+                    else
+                        blackLotusIsOnBoard = true;
+
+                    // If a lotus reaches the last row for either player, game ends.
+                    if (table[i, j].Piece.Player == PlayerType.White && i == nr || table[i, j].Piece.Player == PlayerType.Black && i == 1)
+                        gameEnded = true;
+                }
             // If any lotus is removed, game ends.
             if (!whiteLotusIsOnBoard || !blackLotusIsOnBoard)
                 gameEnded = true;

@@ -26,8 +26,8 @@ namespace HauntedHunch
         /// </summary>
         public static int[,] j { get; } = { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 } };
 
-        protected static int nr = 7;
-        protected static int nc = 6;
+        protected const int nr = 7;
+        protected const int nc = 6;
 
         #endregion
 

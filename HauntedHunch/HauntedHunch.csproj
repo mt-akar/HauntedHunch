@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="ActivatableOnlyOnceCommand.cs" />
     <Compile Include="BoardHelper.cs" />
+    <Compile Include="Converters\BaseMarkupExtension.cs" />
     <Compile Include="Converters\ColorToBrush.cs" />
     <Compile Include="Pieces\Boomer.cs" />
     <Compile Include="Pieces\Converter.cs" />
