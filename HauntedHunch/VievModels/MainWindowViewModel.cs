@@ -7,21 +7,25 @@ namespace HauntedHunch
     {
         #region Variables and Properties
 
-        private static int nc = 6; // Number of columns
-        private static int nr = 7; // Number of rows
+        const int nc = 6; // Number of columns
+        const int nr = 7; // Number of rows
 
-        public Square[,] table; // Game board
-        public Square[,,] history; // Game history, for undo
-        public Square cur; // Current moving piece
-        public Square interacter; // Interacting piece in moves where there is more than one piece involved
-        public int turn;
-        public bool placementStage;
+        public Square[,] table = new Square[nr + 1, nc + 1]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
+        Square[,,] history = new Square[1000, nr + 1, nc + 1]; // Game history, for undo
+        Square cur; // Current moving piece
+        Square interacter; // Interacting piece in moves where there is more than one piece involved
+        int turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
+        bool placementStage = true;
         public bool gameEnded;
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public bool turnConstraintsEnabled;
-        ICommand DisableTurnConstraintsCommand { get; set; }
+        public bool turnConstraintsEnabled = true;
+        ICommand DisableTurnConstraintsCommand => new RelayCommand(() => 
+        {
+            turnConstraintsEnabled = false;
+            Console.WriteLine("Command");
+        });
 
         #endregion
 
@@ -29,7 +33,6 @@ namespace HauntedHunch
 
         public MainWindowViewModel()
         {
-            table = new Square[nr + 1, nc + 1]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
             for (int i = 1; i <= nr; i++)
             {
                 for (int j = 1; j <= nc; j++)
@@ -62,17 +65,7 @@ namespace HauntedHunch
                 }
             } // Set up the initial board position.
 
-            history = new Square[1000, nr + 1, nc + 1];
             UpdateHistory();
-
-            cur = null;
-            interacter = null;
-            turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
-            placementStage = true;
-            gameEnded = false;
-            turnConstraintsEnabled = true;
-
-            DisableTurnConstraintsCommand = new RelayCommand(DisableTurnConstraints);
         }
 
         #endregion
@@ -245,7 +238,7 @@ namespace HauntedHunch
             for (int i = 1; i <= nr; i++)
             {
                 for (int j = 1; j <= nc; j++) { }
-                    //history[turn, i, j] = (Square)table[i, j].Clone();
+                //history[turn, i, j] = (Square)table[i, j].Clone();
             }
         }
 
@@ -280,14 +273,5 @@ namespace HauntedHunch
         }
 
         #endregion
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void DisableTurnConstraints()
-        {
-            turnConstraintsEnabled = false;
-            Console.WriteLine("activated");
-        }
     }
 }

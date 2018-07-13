@@ -8,9 +8,9 @@ namespace HauntedHunch
     /// </summary>
     public class RelayCommand : ICommand
     {
-        private Action action;
+        Action action;
 
-        public event EventHandler CanExecuteChanged = (sender, e) => { };
+        public event EventHandler CanExecuteChanged;
 
         public RelayCommand(Action act)
         {

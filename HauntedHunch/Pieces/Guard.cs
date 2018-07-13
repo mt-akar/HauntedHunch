@@ -7,7 +7,7 @@
     {
         public Guard(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        override public void PossibleMoves(Square[,] table, int turn)
+        public override void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].BackgroundColor.Color = BoardHelper.standartMoveColor;
@@ -64,7 +64,7 @@
 
         #region IClonable
 
-        public override object Clone() => new Guard(Row, Column, Player);
+        public override object Clone() => new Guard(Row, Column, Player) { Revealed = Revealed };
 
         #endregion
     }

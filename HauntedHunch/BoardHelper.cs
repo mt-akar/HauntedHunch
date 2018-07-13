@@ -4,9 +4,9 @@ namespace HauntedHunch
 {
     public static class BoardHelper
     {
-        private static Color trapSquareColor = Color.FromArgb(255, 255, 200, 200);
-        private static Color standartWhite = Color.FromArgb(255, 255, 255, 255);
-        private static Color standartBlack = Color.FromArgb(255, 240, 240, 240);
+        static Color trapSquareColor = Color.FromArgb(255, 255, 200, 200);
+        static Color standartWhite = Color.FromArgb(255, 255, 255, 255);
+        static Color standartBlack = Color.FromArgb(255, 240, 240, 240);
         
         public static Color standartMoveColor = Color.FromArgb(255, 204, 255, 220);
         public static Color abilityUnoColor = Color.FromArgb(255, 100, 100, 100);
@@ -19,8 +19,7 @@ namespace HauntedHunch
                 return trapSquareColor;
 
             // Rest of the board is white/black
-            else
-                return ((row + column) % 2 == 0) ? standartWhite : standartBlack;
+            return ((row + column) % 2 == 0) ? standartWhite : standartBlack;
         }
     }
 }

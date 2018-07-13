@@ -15,7 +15,7 @@ namespace HauntedHunch
         public Piece PsuedoPiece { get; set; }
         public ImageSource Image { get; private set; }
 
-        private Piece piece;
+        Piece piece;
         public Piece Piece
         {
             get => piece;
@@ -67,9 +67,8 @@ namespace HauntedHunch
 
         #region IClonable
 
-        public object Clone() => new Square(Row, Column, Piece == null ? null : (Piece)Piece.Clone());
+        public object Clone() => new Square(Row, Column, (Piece)Piece?.Clone());
 
         #endregion
-
     }
 }

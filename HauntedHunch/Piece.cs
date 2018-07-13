@@ -9,22 +9,22 @@ namespace HauntedHunch
         /// <summary>
         /// Edge adjacency range
         /// </summary>
-        public static int[,] e { get; } = new int[4, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+        public static int[,] e { get; } = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
         /// <summary>
         /// 2-square Rook range
         /// </summary>
-        public static int[,] l { get; } = new int[8, 2] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
+        public static int[,] l { get; } = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { 2, 0 }, { 0, 2 }, { -2, 0 }, { 0, -2 } };
 
         /// <summary>
         /// 2-square Bishop range
         /// </summary>
-        public static int[,] c { get; } = new int[8, 2] { { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 }, { 2, 2 }, { -2, 2 }, { -2, -2 }, { 2, -2 } };
+        public static int[,] c { get; } = { { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 }, { 2, 2 }, { -2, 2 }, { -2, -2 }, { 2, -2 } };
 
         /// <summary>
         /// Knight range
         /// </summary>
-        public static int[,] j { get; } = new int[8, 2] { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 } };
+        public static int[,] j { get; } = { { 2, 1 }, { 1, 2 }, { -1, 2 }, { -2, 1 }, { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 } };
 
         protected static int nr = 7;
         protected static int nc = 6;
@@ -33,15 +33,33 @@ namespace HauntedHunch
 
         #region Public Properties
 
+        /// <summary>
+        /// Row coordinate of the piece
+        /// </summary>
         public int Row { get; set; }
+        /// <summary>
+        /// Column coordinate of the piece
+        /// </summary>
         public int Column { get; set; }
+        /// <summary>
+        /// Owner player of the piece
+        /// </summary>
         public PlayerType Player { get; set; }
+        /// <summary>
+        /// Wheather the piece is revelaed to opponent
+        /// </summary>
         public bool Revealed { get; set; } // Disguise mechanic
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="r">Row</param>
+        /// <param name="c">Column</param>
+        /// <param name="p">Player</param>
         protected Piece(int r, int c, PlayerType p)
         {
             Row = r;
@@ -54,8 +72,20 @@ namespace HauntedHunch
 
         #region Abstract Move Methods
 
+        /// <summary>
+        /// Paints the possible movable squares on the board
+        /// </summary>
+        /// <param name="table">Game board to be updated</param>
+        /// <param name="turn">Turn</param>
         public abstract void PossibleMoves(Square[,] table, int turn);
 
+        /// <summary>
+        /// Making the actual move
+        /// </summary>
+        /// <param name="table">Game board to be updated</param>
+        /// <param name="to_row">Destination row</param>
+        /// <param name="to_column">Destination column</param>
+        /// <param name="turn">Turn</param>
         public abstract void Move(Square[,] table, int to_row, int to_column, ref int turn);
 
         #endregion
@@ -63,10 +93,29 @@ namespace HauntedHunch
         #region Virtual Abilities
 
         // Abilities should be overritten by the class which wants to utilize them.
+
+        /// <summary>
+        /// Any ability that can be used without the interaction of another piece.
+        /// </summary>
+        /// <param name="table">Game board to be updated</param>
+        /// <param name="turn">Turn</param>
         public virtual void AbilityUno(Square[,] table, ref int turn) => throw new Exception("Error: Ability 1 disfunction");
 
+        /// <summary>
+        /// Any ability that involves an interacter piece
+        /// </summary>
+        /// <param name="table">Game board to be updated</param>
+        /// <param name="turn">Turn</param>
+        /// <returns></returns>
         public virtual Square AbilityWithInteracterStageOne(Square[,] table, ref Square sen) => throw new Exception("Error: Ability 2 disfunction");
 
+        /// <summary>
+        /// Stage 2 of <see cref="AbilityWithInteracterStageOne"/>
+        /// </summary>
+        /// <param name="table">Game board to be updated</param>
+        /// <param name="interacter">Interacter piece</param>
+        /// <param name="sen">Moving piece</param>
+        /// <param name="turn">Turn</param>
         public virtual void AbilityWithInteracterStageTwo(Square[,] table, ref Square interacter, ref Square sen, ref int turn) => throw new Exception("Error: Ability 2 disfunction");
 
         #endregion
@@ -124,6 +173,10 @@ namespace HauntedHunch
 
         #region IClonable
 
+        /// <summary>
+        /// IClonable method to create a deep copy of an object.
+        /// </summary>
+        /// <returns>A clone of the piece</returns>
         public abstract object Clone();
 
         #endregion

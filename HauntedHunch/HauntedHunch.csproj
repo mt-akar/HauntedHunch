@@ -69,6 +69,7 @@
     <Compile Include="Pieces\MindController.cs" />
     <Compile Include="Pieces\Ranger.cs" />
     <Compile Include="PlayerType.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="VievModels\MainWindowViewModel.cs" />

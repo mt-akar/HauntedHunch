@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 // Always (row, column)
 // Always modify image before piece because changing piece can change image. Look: Square.cs(*675)
@@ -8,14 +9,14 @@
 // TODO: Freeze mechanic rework
 // TODO: Mindcontroller & Freezer interaction
 
-// TODO: No legal move / pass
+// TODO: No legal move / pass turn
 // TODO: Undo
 
 namespace HauntedHunch
 {
     public partial class MainWindow : Window
     {
-        MainWindowViewModel d = new MainWindowViewModel();
+        MainWindowViewModel d = new MainWindowViewModel(); // I want to remove this
 
         public MainWindow()
         {
@@ -73,7 +74,7 @@ namespace HauntedHunch
             Left = (SystemParameters.PrimaryScreenWidth - Width) / 10;
         }
 
-        private void LMDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        void LMDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (d.gameEnded) return;
 
@@ -84,7 +85,7 @@ namespace HauntedHunch
         }
 
 
-        private void UndoClicked(object sender, RoutedEventArgs e)
+        void UndoClicked(object sender, RoutedEventArgs e)
         {
             d.UndoClicked();
         }
@@ -92,9 +93,10 @@ namespace HauntedHunch
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void disableTurnConstraints(object sender, RoutedEventArgs e)
+        void disableTurnConstraints(object sender, RoutedEventArgs e)
         {
             d.turnConstraintsEnabled = false;
+            Console.WriteLine("Click");
         }
     }
 }
