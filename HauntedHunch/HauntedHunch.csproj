@@ -56,10 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ActivatableOnlyOnceCommand.cs" />
     <Compile Include="BoardHelper.cs" />
-    <Compile Include="Converters\BaseMarkupExtension.cs" />
-    <Compile Include="Converters\ColorToBrush.cs" />
+    <Compile Include="Functionality\BaseMarkupExtension.cs" />
+    <Compile Include="Functionality\ColorToBrush.cs" />
     <Compile Include="Pieces\Boomer.cs" />
     <Compile Include="Pieces\Converter.cs" />
     <Compile Include="Pieces\Courier.cs" />
@@ -72,9 +71,9 @@
     <Compile Include="Pieces\Ranger.cs" />
     <Compile Include="PlayerType.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="RelayCommand.cs" />
+    <Compile Include="Functionality\RelayCommand.cs" />
     <Compile Include="Square.cs" />
-    <Compile Include="VievModels\MainWindowViewModel.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -199,6 +198,9 @@
     <Resource Include="Images\HiddenMindControllerWhite.png" />
     <Resource Include="Images\HiddenRangerWhite.png" />
     <Resource Include="Images\HiddenRunnerWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="VievModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
