@@ -7,16 +7,15 @@
     {
         public Runner(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        override public void PossibleMoves(Square[,] table, int turn)
+        public override void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
-            table[Row, Column].BackgroundColor = BoardHelper.standartMoveColor;
+            table[Row, Column].State = SquareState.ChosenPiece;
 
             // Frozen check
             if (IsFrozen(table, Row, Column)) return;
 
             for (int i = 0; i < 8; i++)
-            {
                 // In bounds & (empty square | opponenet piece | psuedo piece)
                 if (Row + j[i, 0] <= nr && Row + j[i, 0] >= 1 && Column + j[i, 1] <= nc && Column + j[i, 1] >= 1 &&
 
@@ -29,42 +28,44 @@
                     // psuedo piece
                     table[Row + j[i, 0], Column + j[i, 1]].Piece == table[Row + j[i, 0], Column + j[i, 1]].PsuedoPiece))
                 {
-                    table[Row + j[i, 0], Column + j[i, 1]].BackgroundColor = BoardHelper.standartMoveColor;
+                    table[Row + j[i, 0], Column + j[i, 1]].State = SquareState.Moveable;
                 }
-            }
         }
 
-        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
         {
-            PaintToDefault(table, Row, Column, j);
+            ClearSquareStates(table, Row, Column, j);
 
             Revealed = true;
 
-            if (table[to_row, to_column].Piece == null || table[to_row, to_column].Piece == table[to_row, to_column].PsuedoPiece) // Move
+            if (IsHiddenlyFrozen(table, Row, Column)) return;
+
+            // Move
+            if (table[toRow, toColumn].Piece == null || table[toRow, toColumn].Piece == table[toRow, toColumn].PsuedoPiece)
             {
                 turn++;
             }
-            else // Capture
+
+            // Capture
+            else if (table[toRow, toColumn].Piece is MindController)
+            {
+                turn += 4;
+                Player = 1 - Player;
+            }
+            else
             {
                 turn += 2;
-
-                if (table[to_row, to_column].Piece is MindController)
-                {
-                    turn += 2;
-
-                    Player = 1 - Player;
-                }
             }
-            
-            table[to_row, to_column].Piece = table[Row, Column].Piece;
+
+            table[toRow, toColumn].Piece = table[Row, Column].Piece;
             table[Row, Column].Piece = null;
-            Row = to_row;
-            Column = to_column;
+            Row = toRow;
+            Column = toColumn;
         }
 
         #region IClonable
 
-        public override object Clone() => new Runner(Row, Column, Player);
+        public override object Clone() => new Runner(Row, Column, Player) { Revealed = Revealed };
 
         #endregion
     }

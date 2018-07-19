@@ -42,7 +42,7 @@
 
                 <Grid.Resources>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="{Binding BackgroundColor, Converter={local:ColorToBrush}}"/>
+                        <Setter Property="Background" Value="{Binding State, Converter={local:SSTSCBVC}}"/>
                     </Style>
                     <Style TargetType="Image">
                         <Setter Property="Source" Value="{Binding Image}"/>

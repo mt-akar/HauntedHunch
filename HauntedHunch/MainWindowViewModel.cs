@@ -16,25 +16,25 @@ namespace HauntedHunch
         int turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
         bool placementStage = true;
         public bool gameEnded;
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////// Design time attribute, remove later /////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public bool turnConstraintsEnabled = true;
         public ICommand DisableTurnConstraintsCommand => new RelayCommand(() => turnConstraintsEnabled = false);
         public ICommand UndoCommand => new RelayCommand(() =>
         {
-            /*
-            do turn--;
-            while (history[turn, 1, 1] == null);
-
+            if (turn == 0) return;
 
             for (int i = 1; i <= nr; i++)
-            {
                 for (int j = 1; j <= nc; j++)
-                    table[i, j] = (Square)history[turn, i, j].Clone();
-            }
-            */
+                    history[turn, i, j] = null;
+
+            do { turn--; }
+            while (history[turn, 1, 1] == null);
+
+            for (int i = 1; i <= nr; i++)
+                for (int j = 1; j <= nc; j++)
+                {
+                    table[i, j].PsuedoPiece = history[turn, i, j].PsuedoPiece;
+                    table[i, j].Piece = history[turn, i, j].Piece;
+                }
         });
 
         #endregion
@@ -47,31 +47,31 @@ namespace HauntedHunch
             {
                 for (int j = 1; j <= nc; j++)
                 {
-                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White), null);
-                    else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White), null);
-                    else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.White), null);
-                    else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.White), null);
-                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.White), null);
-                    else if (i == 1 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White), null);
-                    else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.White), null);
-                    else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.White), null);
-                    else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.White), null);
-                    else if (i == 2 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.White), new InnKeeper(i, j, PlayerType.White));
-                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.White), null);
-                    else if (i == 2 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White), null);
-                    else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black), null);
-                    else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.Black), null);
-                    else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.Black), null);
-                    else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.Black), null);
-                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.Black), null);
-                    else if (i == 7 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black), null);
-                    else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.Black), null);
-                    else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.Black), null);
-                    else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.Black), null);
-                    else if (i == 6 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.Black), new InnKeeper(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.Black), null);
-                    else if (i == 6 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black), null);
-                    else table[i, j] = new Square(i, j, null, null);
+                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
+                    else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White));
+                    else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.White));
+                    else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.White));
+                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.White));
+                    else if (i == 1 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
+                    else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.White));
+                    else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.White));
+                    else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.White));
+                    else if (i == 2 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.White));
+                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.White));
+                    else if (i == 2 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White));
+                    else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black));
+                    else table[i, j] = new Square(i, j);
                 }
             } // Set up the initial board position.
 
@@ -94,9 +94,9 @@ namespace HauntedHunch
             // If we are at an in-between move of an ability with interacter
             if (interacter != null)
             {
-                if (sen.BackgroundColor == BoardHelper.abilityWithInteracterColor)
+                if (sen.State == SquareState.AbilityWithInteracterable)
                 {
-                    cur.Piece.AbilityWithInteracterStageTwo(table, ref interacter, ref sen, ref turn);
+                    cur.Piece.AbilityWithInteracterStageTwo(table, interacter, sen, ref turn);
                     UpdateHistory();
                     UpdatePits();
                 }
@@ -111,7 +111,7 @@ namespace HauntedHunch
             {
                 // If a valid piece is chosen, paint the possible moves for preview.
                 if (sen.Piece != null && (!turnConstraintsEnabled ||
-                    ((sen.Piece.Player == PlayerType.White && (turn % 4 == 0 || turn % 4 == 3)) || (sen.Piece.Player == PlayerType.Black && (turn % 4 == 1 || turn % 4 == 2)))))
+                    sen.Piece.Player == PlayerType.White && (turn % 4 == 0 || turn % 4 == 3) || sen.Piece.Player == PlayerType.Black && (turn % 4 == 1 || turn % 4 == 2)))
                 {
                     sen.Piece.PossibleMoves(table, turn);
                     cur = sen;
@@ -125,7 +125,7 @@ namespace HauntedHunch
             else // (cur != null)
             {
                 // Ability Uno
-                if (sen.BackgroundColor == BoardHelper.abilityUnoColor)
+                if (sen.State == SquareState.AbilityUnoable)
                 {
                     cur.Piece.AbilityUno(table, ref turn);
                     UpdateHistory();
@@ -135,13 +135,20 @@ namespace HauntedHunch
                 }
 
                 // Ability With Interacter
-                else if (sen.BackgroundColor == BoardHelper.abilityWithInteracterColor)
+                else if (sen.State == SquareState.AbilityWithInteracterable)
                 {
-                    interacter = cur.Piece.AbilityWithInteracterStageOne(table, ref sen);
+                    interacter = cur.Piece.AbilityWithInteracterStageOne(table, sen);
+
+                    // If the piece is hiddenly frozen, abilty with interacter stage one returns null. Then cur should also be null.
+                    if (interacter == null)
+                        cur = null;
+
+                    // Dont check for gameEnded
+                    return;
                 }
 
-                // Standart Move
-                else if (sen.BackgroundColor == BoardHelper.standartMoveColor && cur != sen)
+                // None Move
+                else if (sen.State == SquareState.Moveable && cur != sen)
                 {
                     cur.Piece.Move(table, sen.Row, sen.Column, ref turn);
                     UpdateHistory();
@@ -245,10 +252,8 @@ namespace HauntedHunch
         public void UpdateHistory()
         {
             for (int i = 1; i <= nr; i++)
-            {
-                for (int j = 1; j <= nc; j++) { }
-                //history[turn, i, j] = (Square)table[i, j].Clone();
-            }
+                for (int j = 1; j <= nc; j++)
+                    history[turn, i, j] = (Square)table[i, j].Clone();
         }
 
         /// <summary>
@@ -257,12 +262,8 @@ namespace HauntedHunch
         public void Repaint()
         {
             for (int i = 1; i <= nr; i++)
-            {
                 for (int j = 1; j <= nc; j++)
-                {
-                    table[i, j].BackgroundColor = BoardHelper.DefaultColor(i, j);
-                }
-            }
+                    table[i, j].State = SquareState.None;
         }
 
         #endregion

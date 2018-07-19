@@ -1,6 +1,6 @@
 ﻿/* MIT License
 
-Copyright (c) 2016 JetBrains http://www.jetbrains.com
+Copyright (u) 2016 JetBrains http://www.jetbrains.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,8 @@ using System;
 namespace HauntedHunch.Annotations
 {
   /// <summary>
-  /// Indicates that the value of the marked element could be <c>null</c> sometimes,
-  /// so the check for <c>null</c> is necessary before its usage.
+  /// Indicates that the value of the marked element could be <u>null</u> sometimes,
+  /// so the check for <u>null</u> is necessary before its usage.
   /// </summary>
   /// <example><code>
   /// [CanBeNull] object Test() => null;
@@ -51,7 +51,7 @@ namespace HauntedHunch.Annotations
   public sealed class CanBeNullAttribute : Attribute { }
 
   /// <summary>
-  /// Indicates that the value of the marked element could never be <c>null</c>.
+  /// Indicates that the value of the marked element could never be <u>null</u>.
   /// </summary>
   /// <example><code>
   /// [NotNull] object Foo() {
@@ -146,17 +146,17 @@ namespace HauntedHunch.Annotations
 
   /// <summary>
   /// Indicates that the method is contained in a type that implements
-  /// <c>System.ComponentModel.INotifyPropertyChanged</c> interface and this method
+  /// <u>System.ComponentModel.INotifyPropertyChanged</u> interface and this method
   /// is used to notify that some property value changed.
   /// </summary>
   /// <remarks>
   /// The method should be non-static and conform to one of the supported signatures:
   /// <list>
-  /// <item><c>NotifyChanged(string)</c></item>
-  /// <item><c>NotifyChanged(params string[])</c></item>
-  /// <item><c>NotifyChanged{T}(Expression{Func{T}})</c></item>
-  /// <item><c>NotifyChanged{T,U}(Expression{Func{T,U}})</c></item>
-  /// <item><c>SetProperty{T}(ref T, T, string)</c></item>
+  /// <item><u>NotifyChanged(string)</u></item>
+  /// <item><u>NotifyChanged(params string[])</u></item>
+  /// <item><u>NotifyChanged{T}(Expression{Func{T}})</u></item>
+  /// <item><u>NotifyChanged{T,U}(Expression{Func{T,U}})</u></item>
+  /// <item><u>SetProperty{T}(ref T, T, string)</u></item>
   /// </list>
   /// </remarks>
   /// <example><code>
@@ -176,10 +176,10 @@ namespace HauntedHunch.Annotations
   /// </code>
   /// Examples of generated notifications:
   /// <list>
-  /// <item><c>NotifyChanged("Property")</c></item>
-  /// <item><c>NotifyChanged(() =&gt; Property)</c></item>
-  /// <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
-  /// <item><c>SetProperty(ref myField, value, "Property")</c></item>
+  /// <item><u>NotifyChanged("Property")</u></item>
+  /// <item><u>NotifyChanged(() =&gt; Property)</u></item>
+  /// <item><u>NotifyChanged((VM x) =&gt; x.Property)</u></item>
+  /// <item><u>SetProperty(ref myField, value, "Property")</u></item>
   /// </list>
   /// </example>
   [AttributeUsage(AttributeTargets.Method)]
@@ -207,10 +207,10 @@ namespace HauntedHunch.Annotations
   /// <item>Value    ::= true | false | null | notnull | canbenull</item>
   /// </list>
   /// If method has single input parameter, it's name could be omitted.<br/>
-  /// Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same) for method output
+  /// Using <u>halt</u> (or <u>void</u>/<u>nothing</u>, which is the same) for method output
   /// means that the methos doesn't return normally (throws or terminates the process).<br/>
-  /// Value <c>canbenull</c> is only applicable for output parameters.<br/>
-  /// You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute
+  /// Value <u>canbenull</u> is only applicable for output parameters.<br/>
+  /// You can use multiple <u>[ContractAnnotation]</u> for each FDT row, or use single attribute
   /// with rows separated by semicolon. There is no notion of order rows, all rows are checked
   /// for applicability and applied per each program state tracked by R# analysis.<br/>
   /// </syntax>
@@ -279,9 +279,9 @@ namespace HauntedHunch.Annotations
 
   /// <summary>
   /// Indicates that the value of the marked type (or its derivatives)
-  /// cannot be compared using '==' or '!=' operators and <c>Equals()</c>
+  /// cannot be compared using '==' or '!=' operators and <u>Equals()</u>
   /// should be used instead. However, using '==' or '!=' for comparison
-  /// with <c>null</c> is always permitted.
+  /// with <u>null</u> is always permitted.
   /// </summary>
   /// <example><code>
   /// [CannotApplyEqualityOperator]
@@ -436,7 +436,7 @@ namespace HauntedHunch.Annotations
 
   /// <summary>
   /// Indicates that a method does not make any observable state changes.
-  /// The same as <c>System.Diagnostics.Contracts.PureAttribute</c>.
+  /// The same as <u>System.Diagnostics.Contracts.PureAttribute</u>.
   /// </summary>
   /// <example><code>
   /// [Pure] int Multiply(int x, int y) => x * y;
@@ -651,7 +651,7 @@ namespace HauntedHunch.Annotations
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
   /// is an MVC action. If applied to a method, the MVC action name is calculated
   /// implicitly from the context. Use this attribute for custom wrappers similar to
-  /// <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>.
+  /// <u>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcActionAttribute : Attribute
@@ -669,7 +669,7 @@ namespace HauntedHunch.Annotations
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC area.
   /// Use this attribute for custom wrappers similar to
-  /// <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>.
+  /// <u>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcAreaAttribute : Attribute
@@ -688,7 +688,7 @@ namespace HauntedHunch.Annotations
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is
   /// an MVC controller. If applied to a method, the MVC controller name is calculated
   /// implicitly from the context. Use this attribute for custom wrappers similar to
-  /// <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>.
+  /// <u>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcControllerAttribute : Attribute
@@ -705,14 +705,14 @@ namespace HauntedHunch.Annotations
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC Master. Use this attribute
-  /// for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, String)</c>.
+  /// for custom wrappers similar to <u>System.Web.Mvc.Controller.View(String, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcMasterAttribute : Attribute { }
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC model type. Use this attribute
-  /// for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, Object)</c>.
+  /// for custom wrappers similar to <u>System.Web.Mvc.Controller.View(String, Object)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcModelTypeAttribute : Attribute { }
@@ -721,7 +721,7 @@ namespace HauntedHunch.Annotations
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC
   /// partial view. If applied to a method, the MVC partial view name is calculated implicitly
   /// from the context. Use this attribute for custom wrappers similar to
-  /// <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>.
+  /// <u>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcPartialViewAttribute : Attribute { }
@@ -735,7 +735,7 @@ namespace HauntedHunch.Annotations
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
   /// Use this attribute for custom wrappers similar to 
-  /// <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>.
+  /// <u>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcDisplayTemplateAttribute : Attribute { }
@@ -743,7 +743,7 @@ namespace HauntedHunch.Annotations
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
   /// Use this attribute for custom wrappers similar to
-  /// <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>.
+  /// <u>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcEditorTemplateAttribute : Attribute { }
@@ -751,7 +751,7 @@ namespace HauntedHunch.Annotations
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
   /// Use this attribute for custom wrappers similar to
-  /// <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>.
+  /// <u>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcTemplateAttribute : Attribute { }
@@ -760,7 +760,7 @@ namespace HauntedHunch.Annotations
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
   /// is an MVC view component. If applied to a method, the MVC view name is calculated implicitly
   /// from the context. Use this attribute for custom wrappers similar to
-  /// <c>System.Web.Mvc.Controller.View(Object)</c>.
+  /// <u>System.Web.Mvc.Controller.View(Object)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcViewAttribute : Attribute { }
@@ -820,7 +820,7 @@ namespace HauntedHunch.Annotations
   /// <summary>
   /// Razor attribute. Indicates that a parameter or a method is a Razor section.
   /// Use this attribute for custom wrappers similar to 
-  /// <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>.
+  /// <u>System.Web.WebPages.WebPageBase.RenderSection(String)</u>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class RazorSectionAttribute : Attribute { }
@@ -932,19 +932,19 @@ namespace HauntedHunch.Annotations
   public sealed class NoReorderAttribute : Attribute { }
 
   /// <summary>
-  /// XAML attribute. Indicates the type that has <c>ItemsSource</c> property and should be treated
-  /// as <c>ItemsControl</c>-derived type, to enable inner items <c>DataContext</c> type resolve.
+  /// XAML attribute. Indicates the type that has <u>ItemsSource</u> property and should be treated
+  /// as <u>ItemsControl</u>-derived type, to enable inner items <u>DataContext</u> type resolve.
   /// </summary>
   [AttributeUsage(AttributeTargets.Class)]
   public sealed class XamlItemsControlAttribute : Attribute { }
 
   /// <summary>
-  /// XAML attribute. Indicates the property of some <c>BindingBase</c>-derived type, that
-  /// is used to bind some item of <c>ItemsControl</c>-derived type. This annotation will
-  /// enable the <c>DataContext</c> type resolve for XAML bindings for such properties.
+  /// XAML attribute. Indicates the property of some <u>BindingBase</u>-derived type, that
+  /// is used to bind some item of <u>ItemsControl</u>-derived type. This annotation will
+  /// enable the <u>DataContext</u> type resolve for XAML bindings for such properties.
   /// </summary>
   /// <remarks>
-  /// Property should have the tree ancestor of the <c>ItemsControl</c> type or
+  /// Property should have the tree ancestor of the <u>ItemsControl</u> type or
   /// marked with the <see cref="XamlItemsControlAttribute"/> attribute.
   /// </remarks>
   [AttributeUsage(AttributeTargets.Property)]

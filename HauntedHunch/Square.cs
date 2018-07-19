@@ -13,14 +13,21 @@ namespace HauntedHunch
 
         public int Column { get; }
 
-        Color backgroundColor;
-        public Color BackgroundColor
+        /// <summary>
+        /// Defines visual look of the squre in game
+        /// </summary>
+        SquareState state;
+        public SquareState State
         {
-            get => backgroundColor;
+            get => state;
             set
             {
-                backgroundColor = value;
-                OnPropertyChanged(nameof(BackgroundColor));
+                if (value == SquareState.None)
+                    // Trap squares are redish, rest of the board is white/black
+                    state = (Row == 3 || Row == 5) && (Column == 2 || Column == 5) ? SquareState.Trap : (Row + Column) % 2 == 0 ? SquareState.White : SquareState.Black;
+                else
+                    state = value;
+                OnPropertyChanged(nameof(State));
             }
         }
 
@@ -33,15 +40,26 @@ namespace HauntedHunch
                 piece = value;
 
                 // If a piece moves away from on top of a psuedo piece, psuedo piece comes back.
+                // If you want to null both piece and psuedo piece, null psuedo piece first since you cannot null the piece that has a psuedo piece below it.
                 if (piece == null && PsuedoPiece != null)
                     piece = PsuedoPiece;
+
+                // If piece is psuedo enabled, set its psuedo piece to its piece
+                else if (piece is InnKeeper)
+                    PsuedoPiece = piece;
 
                 SetImageAccordingToPiece();
             }
         }
 
+        /// <summary>
+        /// The piece that can be under other pieces
+        /// </summary>
         public Piece PsuedoPiece { get; set; }
 
+        /// <summary>
+        /// Image source of the image of the active piece
+        /// </summary>
         ImageSource image;
         public ImageSource Image
         {
@@ -57,13 +75,12 @@ namespace HauntedHunch
 
         #region Constructor
 
-        public Square(int r, int c, Piece p, Piece ps)
+        public Square(int r, int c, Piece p = null)
         {
             Row = r;
             Column = c;
             Piece = p;
-            PsuedoPiece = ps;
-            backgroundColor = BoardHelper.DefaultColor(Row, Column);
+            State = SquareState.None;
         }
 
         #endregion
@@ -88,7 +105,7 @@ namespace HauntedHunch
 
         #region IClonable
 
-        public object Clone() => new Square(Row, Column, (Piece)Piece?.Clone(), (Piece)PsuedoPiece?.Clone());
+        public object Clone() => new Square(0, 0, (Piece)Piece?.Clone()) { PsuedoPiece = (Piece)PsuedoPiece?.Clone() };
 
         #endregion
     }

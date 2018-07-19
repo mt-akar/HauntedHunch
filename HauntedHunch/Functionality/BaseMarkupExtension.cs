@@ -4,7 +4,7 @@ using System.Windows.Markup;
 namespace HauntedHunch
 {
     public abstract class BaseMarkupExtension<TMarkupExtension> : MarkupExtension
-        where TMarkupExtension : class, new()
+        where TMarkupExtension : BaseMarkupExtension<TMarkupExtension>, new()
     {
         static TMarkupExtension Instance;
 

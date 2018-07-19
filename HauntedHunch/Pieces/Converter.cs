@@ -10,49 +10,54 @@
         public override void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
-            table[Row, Column].BackgroundColor = BoardHelper.standartMoveColor;
+            table[Row, Column].State = SquareState.ChosenPiece;
 
             // Frozen check
             if (IsFrozen(table, Row, Column)) return;
 
-            table[Row, Column].BackgroundColor = BoardHelper.abilityUnoColor; // Convert
+            table[Row, Column].State = SquareState.AbilityUnoable; // Convert
 
             for (int i = 0; i < 4; i++)
-            {
                 // In bounds & (empty square | psuedo piece)
                 if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
                     table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
                 {
-                    table[Row + e[i, 0], Column + e[i, 1]].BackgroundColor = BoardHelper.standartMoveColor;
+                    table[Row + e[i, 0], Column + e[i, 1]].State = SquareState.Moveable;
                 }
-            }
         }
 
-        public override void Move(Square[,] table, int to_row, int to_column, ref int turn)
+        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
         {
-            PaintToDefault(table, Row, Column, e);
+            ClearSquareStates(table, Row, Column, e);
+
+            if (IsHiddenlyFrozen(table, Row, Column)) return;
 
             turn++;
-            
-            table[to_row, to_column].Piece = table[Row, Column].Piece;
+
+            table[toRow, toColumn].Piece = table[Row, Column].Piece;
             table[Row, Column].Piece = null;
-            Row = to_row;
-            Column = to_column;
+            Row = toRow;
+            Column = toColumn;
         }
 
         // Convert
         public override void AbilityUno(Square[,] table, ref int turn)
         {
-            PaintToDefault(table, Row, Column, e);
+            ClearSquareStates(table, Row, Column, e);
+
+            if (IsHiddenlyFrozen(table, Row, Column))
+            {
+                Revealed = true;
+                return;
+            }
 
             turn++;
 
             // 8-adjacency range, memory waste for understadable code
             int[,] rot = { { 1, 0 }, { 0, 1 }, { 1, 1 }, { -1, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 }, { 1, -1 } };
-            
+
             // MindController check, loops 8 times
             for (int i = 0; i < 8; i++)
-            {
                 if (!(Row + rot[i, 0] > nr || Row + rot[i, 0] < 1 || Column + rot[i, 1] > nc || Column + rot[i, 1] < 1) &&
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece != null && table[Row + rot[i, 0], Column + rot[i, 1]].Piece.Player != Player &&
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece is MindController)
@@ -61,27 +66,26 @@
 
                     Player = 1 - Player;
                     table[Row, Column].SetImageAccordingToPiece();
-                    
+
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece = null;
 
                     break;
                 }
-            }
 
             // Convert, loops 4 times
             for (int i = 0; i < 4; i++)
             {
                 // Check if places to be converted are on bounds
-                bool b1 = Row + rot[i, 0] > nr || Row + rot[i, 0] < 1 || Column + rot[i, 1] > nc || Column + rot[i, 1] < 1;
-                bool b2 = Row - rot[i, 0] > nr || Row - rot[i, 0] < 1 || Column - rot[i, 1] > nc || Column - rot[i, 1] < 1;
+                bool outOfRange1 = Row + rot[i, 0] > nr || Row + rot[i, 0] < 1 || Column + rot[i, 1] > nc || Column + rot[i, 1] < 1;
+                bool outOfRange2 = Row - rot[i, 0] > nr || Row - rot[i, 0] < 1 || Column - rot[i, 1] > nc || Column - rot[i, 1] < 1;
 
-                if(b1 && b2) { }
-                else if (b1)
+                if (outOfRange1 && outOfRange2) { }
+                else if (outOfRange1)
                 {
                     table[Row - rot[i, 0], Column - rot[i, 1]].PsuedoPiece = null;
                     table[Row - rot[i, 0], Column - rot[i, 1]].Piece = null;
                 }
-                else if (b2)
+                else if (outOfRange2)
                 {
                     table[Row + rot[i, 0], Column + rot[i, 1]].PsuedoPiece = null;
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece = null;
@@ -110,7 +114,7 @@
 
         #region IClonable
 
-        public override object Clone() => new Converter(Row, Column, Player);
+        public override object Clone() => new Converter(Row, Column, Player) { Revealed = Revealed };
 
         #endregion
     }

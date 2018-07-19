@@ -56,9 +56,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BoardHelper.cs" />
     <Compile Include="Functionality\BaseMarkupExtension.cs" />
-    <Compile Include="Functionality\ColorToBrush.cs" />
+    <Compile Include="Functionality\SSTSCBVC.cs" />
     <Compile Include="Pieces\Boomer.cs" />
     <Compile Include="Pieces\Converter.cs" />
     <Compile Include="Pieces\Courier.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="Functionality\RelayCommand.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="SquareState.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

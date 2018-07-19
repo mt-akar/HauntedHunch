@@ -19,7 +19,7 @@ namespace HauntedHunch
         /// <summary>
         /// 2-square Bishop range
         /// </summary>
-        public static int[,] c { get; } = { { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 }, { 2, 2 }, { -2, 2 }, { -2, -2 }, { 2, -2 } };
+        public static int[,] u { get; } = { { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 }, { 2, 2 }, { -2, 2 }, { -2, -2 }, { 2, -2 } };
 
         /// <summary>
         /// Knight range
@@ -84,9 +84,9 @@ namespace HauntedHunch
         /// </summary>
         /// <param name="table">Game board to be updated</param>
         /// <param name="to_row">Destination row</param>
-        /// <param name="to_column">Destination column</param>
+        /// <param name="toColumn">Destination column</param>
         /// <param name="turn">Turn</param>
-        public abstract void Move(Square[,] table, int to_row, int to_column, ref int turn);
+        public abstract void Move(Square[,] table, int to_row, int toColumn, ref int turn);
 
         #endregion
 
@@ -107,7 +107,7 @@ namespace HauntedHunch
         /// <param name="table">Game board to be updated</param>
         /// <param name="turn">Turn</param>
         /// <returns></returns>
-        public virtual Square AbilityWithInteracterStageOne(Square[,] table, ref Square sen) => throw new Exception("Error: Ability 2 disfunction");
+        public virtual Square AbilityWithInteracterStageOne(Square[,] table, Square sen) => throw new Exception("Error: Ability 2 disfunction");
 
         /// <summary>
         /// Stage 2 of <see cref="AbilityWithInteracterStageOne"/>
@@ -116,33 +116,44 @@ namespace HauntedHunch
         /// <param name="interacter">Interacter piece</param>
         /// <param name="sen">Moving piece</param>
         /// <param name="turn">Turn</param>
-        public virtual void AbilityWithInteracterStageTwo(Square[,] table, ref Square interacter, ref Square sen, ref int turn) => throw new Exception("Error: Ability 2 disfunction");
+        public virtual void AbilityWithInteracterStageTwo(Square[,] table, Square interacter, Square sen, ref int turn) => throw new Exception("Error: Ability 2 disfunction");
 
         #endregion
 
         #region Protected Helpers
 
-        // Paint necessary squares to default color
-        protected static void PaintToDefault(Square[,] table, int row, int column, int[,] range)
+        /// <summary>
+        /// Change square states to default
+        /// </summary>
+        /// <param name="table">Table</param>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="range"></param>
+        protected static void ClearSquareStates(Square[,] table, int row, int column, int[,] range)
         {
-            table[row, column].BackgroundColor = BoardHelper.DefaultColor(row, column);
+            table[row, column].State = SquareState.None;
             for (int i = 0; i < range.Length / 2; i++)
-            {
                 if (row + range[i, 0] <= nr && row + range[i, 0] >= 1 && column + range[i, 1] <= nc && column + range[i, 1] >= 1)
-                    table[row + range[i, 0], column + range[i, 1]].BackgroundColor = BoardHelper.DefaultColor(row + range[i, 0], column + range[i, 1]);
-            }
+                    table[row + range[i, 0], column + range[i, 1]].State = SquareState.None;
         }
 
-        // Chack if a piece is frozen
+        /// <summary>
+        /// Check if a piece is frozen
+        /// </summary>
+        /// <param name="table">Table</param>
+        /// <param name="row">Row of piece to be checked</param>
+        /// <param name="column">Column of piece to be checked</param>
+        /// <returns></returns>
         protected static bool IsFrozen(Square[,] table, int row, int column)
         {
             for (int i = 0; i < 4; i++)
             {
-                if (row + e[i, 0] <= nr && row + e[i, 0] >= 1 && column + e[i, 1] <= nc && column + e[i, 1] >= 1 &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece != null &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece is Freezer &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece.Player != table[row, column].Piece.Player &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece.Revealed)
+                int r = row + e[i, 0], c = column + e[i, 1];
+                if (r <= nr && r >= 1 && c <= nc && c >= 1 &&
+                    table[r, c].Piece != null &&
+                    table[r, c].Piece is Freezer &&
+                    table[r, c].Piece.Player != table[row, column].Piece.Player &&
+                    table[r, c].Piece.Revealed)
                 {
                     return true;
                 }
@@ -150,19 +161,25 @@ namespace HauntedHunch
             return false;
         }
 
-        // Chack if a piece is frozen
+        /// <summary>
+        /// Check if a piece is frozen. Reveales the freezer since piece will not be able to move.
+        /// </summary>
+        /// <param name="table">Table</param>
+        /// <param name="row">Row of piece to be checked</param>
+        /// <param name="column">Column of piece to be checked</param>
+        /// <returns></returns>
         protected static bool IsHiddenlyFrozen(Square[,] table, int row, int column)
         {
             for (int i = 0; i < 4; i++)
             {
-                if (row + e[i, 0] <= nr && row + e[i, 0] >= 1 && column + e[i, 1] <= nc && column + e[i, 1] >= 1 &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece != null &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece is Freezer &&
-                    table[row + e[i, 0], column + e[i, 1]].Piece.Player != table[row, column].Piece.Player &&
-                    !table[row + e[i, 0], column + e[i, 1]].Piece.Revealed)
+                int r = row + e[i, 0], c = column + e[i, 1];
+                if (r <= nr && r >= 1 && c <= nc && c >= 1 &&
+                    table[r, c].Piece != null &&
+                    table[r, c].Piece is Freezer &&
+                    table[r, c].Piece.Player != table[row, column].Piece.Player)
                 {
-                    table[row + e[i, 0], column + e[i, 1]].Piece.Revealed = true;
-                    table[row + e[i, 0], column + e[i, 1]].SetImageAccordingToPiece();
+                    table[r, c].Piece.Revealed = true;
+                    table[r, c].SetImageAccordingToPiece();
                     return true;
                 }
             }
