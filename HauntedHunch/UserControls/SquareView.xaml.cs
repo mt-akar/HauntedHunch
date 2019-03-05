@@ -12,7 +12,7 @@ namespace HauntedHunch
         {
             InitializeComponent();
 
-            Border.Margin = new Thickness(GamePageViewModel.SquareWidth / 8);
+            Border.Margin = new Thickness(GamePageViewModel.SquareWidth / 7);
         }
     }
 }
