@@ -56,8 +56,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enums\ApplicationPageEnum.cs" />
+    <Compile Include="Functionality\ApplicationPageVC.cs" />
     <Compile Include="Functionality\BaseMarkupExtension.cs" />
+    <Compile Include="Functionality\GridLengthVC.cs" />
     <Compile Include="Functionality\SSTSCBVC.cs" />
+    <Compile Include="G.cs" />
+    <Compile Include="Pages\BasePage.cs" />
+    <Compile Include="Pages\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pieces\Boomer.cs" />
     <Compile Include="Pieces\Converter.cs" />
     <Compile Include="Pieces\Courier.cs" />
@@ -68,12 +79,17 @@
     <Compile Include="Pieces\Lotus.cs" />
     <Compile Include="Pieces\MindController.cs" />
     <Compile Include="Pieces\Ranger.cs" />
-    <Compile Include="PlayerType.cs" />
+    <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Functionality\RelayCommand.cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="SquareState.cs" />
+    <Compile Include="Functionality\PieceColorToSCBVC.cs" />
+    <Compile Include="UserControls\SquareView.xaml.cs">
+      <DependentUpon>SquareView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VievModels\SquareViewModel.cs" />
+    <Compile Include="VievModels\MainWindowViewModel.cs" />
+    <Compile Include="Enums\SquareState.cs" />
+    <Compile Include="VievModels\GamePageViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,13 +102,25 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SquareView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Piece.cs" />
+    <Compile Include="Pieces\Piece.cs" />
     <Compile Include="Pieces\Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -126,81 +154,26 @@
     <Resource Include="Images\Transparent.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\HiddenConverterBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenRunnerBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenJumperBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenLotusBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenGuardBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenFreezerBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenBoomerBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenInnKeeperBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenRangerBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenCourierBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HiddenMindControllerBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\BoomerBlack.png" />
-    <Resource Include="Images\BoomerWhite.png" />
-    <Resource Include="Images\ConverterBlack.png" />
-    <Resource Include="Images\ConverterWhite.png" />
-    <Resource Include="Images\CourierBlack.png" />
-    <Resource Include="Images\CourierWhite.png" />
-    <Resource Include="Images\FreezerBlack.png" />
-    <Resource Include="Images\FreezerWhite.png" />
-    <Resource Include="Images\GuardBlack.png" />
-    <Resource Include="Images\GuardWhite.png" />
-    <Resource Include="Images\InnKeeperBlack.png" />
-    <Resource Include="Images\InnKeeperWhite.png" />
-    <Resource Include="Images\JumperBlack.png" />
-    <Resource Include="Images\JumperWhite.png" />
-    <Resource Include="Images\LotusBlack.png" />
-    <Resource Include="Images\LotusWhite.png" />
-    <Resource Include="Images\MindControllerBlack.png" />
-    <Resource Include="Images\MindControllerWhite.png" />
-    <Resource Include="Images\RangerBlack.png" />
-    <Resource Include="Images\RangerWhite.png" />
-    <Resource Include="Images\RunnerBlack.png" />
-    <Resource Include="Images\RunnerWhite.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\UnrevealedBlack.png" />
     <Resource Include="Images\UnrevealedWhite.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\HiddenBoomerWhite.png" />
-    <Resource Include="Images\HiddenConverterWhite.png" />
-    <Resource Include="Images\HiddenCourierWhite.png" />
-    <Resource Include="Images\HiddenFreezerWhite.png" />
-    <Resource Include="Images\HiddenGuardWhite.png" />
-    <Resource Include="Images\HiddenInnKeeperWhite.png" />
-    <Resource Include="Images\HiddenJumperWhite.png" />
-    <Resource Include="Images\HiddenLotusWhite.png" />
-    <Resource Include="Images\HiddenMindControllerWhite.png" />
-    <Resource Include="Images\HiddenRangerWhite.png" />
-    <Resource Include="Images\HiddenRunnerWhite.png" />
+    <Resource Include="Images\Freezer.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="VievModels\" />
+    <Resource Include="Images\Boomer.png" />
+    <Resource Include="Images\Converter.png" />
+    <Resource Include="Images\Courier.png" />
+    <Resource Include="Images\FreezerOld.png" />
+    <Resource Include="Images\Guard.png" />
+    <Resource Include="Images\InnKeeper.png" />
+    <Resource Include="Images\Jumper.png" />
+    <Resource Include="Images\Lotus.png" />
+    <Resource Include="Images\Ranger.png" />
+    <Resource Include="Images\Runner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MindController.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

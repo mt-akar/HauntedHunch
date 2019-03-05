@@ -2,17 +2,21 @@
 
 namespace HauntedHunch
 {
-    public class MainWindowViewModel
+    public class GamePageViewModel
     {
         #region Variables and Properties
+
+        public static double SquareWidth => 90;
+
+        public double LabelWidth => SquareWidth / 3;
 
         const int nr = 7; // Number of rows
         const int nc = 6; // Number of columns
 
-        public Square[,] table = new Square[nr + 1, nc + 1]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coodinates, will always stay null.
-        Square[,,] history = new Square[1000, nr + 1, nc + 1]; // Game history, for undo
-        Square cur; // Current moving piece
-        Square interacter; // Interacting piece in moves where there is more than one piece involved
+        public SquareViewModel[,] table = new SquareViewModel[nr + 1, nc + 1]; // Table is 7x5. Zero indexes are ignored for a better understanding of the coordinates, will always stay null.
+        SquareViewModel[,,] history = new SquareViewModel[1000, nr + 1, nc + 1]; // Game history, for undo
+        SquareViewModel cur; // Current moving piece
+        SquareViewModel interacter; // Interacting piece in moves where there is more than one piece involved
         int turn = 0; // 4k+3 & 4k are white's turns, 4k+1 & 4k+2 are black's turns.
         bool placementStage = true;
         public bool gameEnded;
@@ -32,7 +36,7 @@ namespace HauntedHunch
             for (int i = 1; i <= nr; i++)
                 for (int j = 1; j <= nc; j++)
                 {
-                    table[i, j].PsuedoPiece = history[turn, i, j].PsuedoPiece;
+                    table[i, j].PseudoPiece = history[turn, i, j].PseudoPiece;
                     table[i, j].Piece = history[turn, i, j].Piece;
                 }
         });
@@ -41,37 +45,37 @@ namespace HauntedHunch
 
         #region Constructor
 
-        public MainWindowViewModel()
+        public GamePageViewModel()
         {
             for (int i = 1; i <= nr; i++)
             {
                 for (int j = 1; j <= nc; j++)
                 {
-                    if (i == 1 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
-                    else if (i == 1 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.White));
-                    else if (i == 1 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.White));
-                    else if (i == 1 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.White));
-                    else if (i == 1 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.White));
-                    else if (i == 1 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.White));
-                    else if (i == 2 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.White));
-                    else if (i == 2 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.White));
-                    else if (i == 2 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.White));
-                    else if (i == 2 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.White));
-                    else if (i == 2 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.White));
-                    else if (i == 2 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.White));
-                    else if (i == 7 && j == 1) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 2) table[i, j] = new Square(i, j, new Runner(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 3) table[i, j] = new Square(i, j, new Ranger(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 4) table[i, j] = new Square(i, j, new Jumper(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 5) table[i, j] = new Square(i, j, new Lotus(i, j, PlayerType.Black));
-                    else if (i == 7 && j == 6) table[i, j] = new Square(i, j, new Guard(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 1) table[i, j] = new Square(i, j, new Converter(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 2) table[i, j] = new Square(i, j, new Courier(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 3) table[i, j] = new Square(i, j, new Boomer(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 4) table[i, j] = new Square(i, j, new InnKeeper(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 5) table[i, j] = new Square(i, j, new Freezer(i, j, PlayerType.Black));
-                    else if (i == 6 && j == 6) table[i, j] = new Square(i, j, new MindController(i, j, PlayerType.Black));
-                    else table[i, j] = new Square(i, j);
+                    if (i == 1 && j == 1) table[i, j] = new SquareViewModel(i, j, new Guard(i, j, PlayerType.White));
+                    else if (i == 1 && j == 2) table[i, j] = new SquareViewModel(i, j, new Runner(i, j, PlayerType.White));
+                    else if (i == 1 && j == 3) table[i, j] = new SquareViewModel(i, j, new Ranger(i, j, PlayerType.White));
+                    else if (i == 1 && j == 4) table[i, j] = new SquareViewModel(i, j, new Jumper(i, j, PlayerType.White));
+                    else if (i == 1 && j == 5) table[i, j] = new SquareViewModel(i, j, new Lotus(i, j, PlayerType.White));
+                    else if (i == 1 && j == 6) table[i, j] = new SquareViewModel(i, j, new Guard(i, j, PlayerType.White));
+                    else if (i == 2 && j == 1) table[i, j] = new SquareViewModel(i, j, new Converter(i, j, PlayerType.White));
+                    else if (i == 2 && j == 2) table[i, j] = new SquareViewModel(i, j, new Courier(i, j, PlayerType.White));
+                    else if (i == 2 && j == 3) table[i, j] = new SquareViewModel(i, j, new Boomer(i, j, PlayerType.White));
+                    else if (i == 2 && j == 4) table[i, j] = new SquareViewModel(i, j, new InnKeeper(i, j, PlayerType.White));
+                    else if (i == 2 && j == 5) table[i, j] = new SquareViewModel(i, j, new Freezer(i, j, PlayerType.White));
+                    else if (i == 2 && j == 6) table[i, j] = new SquareViewModel(i, j, new MindController(i, j, PlayerType.White));
+                    else if (i == 7 && j == 1) table[i, j] = new SquareViewModel(i, j, new Guard(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 2) table[i, j] = new SquareViewModel(i, j, new Runner(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 3) table[i, j] = new SquareViewModel(i, j, new Ranger(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 4) table[i, j] = new SquareViewModel(i, j, new Jumper(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 5) table[i, j] = new SquareViewModel(i, j, new Lotus(i, j, PlayerType.Black));
+                    else if (i == 7 && j == 6) table[i, j] = new SquareViewModel(i, j, new Guard(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 1) table[i, j] = new SquareViewModel(i, j, new Converter(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 2) table[i, j] = new SquareViewModel(i, j, new Courier(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 3) table[i, j] = new SquareViewModel(i, j, new Boomer(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 4) table[i, j] = new SquareViewModel(i, j, new InnKeeper(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 5) table[i, j] = new SquareViewModel(i, j, new Freezer(i, j, PlayerType.Black));
+                    else if (i == 6 && j == 6) table[i, j] = new SquareViewModel(i, j, new MindController(i, j, PlayerType.Black));
+                    else table[i, j] = new SquareViewModel(i, j);
                 }
             } // Set up the initial board position.
 
@@ -84,14 +88,14 @@ namespace HauntedHunch
 
         /// <summary>
         /// Most complicated methos of the project. Activated when clicked on a square.
-        /// Does different things depending on the input and the state of the variables table, turn, cur and interacter.
+        /// Does different things depending on the input and the state of the variables table, turn, cur and interactor.
         /// </summary>
         /// <param name="sen"> Sqaure that is just clicked </param>
-        public void LMDown(Square sen)
+        public void LMDown(SquareViewModel sen)
         {
             if (gameEnded) return;
 
-            // If we are at an in-between move of an ability with interacter
+            // If we are at an in-between move of an ability with interactor
             if (interacter != null)
             {
                 if (sen.State == SquareState.AbilityWithInteracterable)
@@ -119,7 +123,7 @@ namespace HauntedHunch
                 // If a non-valid square is chosen, do nothing
                 else
                 {
-                    // Explicitly kick other (curr == null) cases, don't merge 2 if statements.
+                    // Explicitly kick other (cur == null) cases, don't merge 2 if statements.
                 }
             }
             else // (cur != null)
@@ -213,34 +217,34 @@ namespace HauntedHunch
                    (table[pits[i, 0], pits[i, 1] + 1].Piece == null || table[pits[i, 0], pits[i, 1] + 1].Piece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
                    (table[pits[i, 0] - 1, pits[i, 1]].Piece == null || table[pits[i, 0] - 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
                    (table[pits[i, 0], pits[i, 1] - 1].Piece == null || table[pits[i, 0], pits[i, 1] - 1].Piece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0] + 1, pits[i, 1]].PsuedoPiece == null || table[pits[i, 0] + 1, pits[i, 1]].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0], pits[i, 1] + 1].PsuedoPiece == null || table[pits[i, 0], pits[i, 1] + 1].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0] - 1, pits[i, 1]].PsuedoPiece == null || table[pits[i, 0] - 1, pits[i, 1]].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0], pits[i, 1] - 1].PsuedoPiece == null || table[pits[i, 0], pits[i, 1] - 1].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player))
+                   (table[pits[i, 0] + 1, pits[i, 1]].PseudoPiece == null || table[pits[i, 0] + 1, pits[i, 1]].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
+                   (table[pits[i, 0], pits[i, 1] + 1].PseudoPiece == null || table[pits[i, 0], pits[i, 1] + 1].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
+                   (table[pits[i, 0] - 1, pits[i, 1]].PseudoPiece == null || table[pits[i, 0] - 1, pits[i, 1]].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
+                   (table[pits[i, 0], pits[i, 1] - 1].PseudoPiece == null || table[pits[i, 0], pits[i, 1] - 1].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player))
                 {
                     table[pits[i, 0], pits[i, 1]].Piece = null;
                 }
                 // If the piece is Psuedo. (For PsuedoPiece concept, refer to Square.cs or the game manual)
-                if (table[pits[i, 0], pits[i, 1]].PsuedoPiece != null &&
-                   (table[pits[i, 0] + 1, pits[i, 1]].Piece == null || table[pits[i, 0] + 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
-                   (table[pits[i, 0], pits[i, 1] + 1].Piece == null || table[pits[i, 0], pits[i, 1] + 1].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
-                   (table[pits[i, 0] - 1, pits[i, 1]].Piece == null || table[pits[i, 0] - 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
-                   (table[pits[i, 0], pits[i, 1] - 1].Piece == null || table[pits[i, 0], pits[i, 1] - 1].Piece.Player != table[pits[i, 0], pits[i, 1]].PsuedoPiece.Player) &&
-                   (table[pits[i, 0] + 1, pits[i, 1]].PsuedoPiece == null || table[pits[i, 0] + 1, pits[i, 1]].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0], pits[i, 1] + 1].PsuedoPiece == null || table[pits[i, 0], pits[i, 1] + 1].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0] - 1, pits[i, 1]].PsuedoPiece == null || table[pits[i, 0] - 1, pits[i, 1]].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
-                   (table[pits[i, 0], pits[i, 1] - 1].PsuedoPiece == null || table[pits[i, 0], pits[i, 1] - 1].PsuedoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player))
+                if (table[pits[i, 0], pits[i, 1]].PseudoPiece != null &&
+                   (table[pits[i, 0] + 1, pits[i, 1]].Piece == null || table[pits[i, 0] + 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].PseudoPiece.Player) &&
+                   (table[pits[i, 0], pits[i, 1] + 1].Piece == null || table[pits[i, 0], pits[i, 1] + 1].Piece.Player != table[pits[i, 0], pits[i, 1]].PseudoPiece.Player) &&
+                   (table[pits[i, 0] - 1, pits[i, 1]].Piece == null || table[pits[i, 0] - 1, pits[i, 1]].Piece.Player != table[pits[i, 0], pits[i, 1]].PseudoPiece.Player) &&
+                   (table[pits[i, 0], pits[i, 1] - 1].Piece == null || table[pits[i, 0], pits[i, 1] - 1].Piece.Player != table[pits[i, 0], pits[i, 1]].PseudoPiece.Player) &&
+                   (table[pits[i, 0] + 1, pits[i, 1]].PseudoPiece == null || table[pits[i, 0] + 1, pits[i, 1]].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
+                   (table[pits[i, 0], pits[i, 1] + 1].PseudoPiece == null || table[pits[i, 0], pits[i, 1] + 1].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
+                   (table[pits[i, 0] - 1, pits[i, 1]].PseudoPiece == null || table[pits[i, 0] - 1, pits[i, 1]].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player) &&
+                   (table[pits[i, 0], pits[i, 1] - 1].PseudoPiece == null || table[pits[i, 0], pits[i, 1] - 1].PseudoPiece.Player != table[pits[i, 0], pits[i, 1]].Piece.Player))
                 {
                     // There isn't another piece on the psuedo piece
-                    if (table[pits[i, 0], pits[i, 1]].Piece == table[pits[i, 0], pits[i, 1]].PsuedoPiece)
+                    if (table[pits[i, 0], pits[i, 1]].Piece == table[pits[i, 0], pits[i, 1]].PseudoPiece)
                     {
-                        table[pits[i, 0], pits[i, 1]].PsuedoPiece = null;
+                        table[pits[i, 0], pits[i, 1]].PseudoPiece = null;
                         table[pits[i, 0], pits[i, 1]].Piece = null;
                     }
                     // There is another piece on the psuedo piece
                     else
                     {
-                        table[pits[i, 0], pits[i, 1]].PsuedoPiece = null;
+                        table[pits[i, 0], pits[i, 1]].PseudoPiece = null;
                     }
                 }
             }
@@ -253,7 +257,7 @@ namespace HauntedHunch
         {
             for (int i = 1; i <= nr; i++)
                 for (int j = 1; j <= nc; j++)
-                    history[turn, i, j] = (Square)table[i, j].Clone();
+                    history[turn, i, j] = (SquareViewModel)table[i, j].Clone();
         }
 
         /// <summary>

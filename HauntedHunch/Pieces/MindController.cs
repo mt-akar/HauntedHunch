@@ -7,7 +7,7 @@
     {
         public MindController(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        public override void PossibleMoves(Square[,] table, int turn)
+        public override void PossibleMoves(SquareViewModel[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].State = SquareState.ChosenPiece;
@@ -22,13 +22,13 @@
                     (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
 
                     // psuedo piece
-                    table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PseudoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].State = SquareState.Moveable;
                 }
         }
 
-        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
+        public override void Move(SquareViewModel[,] table, int toRow, int toColumn, ref int turn)
         {
             ClearSquareStates(table, Row, Column, e);
 

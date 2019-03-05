@@ -7,7 +7,7 @@
     {
         public Converter(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        public override void PossibleMoves(Square[,] table, int turn)
+        public override void PossibleMoves(SquareViewModel[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].State = SquareState.ChosenPiece;
@@ -20,13 +20,13 @@
             for (int i = 0; i < 4; i++)
                 // In bounds & (empty square | psuedo piece)
                 if (Row + e[i, 0] <= nr && Row + e[i, 0] >= 1 && Column + e[i, 1] <= nc && Column + e[i, 1] >= 1 && (table[Row + e[i, 0], Column + e[i, 1]].Piece == null ||
-                    table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PsuedoPiece))
+                    table[Row + e[i, 0], Column + e[i, 1]].Piece == table[Row + e[i, 0], Column + e[i, 1]].PseudoPiece))
                 {
                     table[Row + e[i, 0], Column + e[i, 1]].State = SquareState.Moveable;
                 }
         }
 
-        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
+        public override void Move(SquareViewModel[,] table, int toRow, int toColumn, ref int turn)
         {
             ClearSquareStates(table, Row, Column, e);
 
@@ -41,7 +41,7 @@
         }
 
         // Convert
-        public override void AbilityUno(Square[,] table, ref int turn)
+        public override void AbilityUno(SquareViewModel[,] table, ref int turn)
         {
             ClearSquareStates(table, Row, Column, e);
 
@@ -82,21 +82,21 @@
                 if (outOfRange1 && outOfRange2) { }
                 else if (outOfRange1)
                 {
-                    table[Row - rot[i, 0], Column - rot[i, 1]].PsuedoPiece = null;
+                    table[Row - rot[i, 0], Column - rot[i, 1]].PseudoPiece = null;
                     table[Row - rot[i, 0], Column - rot[i, 1]].Piece = null;
                 }
                 else if (outOfRange2)
                 {
-                    table[Row + rot[i, 0], Column + rot[i, 1]].PsuedoPiece = null;
+                    table[Row + rot[i, 0], Column + rot[i, 1]].PseudoPiece = null;
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece = null;
                 }
                 else
                 {
-                    Piece tempPsuedoPiece = table[Row + rot[i, 0], Column + rot[i, 1]].PsuedoPiece;
+                    Piece tempPsuedoPiece = table[Row + rot[i, 0], Column + rot[i, 1]].PseudoPiece;
                     Piece tempPiece = table[Row + rot[i, 0], Column + rot[i, 1]].Piece;
-                    table[Row + rot[i, 0], Column + rot[i, 1]].PsuedoPiece = table[Row - rot[i, 0], Column - rot[i, 1]].PsuedoPiece;
+                    table[Row + rot[i, 0], Column + rot[i, 1]].PseudoPiece = table[Row - rot[i, 0], Column - rot[i, 1]].PseudoPiece;
                     table[Row + rot[i, 0], Column + rot[i, 1]].Piece = table[Row - rot[i, 0], Column - rot[i, 1]].Piece;
-                    table[Row - rot[i, 0], Column - rot[i, 1]].PsuedoPiece = tempPsuedoPiece;
+                    table[Row - rot[i, 0], Column - rot[i, 1]].PseudoPiece = tempPsuedoPiece;
                     table[Row - rot[i, 0], Column - rot[i, 1]].Piece = tempPiece;
                     if (table[Row + rot[i, 0], Column + rot[i, 1]].Piece != null)
                     {

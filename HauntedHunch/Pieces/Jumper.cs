@@ -10,7 +10,7 @@ namespace HauntedHunch
     {
         public Jumper(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        public override void PossibleMoves(Square[,] table, int turn)
+        public override void PossibleMoves(SquareViewModel[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].State = SquareState.ChosenPiece;
@@ -36,7 +36,7 @@ namespace HauntedHunch
                 }
         }
 
-        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
+        public override void Move(SquareViewModel[,] table, int toRow, int toColumn, ref int turn)
         {
             ClearSquareStates(table, Row, Column, l);
 

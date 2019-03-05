@@ -10,7 +10,7 @@
 
         public Lotus(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        public override void PossibleMoves(Square[,] table, int turn)
+        public override void PossibleMoves(SquareViewModel[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].State = SquareState.ChosenPiece;
@@ -42,7 +42,7 @@
                     table[Row + u[i, 0], Column + u[i, 1]].Piece != null && table[Row + u[i, 0], Column + u[i, 1]].Piece.Player != Player && table[Row + u[i, 0], Column + u[i, 1]].Piece is Ranger ||
                     Row + u[i + 4, 0] <= nr && Row + u[i + 4, 0] >= 1 && Column + u[i + 4, 1] <= nc && Column + u[i + 4, 1] >= 1 &&
                     table[Row + u[i + 4, 0], Column + u[i + 4, 1]].Piece != null && table[Row + u[i + 4, 0], Column + u[i + 4, 1]].Piece.Player != Player && table[Row + u[i + 4, 0], Column + u[i + 4, 1]].Piece is Ranger &&
-                    (table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].Piece == null || table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].PsuedoPiece != null && table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].PsuedoPiece == table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].Piece) ||
+                    (table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].Piece == null || table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].PseudoPiece != null && table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].PseudoPiece == table[Row + u[i + 4, 0] / 2, Column + u[i + 4, 1] / 2].Piece) ||
 
                     // Inn Keeper
                     Row + l[i, 0] <= nr && Row + l[i, 0] >= 1 && Column + l[i, 1] <= nc && Column + l[i, 1] >= 1 &&
@@ -63,7 +63,7 @@
                     }
         }
 
-        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
+        public override void Move(SquareViewModel[,] table, int toRow, int toColumn, ref int turn)
         {
             ClearSquareStates(table, Row, Column, e);
 
