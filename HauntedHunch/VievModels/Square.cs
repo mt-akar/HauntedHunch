@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Controls;
 
 namespace HauntedHunch
 {
-    public class SquareViewModel : INotifyPropertyChanged, ICloneable
+    public class Square : INotifyPropertyChanged, ICloneable
     {
         #region Enums
 
@@ -102,7 +101,7 @@ namespace HauntedHunch
 
         #region Constructor
 
-        public SquareViewModel(int r, int c, Piece p = null)
+        public Square(int r, int c, Piece p = null)
         {
             Row = r;
             Column = c;
@@ -141,7 +140,7 @@ namespace HauntedHunch
 
         #region IClonable
 
-        public object Clone() => new SquareViewModel(Row, Column, (Piece)Piece?.Clone()) { PseudoPiece = (Piece)PseudoPiece?.Clone() };
+        public object Clone() => new Square(Row, Column, (Piece)Piece?.Clone()) { PseudoPiece = (Piece)PseudoPiece?.Clone() };
 
         #endregion
     }

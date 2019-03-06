@@ -9,7 +9,7 @@ namespace HauntedHunch
     {
         public Courier(int r, int c, PlayerType p) : base(r, c, p) { }
 
-        public override void PossibleMoves(SquareViewModel[,] table, int turn)
+        public override void PossibleMoves(Square[,] table, int turn)
         {
             // Paint the square that piece is on so that the game feels responsive when you do not have any possible moves.
             table[Row, Column].State = SquareState.ChosenPiece;
@@ -44,7 +44,7 @@ namespace HauntedHunch
                 }
         }
 
-        public override void Move(SquareViewModel[,] table, int toRow, int toColumn, ref int turn)
+        public override void Move(Square[,] table, int toRow, int toColumn, ref int turn)
         {
             ClearSquareStates(table, Row, Column, e);
 
@@ -59,7 +59,7 @@ namespace HauntedHunch
         }
 
         // Intermediate step. Paint second step squares. Returns interacter's square.
-        public override SquareViewModel AbilityWithInteracterStageOne(SquareViewModel[,] table, SquareViewModel sen)
+        public override Square AbilityWithInteracterStageOne(Square[,] table, Square sen)
         {
             table[Row, Column].State = SquareState.None;
             sen.State = SquareState.None;
@@ -90,7 +90,7 @@ namespace HauntedHunch
         }
 
         // Do the actual pulling or pushing.
-        public override void AbilityWithInteracterStageTwo(SquareViewModel[,] table, SquareViewModel interacter, SquareViewModel sen, ref int turn)
+        public override void AbilityWithInteracterStageTwo(Square[,] table, Square interacter, Square sen, ref int turn)
         {
             ClearSquareStates(table, Row, Column, e);
             ClearSquareStates(table, interacter.Row, interacter.Column, e);

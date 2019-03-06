@@ -84,7 +84,7 @@ namespace HauntedHunch
         /// </summary>
         /// <param name="table">Game board to be updated</param>
         /// <param name="turn">Turn</param>
-        public abstract void PossibleMoves(SquareViewModel[,] table, int turn);
+        public abstract void PossibleMoves(Square[,] table, int turn);
 
         /// <summary>
         /// Making the actual move
@@ -93,7 +93,7 @@ namespace HauntedHunch
         /// <param name="toRow">Destination row</param>
         /// <param name="toColumn">Destination column</param>
         /// <param name="turn">Turn</param>
-        public abstract void Move(SquareViewModel[,] table, int toRow, int toColumn, ref int turn);
+        public abstract void Move(Square[,] table, int toRow, int toColumn, ref int turn);
 
         #endregion
 
@@ -106,7 +106,7 @@ namespace HauntedHunch
         /// </summary>
         /// <param name="table">Game board to be updated</param>
         /// <param name="turn">Turn</param>
-        public virtual void AbilityUno(SquareViewModel[,] table, ref int turn) => throw new Exception("Error: Ability 1 disfunction");
+        public virtual void AbilityUno(Square[,] table, ref int turn) => throw new Exception("Error: Ability 1 disfunction");
 
         /// <summary>
         /// Any ability that involves an interacter piece
@@ -114,7 +114,7 @@ namespace HauntedHunch
         /// <param name="table">Game board to be updated</param>
         /// <param name="turn">Turn</param>
         /// <returns></returns>
-        public virtual SquareViewModel AbilityWithInteracterStageOne(SquareViewModel[,] table, SquareViewModel sen) => throw new Exception("Error: Ability 2 disfunction");
+        public virtual Square AbilityWithInteracterStageOne(Square[,] table, Square sen) => throw new Exception("Error: Ability 2 disfunction");
 
         /// <summary>
         /// Stage 2 of <see cref="AbilityWithInteracterStageOne"/>
@@ -123,7 +123,7 @@ namespace HauntedHunch
         /// <param name="interacter">Interacter piece</param>
         /// <param name="sen">Moving piece</param>
         /// <param name="turn">Turn</param>
-        public virtual void AbilityWithInteracterStageTwo(SquareViewModel[,] table, SquareViewModel interacter, SquareViewModel sen, ref int turn) => throw new Exception("Error: Ability 2 disfunction");
+        public virtual void AbilityWithInteracterStageTwo(Square[,] table, Square interacter, Square sen, ref int turn) => throw new Exception("Error: Ability 2 disfunction");
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace HauntedHunch
         /// <param name="row"></param>
         /// <param name="column"></param>
         /// <param name="range"></param>
-        protected static void ClearSquareStates(SquareViewModel[,] table, int row, int column, int[,] range)
+        protected static void ClearSquareStates(Square[,] table, int row, int column, int[,] range)
         {
             table[row, column].State = SquareState.None;
             for (int i = 0; i < range.Length / 2; i++)
@@ -151,7 +151,7 @@ namespace HauntedHunch
         /// <param name="row">Row of piece to be checked</param>
         /// <param name="column">Column of piece to be checked</param>
         /// <returns></returns>
-        protected static bool IsFrozen(SquareViewModel[,] table, int row, int column)
+        protected static bool IsFrozen(Square[,] table, int row, int column)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -175,7 +175,7 @@ namespace HauntedHunch
         /// <param name="row">Row of piece to be checked</param>
         /// <param name="column">Column of piece to be checked</param>
         /// <returns></returns>
-        protected static bool IsHiddenlyFrozen(SquareViewModel[,] table, int row, int column)
+        protected static bool IsHiddenlyFrozen(Square[,] table, int row, int column)
         {
             for (int i = 0; i < 4; i++)
             {

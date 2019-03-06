@@ -15,23 +15,23 @@
 
         <Grid x:Name="GameBoardGrid" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <RowDefinition Height="{Binding LabelWidth, Converter={local:GridLengthVC}, FallbackValue=20}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <RowDefinition Height="{Binding LabelWidth, Converter={local:GridLengthVC}, FallbackValue=30}"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding LabelWidth, Converter={local:GridLengthVC}, FallbackValue=20}"/>
-                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
-                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=60}"/>
+                <ColumnDefinition Width="{Binding LabelWidth, Converter={local:GridLengthVC}, FallbackValue=30}"/>
+                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
+                <ColumnDefinition Width="{Binding SquareWidth, Converter={local:GridLengthVC}, FallbackValue=90}"/>
             </Grid.ColumnDefinitions>
 
             <Grid.Resources>
@@ -64,7 +64,7 @@
         </Grid>
 
         <StackPanel Grid.Column="1" Margin="5 5 5 5">
-            <TextBox x:Name="statusMessageBox" Text="Welcome" IsReadOnly="True" Padding="2" TextAlignment="Center" Margin="0 5 0 0"/>
+            <TextBox x:Name="StatusMessageBox" Text="Welcome" IsReadOnly="True" Padding="2" TextAlignment="Center" Margin="0 5 0 0"/>
             <Button Content="Undo" Margin="10 50 10 0" Command="{Binding UndoCommand}"/>
             <Button Content="Disable Turn Const." Margin="10 5 10 0" Command="{Binding DisableTurnConstraintsCommand}"/>
         </StackPanel>

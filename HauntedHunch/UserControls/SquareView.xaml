@@ -10,11 +10,12 @@
     <!--
     <Image Source="{Binding ImageSource}"/>
     -->
-
-    <Border x:Name="Border" Background="{Binding ImageColor, Converter={local:PieceColorToSCBVC}}">
-        <Border.OpacityMask>
-            <ImageBrush ImageSource="{Binding ImageSource}"/>
-        </Border.OpacityMask>
+    <Border x:Name="OuterBorder">
+        <Border x:Name="InnerBorder" Background="{Binding ImageColor, Converter={local:PieceColorToSCBVC}}">
+            <Border.OpacityMask>
+                <ImageBrush ImageSource="{Binding ImageSource}"/>
+            </Border.OpacityMask>
+        </Border>
     </Border>
 
 </Grid>

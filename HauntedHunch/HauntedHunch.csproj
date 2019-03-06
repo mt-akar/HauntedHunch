@@ -86,7 +86,7 @@
     <Compile Include="UserControls\SquareView.xaml.cs">
       <DependentUpon>SquareView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VievModels\SquareViewModel.cs" />
+    <Compile Include="VievModels\Square.cs" />
     <Compile Include="VievModels\MainWindowViewModel.cs" />
     <Compile Include="Enums\SquareState.cs" />
     <Compile Include="VievModels\GamePageViewModel.cs" />
@@ -164,7 +164,6 @@
     <Resource Include="Images\Boomer.png" />
     <Resource Include="Images\Converter.png" />
     <Resource Include="Images\Courier.png" />
-    <Resource Include="Images\FreezerOld.png" />
     <Resource Include="Images\Guard.png" />
     <Resource Include="Images\InnKeeper.png" />
     <Resource Include="Images\Jumper.png" />
@@ -174,6 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\MindController.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LMDownBackup.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
