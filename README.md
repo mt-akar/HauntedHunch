@@ -9,8 +9,7 @@ This repo contains a WPF based desktop version of the game that can be played on
 If you are interested in making your own board game, you can ask me anything your hearth desire to know. I would be glad to help.
 
 ## Play
-There is an online multiplayer version of the game made on Unity and currently on Google Play Store. You can download the game at play.google.com/store/apps/details?id=com.glamerhunch.hauntedhunch. The game matches you with another player in the player queue.
-
+There is an online multiplayer version of the game made on Unity and currently on Google Play Store. You can download the game at play.google.com/store/apps/details?id=com.glamerhunch.hauntedhunch. When you press play, the game matches you with another player in the queue.
 
 ## Disclaimer!
 Unfortunately the Android game is down as of Feb 2020 due to a bug on online servers. I will fix it as soon as possible.
