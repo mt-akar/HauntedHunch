@@ -13,4 +13,4 @@ There is an online multiplayer version of the game made on Unity and currently o
 
 
 ## Disclaimer!
-Unfortunately the Android game is down as of Feb 2020 due to a bug on online servers. I will fxi it as soon as possible.
+Unfortunately the Android game is down as of Feb 2020 due to a bug on online servers. I will fix it as soon as possible.
